@@ -1,4 +1,4 @@
-# FitTrack AI – Exercise Monitoring System
+# Exercise Monitoring System
 
 Real-time exercise tracking and heart-rate zone classification built with **MediaPipe Pose**, **scikit-learn**, **OpenCV**, and **Streamlit**.
 
@@ -6,7 +6,7 @@ Real-time exercise tracking and heart-rate zone classification built with **Medi
 
 ## What This Project Does
 
-FitTrack AI watches you exercise through your webcam and simultaneously:
+Exercise Monitoring System watches you exercise through your webcam and simultaneously:
 
 1. **Identifies which exercise you are doing** (Squat, Push-Up, Bicep Curl, Shoulder Press, Jumping Jack, Running, or Standing) by analysing the angles of your joints in real time.
 2. **Counts your repetitions** automatically using a state machine that tracks the up/down cycle of each movement.
@@ -19,7 +19,7 @@ FitTrack AI watches you exercise through your webcam and simultaneously:
 ## Project Structure
 
 ```
-FitTrack-AI/
+excercise-monitoring-system/
 ├── src/
 │   ├── main.py               ← Live webcam app (start here)
 │   ├── exercise_detector.py  ← MediaPipe pose + joint angles + rep counter
@@ -46,21 +46,21 @@ FitTrack-AI/
 
 The classifier is trained on `data/dataset_training_withclass_edited.csv`, which contains real workout recordings with columns:
 
-| Column | Description |
-|--------|-------------|
-| `Average BPM` | Heart rate in beats per minute |
-| `Time` | Elapsed seconds in the session |
-| `Date` | Date of the workout |
-| `fatigue` | Target label: Normal / Aerobic / Anaerobic / Maximum / Recovery |
+| Column        | Description                                                     |
+| ------------- | --------------------------------------------------------------- |
+| `Average BPM` | Heart rate in beats per minute                                  |
+| `Time`        | Elapsed seconds in the session                                  |
+| `Date`        | Date of the workout                                             |
+| `fatigue`     | Target label: Normal / Aerobic / Anaerobic / Maximum / Recovery |
 
 Four features are engineered from the raw BPM to help the model capture both linear and non-linear zone boundaries:
 
-| Feature | Formula | Why |
-|---------|---------|-----|
-| `bpm` | raw value | direct predictor |
-| `bpm²` | BPM × BPM | non-linear boundary |
-| `log(BPM+1)` | logarithm | compresses high range |
-| `bpm/220` | normalised | scale-invariant |
+| Feature      | Formula    | Why                   |
+| ------------ | ---------- | --------------------- |
+| `bpm`        | raw value  | direct predictor      |
+| `bpm²`       | BPM × BPM  | non-linear boundary   |
+| `log(BPM+1)` | logarithm  | compresses high range |
+| `bpm/220`    | normalised | scale-invariant       |
 
 A **Random Forest** with 200 trees and balanced class weights is fitted on an 80/20 train/test split. The trained model and label encoder are saved to `models/` with `joblib` so they load instantly on subsequent runs. If the model file is absent, the classifier falls back to simple BPM threshold rules.
 
@@ -76,15 +76,15 @@ where B is the vertex joint (e.g. knee for the knee angle).
 
 Each exercise is scored independently using hand-crafted rules against those angles:
 
-| Exercise | Key signal |
-|----------|-----------|
-| **Squat** | Average knee angle < 140° with hip also flexed |
-| **Push-Up** | Average elbow angle < 140°, shoulders forward (60–100°) |
-| **Bicep Curl** | Elbow angle < 100°, shoulder stays straight |
-| **Shoulder Press** | Shoulder angle > 150°, elbows partially extended |
-| **Jumping Jack** | Shoulder > 130° AND hip > 30° (arms/legs wide) |
-| **Running** | Left/right knee angle difference > 20° |
-| **Standing** | Both knees and hips > 160° |
+| Exercise           | Key signal                                              |
+| ------------------ | ------------------------------------------------------- |
+| **Squat**          | Average knee angle < 140° with hip also flexed          |
+| **Push-Up**        | Average elbow angle < 140°, shoulders forward (60–100°) |
+| **Bicep Curl**     | Elbow angle < 100°, shoulder stays straight             |
+| **Shoulder Press** | Shoulder angle > 150°, elbows partially extended        |
+| **Jumping Jack**   | Shoulder > 130° AND hip > 30° (arms/legs wide)          |
+| **Running**        | Left/right knee angle difference > 20°                  |
+| **Standing**       | Both knees and hips > 160°                              |
 
 The exercise with the highest score is the prediction. If no exercise scores above 0.15 confidence, it defaults to Standing.
 
@@ -100,12 +100,14 @@ fatigue_zone, rep_count, duration_seconds, joint_angles{...}
 ```
 
 When you press `s` to save (or `q` to quit), the recorder:
+
 - Calculates a **session summary**: total duration, exercise frame counts, max reps per exercise, fatigue zone distribution, avg/min/max BPM.
 - Writes a single JSON file to `data/sessions/session_YYYYMMDD_HHMMSS.json`.
 
 ### 4. Main App (`src/main.py`)
 
 The webcam loop runs at up to 30 FPS and:
+
 - Feeds each frame through the exercise detector (pose → angles → exercise + reps).
 - Predicts the fatigue zone from the current BPM via the HR classifier.
 - Records the frame data.
@@ -113,22 +115,22 @@ The webcam loop runs at up to 30 FPS and:
 
 **Keyboard controls:**
 
-| Key | Action |
-|-----|--------|
-| `b` | Enter BPM — type digits, press Enter to confirm |
-| `s` | Save session snapshot (recording continues) |
-| `r` | Reset all rep counters |
-| `q` / Esc | Quit and auto-save the session |
+| Key       | Action                                          |
+| --------- | ----------------------------------------------- |
+| `b`       | Enter BPM — type digits, press Enter to confirm |
+| `s`       | Save session snapshot (recording continues)     |
+| `r`       | Reset all rep counters                          |
+| `q` / Esc | Quit and auto-save the session                  |
 
 **Fatigue zone colour coding:**
 
-| Zone | Colour |
-|------|--------|
-| Normal | Green |
-| Aerobic | Cyan |
-| Anaerobic | Orange |
-| Maximum | Red |
-| Recovery | Light blue |
+| Zone      | Colour     |
+| --------- | ---------- |
+| Normal    | Green      |
+| Aerobic   | Cyan       |
+| Anaerobic | Orange     |
+| Maximum   | Red        |
+| Recovery  | Light blue |
 
 ### 5. Streamlit Dashboard (`dashboard/app.py`)
 
@@ -148,7 +150,6 @@ Enable **Auto-refresh (5 s)** in the sidebar to watch the dashboard update live 
 ## Quick Start
 
 ```bash
-cd FitTrack-AI
 
 # Install dependencies
 pip install -r requirements.txt
@@ -171,4 +172,4 @@ streamlit run dashboard/app.py
 - Webcam
 - `mediapipe`, `opencv-python`, `scikit-learn`, `numpy`, `pandas`, `joblib`, `streamlit`, `plotly`
 
-See [requirements.txt](FitTrack-AI/requirements.txt) and the full technical docs in [docs/README.md](FitTrack-AI/docs/README.md).
+See [requirements.txt](requirements.txt) and the full technical docs in [docs/README.md](docs/README.md).

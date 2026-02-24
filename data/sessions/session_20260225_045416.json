@@ -1,0 +1,4653 @@
+{
+  "session_id": "session_20260225_045416",
+  "start_time": "2026-02-25T04:54:16.447485",
+  "end_time": "2026-02-25T04:54:43.527063",
+  "duration_seconds": 27.08,
+  "frames": [
+    {
+      "timestamp": "2026-02-25T04:54:16.747107",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 0.3,
+      "joint_angles": {
+        "left_knee": 179.4,
+        "right_knee": 178.5,
+        "left_hip": 175.3,
+        "right_hip": 177.1,
+        "left_elbow": 171.4,
+        "right_elbow": 160.6,
+        "left_shoulder": 13.1,
+        "right_shoulder": 13.9
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:16.912938",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 0.47,
+      "joint_angles": {
+        "left_knee": 179.1,
+        "right_knee": 179.1,
+        "left_hip": 176.0,
+        "right_hip": 177.1,
+        "left_elbow": 171.7,
+        "right_elbow": 164.0,
+        "left_shoulder": 12.7,
+        "right_shoulder": 14.3
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:17.729914",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 1.28,
+      "joint_angles": {
+        "left_knee": 178.7,
+        "right_knee": 179.2,
+        "left_hip": 176.7,
+        "right_hip": 177.1,
+        "left_elbow": 172.6,
+        "right_elbow": 163.1,
+        "left_shoulder": 12.3,
+        "right_shoulder": 14.6
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:17.981014",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 1.53,
+      "joint_angles": {
+        "left_knee": 178.8,
+        "right_knee": 179.2,
+        "left_hip": 176.7,
+        "right_hip": 177.1,
+        "left_elbow": 172.4,
+        "right_elbow": 163.0,
+        "left_shoulder": 12.3,
+        "right_shoulder": 14.8
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:18.234361",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 1.79,
+      "joint_angles": {
+        "left_knee": 178.9,
+        "right_knee": 179.4,
+        "left_hip": 176.6,
+        "right_hip": 177.2,
+        "left_elbow": 172.9,
+        "right_elbow": 164.5,
+        "left_shoulder": 12.1,
+        "right_shoulder": 15.0
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:18.404528",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 1.96,
+      "joint_angles": {
+        "left_knee": 178.9,
+        "right_knee": 179.6,
+        "left_hip": 176.4,
+        "right_hip": 177.5,
+        "left_elbow": 175.2,
+        "right_elbow": 164.8,
+        "left_shoulder": 12.1,
+        "right_shoulder": 14.9
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:18.533293",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 2.09,
+      "joint_angles": {
+        "left_knee": 178.8,
+        "right_knee": 179.4,
+        "left_hip": 176.5,
+        "right_hip": 177.5,
+        "left_elbow": 174.3,
+        "right_elbow": 164.2,
+        "left_shoulder": 11.9,
+        "right_shoulder": 14.9
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:18.642594",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 2.2,
+      "joint_angles": {
+        "left_knee": 178.9,
+        "right_knee": 179.1,
+        "left_hip": 176.6,
+        "right_hip": 177.0,
+        "left_elbow": 174.3,
+        "right_elbow": 163.3,
+        "left_shoulder": 11.9,
+        "right_shoulder": 13.2
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:18.749438",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 2.3,
+      "joint_angles": {
+        "left_knee": 178.8,
+        "right_knee": 179.0,
+        "left_hip": 176.8,
+        "right_hip": 176.9,
+        "left_elbow": 174.2,
+        "right_elbow": 162.6,
+        "left_shoulder": 11.8,
+        "right_shoulder": 13.4
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:18.886444",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 2.44,
+      "joint_angles": {
+        "left_knee": 178.6,
+        "right_knee": 179.1,
+        "left_hip": 176.7,
+        "right_hip": 177.2,
+        "left_elbow": 173.6,
+        "right_elbow": 164.8,
+        "left_shoulder": 11.6,
+        "right_shoulder": 14.1
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:19.024395",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 2.58,
+      "joint_angles": {
+        "left_knee": 178.5,
+        "right_knee": 179.1,
+        "left_hip": 176.5,
+        "right_hip": 177.2,
+        "left_elbow": 173.1,
+        "right_elbow": 163.1,
+        "left_shoulder": 11.9,
+        "right_shoulder": 14.3
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:19.137177",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 2.69,
+      "joint_angles": {
+        "left_knee": 178.4,
+        "right_knee": 178.7,
+        "left_hip": 176.6,
+        "right_hip": 176.6,
+        "left_elbow": 173.5,
+        "right_elbow": 163.1,
+        "left_shoulder": 12.3,
+        "right_shoulder": 14.4
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:19.251705",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 2.8,
+      "joint_angles": {
+        "left_knee": 178.7,
+        "right_knee": 178.8,
+        "left_hip": 176.5,
+        "right_hip": 175.9,
+        "left_elbow": 173.4,
+        "right_elbow": 165.5,
+        "left_shoulder": 12.5,
+        "right_shoulder": 14.3
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:19.369936",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 2.92,
+      "joint_angles": {
+        "left_knee": 178.7,
+        "right_knee": 179.1,
+        "left_hip": 177.2,
+        "right_hip": 176.0,
+        "left_elbow": 172.3,
+        "right_elbow": 166.1,
+        "left_shoulder": 12.7,
+        "right_shoulder": 14.0
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:19.482510",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 3.04,
+      "joint_angles": {
+        "left_knee": 178.8,
+        "right_knee": 179.6,
+        "left_hip": 177.5,
+        "right_hip": 176.3,
+        "left_elbow": 171.0,
+        "right_elbow": 164.9,
+        "left_shoulder": 13.0,
+        "right_shoulder": 14.4
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:19.636610",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 3.19,
+      "joint_angles": {
+        "left_knee": 178.8,
+        "right_knee": 179.5,
+        "left_hip": 177.6,
+        "right_hip": 176.2,
+        "left_elbow": 173.2,
+        "right_elbow": 165.3,
+        "left_shoulder": 12.0,
+        "right_shoulder": 15.1
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:19.752048",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 3.3,
+      "joint_angles": {
+        "left_knee": 178.8,
+        "right_knee": 179.8,
+        "left_hip": 177.1,
+        "right_hip": 176.8,
+        "left_elbow": 173.9,
+        "right_elbow": 164.1,
+        "left_shoulder": 11.7,
+        "right_shoulder": 13.9
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:19.873696",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 3.43,
+      "joint_angles": {
+        "left_knee": 178.8,
+        "right_knee": 180.0,
+        "left_hip": 177.2,
+        "right_hip": 176.9,
+        "left_elbow": 174.4,
+        "right_elbow": 165.1,
+        "left_shoulder": 11.4,
+        "right_shoulder": 15.2
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:19.973622",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 3.53,
+      "joint_angles": {
+        "left_knee": 178.3,
+        "right_knee": 179.8,
+        "left_hip": 177.2,
+        "right_hip": 177.0,
+        "left_elbow": 175.2,
+        "right_elbow": 165.2,
+        "left_shoulder": 10.9,
+        "right_shoulder": 15.4
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:20.085670",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 3.64,
+      "joint_angles": {
+        "left_knee": 178.2,
+        "right_knee": 179.8,
+        "left_hip": 177.2,
+        "right_hip": 177.1,
+        "left_elbow": 176.2,
+        "right_elbow": 165.3,
+        "left_shoulder": 10.5,
+        "right_shoulder": 15.4
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:20.229545",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 3.78,
+      "joint_angles": {
+        "left_knee": 178.1,
+        "right_knee": 179.7,
+        "left_hip": 177.1,
+        "right_hip": 177.2,
+        "left_elbow": 177.1,
+        "right_elbow": 165.4,
+        "left_shoulder": 9.9,
+        "right_shoulder": 15.8
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:20.346541",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 3.9,
+      "joint_angles": {
+        "left_knee": 178.3,
+        "right_knee": 179.7,
+        "left_hip": 176.8,
+        "right_hip": 177.4,
+        "left_elbow": 176.3,
+        "right_elbow": 165.1,
+        "left_shoulder": 10.1,
+        "right_shoulder": 15.9
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:20.443368",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 4.0,
+      "joint_angles": {
+        "left_knee": 178.4,
+        "right_knee": 179.3,
+        "left_hip": 176.9,
+        "right_hip": 177.2,
+        "left_elbow": 176.4,
+        "right_elbow": 165.4,
+        "left_shoulder": 10.2,
+        "right_shoulder": 15.8
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:20.548906",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 4.1,
+      "joint_angles": {
+        "left_knee": 178.4,
+        "right_knee": 179.4,
+        "left_hip": 176.7,
+        "right_hip": 177.4,
+        "left_elbow": 175.8,
+        "right_elbow": 165.4,
+        "left_shoulder": 10.2,
+        "right_shoulder": 15.6
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:20.650555",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 4.2,
+      "joint_angles": {
+        "left_knee": 178.5,
+        "right_knee": 179.5,
+        "left_hip": 176.6,
+        "right_hip": 177.5,
+        "left_elbow": 175.8,
+        "right_elbow": 165.6,
+        "left_shoulder": 10.3,
+        "right_shoulder": 15.4
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:20.749953",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 4.3,
+      "joint_angles": {
+        "left_knee": 178.5,
+        "right_knee": 179.5,
+        "left_hip": 176.4,
+        "right_hip": 177.3,
+        "left_elbow": 175.9,
+        "right_elbow": 165.5,
+        "left_shoulder": 10.4,
+        "right_shoulder": 15.3
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:20.848427",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 4.4,
+      "joint_angles": {
+        "left_knee": 178.6,
+        "right_knee": 179.4,
+        "left_hip": 176.3,
+        "right_hip": 177.4,
+        "left_elbow": 175.7,
+        "right_elbow": 165.5,
+        "left_shoulder": 9.9,
+        "right_shoulder": 15.3
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:20.950108",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 4.5,
+      "joint_angles": {
+        "left_knee": 178.8,
+        "right_knee": 179.6,
+        "left_hip": 176.3,
+        "right_hip": 177.4,
+        "left_elbow": 175.1,
+        "right_elbow": 165.1,
+        "left_shoulder": 9.8,
+        "right_shoulder": 15.2
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:21.051398",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 4.6,
+      "joint_angles": {
+        "left_knee": 178.8,
+        "right_knee": 179.6,
+        "left_hip": 176.3,
+        "right_hip": 177.4,
+        "left_elbow": 175.4,
+        "right_elbow": 166.3,
+        "left_shoulder": 9.7,
+        "right_shoulder": 14.6
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:21.277126",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 4.83,
+      "joint_angles": {
+        "left_knee": 178.8,
+        "right_knee": 179.6,
+        "left_hip": 176.2,
+        "right_hip": 177.6,
+        "left_elbow": 175.8,
+        "right_elbow": 166.8,
+        "left_shoulder": 9.6,
+        "right_shoulder": 14.3
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:21.379308",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 4.93,
+      "joint_angles": {
+        "left_knee": 178.9,
+        "right_knee": 179.4,
+        "left_hip": 176.3,
+        "right_hip": 177.4,
+        "left_elbow": 175.9,
+        "right_elbow": 166.6,
+        "left_shoulder": 9.5,
+        "right_shoulder": 14.5
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:21.485165",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 5.04,
+      "joint_angles": {
+        "left_knee": 178.8,
+        "right_knee": 179.0,
+        "left_hip": 176.4,
+        "right_hip": 177.1,
+        "left_elbow": 176.0,
+        "right_elbow": 165.8,
+        "left_shoulder": 9.5,
+        "right_shoulder": 14.6
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:21.586745",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 5.14,
+      "joint_angles": {
+        "left_knee": 178.6,
+        "right_knee": 179.0,
+        "left_hip": 176.5,
+        "right_hip": 177.2,
+        "left_elbow": 176.0,
+        "right_elbow": 165.2,
+        "left_shoulder": 9.5,
+        "right_shoulder": 14.7
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:21.683154",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 5.24,
+      "joint_angles": {
+        "left_knee": 178.6,
+        "right_knee": 179.0,
+        "left_hip": 176.4,
+        "right_hip": 177.2,
+        "left_elbow": 176.1,
+        "right_elbow": 165.5,
+        "left_shoulder": 9.4,
+        "right_shoulder": 14.7
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:21.794075",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 5.35,
+      "joint_angles": {
+        "left_knee": 178.5,
+        "right_knee": 179.1,
+        "left_hip": 176.4,
+        "right_hip": 177.2,
+        "left_elbow": 175.9,
+        "right_elbow": 165.1,
+        "left_shoulder": 9.4,
+        "right_shoulder": 14.6
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:21.918760",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 5.47,
+      "joint_angles": {
+        "left_knee": 178.7,
+        "right_knee": 178.9,
+        "left_hip": 176.5,
+        "right_hip": 177.1,
+        "left_elbow": 176.0,
+        "right_elbow": 165.7,
+        "left_shoulder": 9.4,
+        "right_shoulder": 14.6
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:22.023336",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 5.58,
+      "joint_angles": {
+        "left_knee": 178.6,
+        "right_knee": 178.9,
+        "left_hip": 176.5,
+        "right_hip": 177.1,
+        "left_elbow": 176.0,
+        "right_elbow": 165.8,
+        "left_shoulder": 9.3,
+        "right_shoulder": 14.7
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:22.130632",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 5.68,
+      "joint_angles": {
+        "left_knee": 178.7,
+        "right_knee": 179.3,
+        "left_hip": 176.7,
+        "right_hip": 177.2,
+        "left_elbow": 175.8,
+        "right_elbow": 165.4,
+        "left_shoulder": 9.0,
+        "right_shoulder": 14.2
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:22.282986",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 5.84,
+      "joint_angles": {
+        "left_knee": 178.5,
+        "right_knee": 179.2,
+        "left_hip": 176.6,
+        "right_hip": 177.3,
+        "left_elbow": 176.3,
+        "right_elbow": 165.2,
+        "left_shoulder": 8.9,
+        "right_shoulder": 14.3
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:22.385738",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 5.94,
+      "joint_angles": {
+        "left_knee": 178.6,
+        "right_knee": 179.0,
+        "left_hip": 176.6,
+        "right_hip": 177.1,
+        "left_elbow": 177.1,
+        "right_elbow": 165.9,
+        "left_shoulder": 8.6,
+        "right_shoulder": 14.4
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:22.491257",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 6.04,
+      "joint_angles": {
+        "left_knee": 178.6,
+        "right_knee": 179.0,
+        "left_hip": 176.6,
+        "right_hip": 177.1,
+        "left_elbow": 177.2,
+        "right_elbow": 165.8,
+        "left_shoulder": 8.5,
+        "right_shoulder": 14.5
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:22.590289",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 6.14,
+      "joint_angles": {
+        "left_knee": 178.7,
+        "right_knee": 179.1,
+        "left_hip": 176.6,
+        "right_hip": 177.0,
+        "left_elbow": 177.8,
+        "right_elbow": 166.0,
+        "left_shoulder": 8.6,
+        "right_shoulder": 14.4
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:22.683685",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 6.24,
+      "joint_angles": {
+        "left_knee": 178.7,
+        "right_knee": 179.2,
+        "left_hip": 176.5,
+        "right_hip": 177.2,
+        "left_elbow": 177.4,
+        "right_elbow": 166.2,
+        "left_shoulder": 8.5,
+        "right_shoulder": 14.3
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:22.798752",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 6.35,
+      "joint_angles": {
+        "left_knee": 178.8,
+        "right_knee": 179.3,
+        "left_hip": 176.5,
+        "right_hip": 177.3,
+        "left_elbow": 177.4,
+        "right_elbow": 166.4,
+        "left_shoulder": 8.5,
+        "right_shoulder": 14.3
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:22.921385",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 6.47,
+      "joint_angles": {
+        "left_knee": 178.8,
+        "right_knee": 179.2,
+        "left_hip": 176.5,
+        "right_hip": 177.2,
+        "left_elbow": 177.5,
+        "right_elbow": 166.3,
+        "left_shoulder": 8.5,
+        "right_shoulder": 14.3
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:23.031983",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 6.58,
+      "joint_angles": {
+        "left_knee": 178.8,
+        "right_knee": 179.3,
+        "left_hip": 176.5,
+        "right_hip": 177.2,
+        "left_elbow": 177.3,
+        "right_elbow": 167.2,
+        "left_shoulder": 8.5,
+        "right_shoulder": 13.9
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:23.129438",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 6.68,
+      "joint_angles": {
+        "left_knee": 178.8,
+        "right_knee": 179.2,
+        "left_hip": 176.3,
+        "right_hip": 177.3,
+        "left_elbow": 177.1,
+        "right_elbow": 167.0,
+        "left_shoulder": 8.5,
+        "right_shoulder": 13.9
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:23.227945",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 6.78,
+      "joint_angles": {
+        "left_knee": 179.0,
+        "right_knee": 179.5,
+        "left_hip": 176.3,
+        "right_hip": 177.4,
+        "left_elbow": 176.7,
+        "right_elbow": 167.0,
+        "left_shoulder": 8.7,
+        "right_shoulder": 12.4
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:23.326479",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 6.88,
+      "joint_angles": {
+        "left_knee": 178.5,
+        "right_knee": 179.2,
+        "left_hip": 176.2,
+        "right_hip": 177.5,
+        "left_elbow": 176.5,
+        "right_elbow": 167.0,
+        "left_shoulder": 8.6,
+        "right_shoulder": 12.9
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:23.424909",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 6.98,
+      "joint_angles": {
+        "left_knee": 178.7,
+        "right_knee": 179.5,
+        "left_hip": 176.1,
+        "right_hip": 177.8,
+        "left_elbow": 176.7,
+        "right_elbow": 167.1,
+        "left_shoulder": 9.0,
+        "right_shoulder": 13.4
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:23.525598",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 7.08,
+      "joint_angles": {
+        "left_knee": 178.7,
+        "right_knee": 179.9,
+        "left_hip": 176.3,
+        "right_hip": 177.8,
+        "left_elbow": 176.0,
+        "right_elbow": 167.2,
+        "left_shoulder": 9.1,
+        "right_shoulder": 12.7
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:23.623217",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 7.18,
+      "joint_angles": {
+        "left_knee": 178.7,
+        "right_knee": 179.8,
+        "left_hip": 176.7,
+        "right_hip": 177.4,
+        "left_elbow": 175.5,
+        "right_elbow": 167.4,
+        "left_shoulder": 9.4,
+        "right_shoulder": 12.3
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:23.730978",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 7.28,
+      "joint_angles": {
+        "left_knee": 178.2,
+        "right_knee": 179.9,
+        "left_hip": 176.7,
+        "right_hip": 177.1,
+        "left_elbow": 175.0,
+        "right_elbow": 170.5,
+        "left_shoulder": 9.4,
+        "right_shoulder": 11.4
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:23.847035",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 7.4,
+      "joint_angles": {
+        "left_knee": 178.3,
+        "right_knee": 180.0,
+        "left_hip": 177.6,
+        "right_hip": 176.5,
+        "left_elbow": 174.5,
+        "right_elbow": 170.7,
+        "left_shoulder": 9.8,
+        "right_shoulder": 11.0
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:23.960332",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 7.51,
+      "joint_angles": {
+        "left_knee": 178.2,
+        "right_knee": 179.1,
+        "left_hip": 178.0,
+        "right_hip": 175.4,
+        "left_elbow": 174.5,
+        "right_elbow": 171.6,
+        "left_shoulder": 9.9,
+        "right_shoulder": 10.9
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:24.057475",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 7.61,
+      "joint_angles": {
+        "left_knee": 178.3,
+        "right_knee": 179.3,
+        "left_hip": 178.4,
+        "right_hip": 175.1,
+        "left_elbow": 173.5,
+        "right_elbow": 171.6,
+        "left_shoulder": 9.8,
+        "right_shoulder": 10.7
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:24.163418",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 7.72,
+      "joint_angles": {
+        "left_knee": 178.7,
+        "right_knee": 179.7,
+        "left_hip": 177.8,
+        "right_hip": 175.7,
+        "left_elbow": 174.6,
+        "right_elbow": 173.7,
+        "left_shoulder": 9.9,
+        "right_shoulder": 11.1
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:24.267072",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 7.82,
+      "joint_angles": {
+        "left_knee": 179.0,
+        "right_knee": 180.0,
+        "left_hip": 177.8,
+        "right_hip": 175.9,
+        "left_elbow": 173.1,
+        "right_elbow": 171.3,
+        "left_shoulder": 10.8,
+        "right_shoulder": 12.5
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:24.407882",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 7.96,
+      "joint_angles": {
+        "left_knee": 179.3,
+        "right_knee": 179.6,
+        "left_hip": 177.2,
+        "right_hip": 176.9,
+        "left_elbow": 172.9,
+        "right_elbow": 171.3,
+        "left_shoulder": 11.8,
+        "right_shoulder": 12.7
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:24.541403",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 8.09,
+      "joint_angles": {
+        "left_knee": 179.3,
+        "right_knee": 179.6,
+        "left_hip": 177.2,
+        "right_hip": 176.0,
+        "left_elbow": 173.6,
+        "right_elbow": 174.6,
+        "left_shoulder": 11.8,
+        "right_shoulder": 12.8
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:24.662478",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 8.21,
+      "joint_angles": {
+        "left_knee": 179.4,
+        "right_knee": 179.9,
+        "left_hip": 177.0,
+        "right_hip": 176.7,
+        "left_elbow": 173.7,
+        "right_elbow": 171.4,
+        "left_shoulder": 11.8,
+        "right_shoulder": 13.5
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:24.766015",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 8.32,
+      "joint_angles": {
+        "left_knee": 179.5,
+        "right_knee": 180.0,
+        "left_hip": 177.0,
+        "right_hip": 176.7,
+        "left_elbow": 174.2,
+        "right_elbow": 169.8,
+        "left_shoulder": 11.6,
+        "right_shoulder": 14.1
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:24.866211",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 8.42,
+      "joint_angles": {
+        "left_knee": 179.5,
+        "right_knee": 179.8,
+        "left_hip": 177.0,
+        "right_hip": 176.6,
+        "left_elbow": 173.9,
+        "right_elbow": 167.7,
+        "left_shoulder": 11.6,
+        "right_shoulder": 14.9
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:24.962113",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 8.51,
+      "joint_angles": {
+        "left_knee": 179.6,
+        "right_knee": 179.7,
+        "left_hip": 176.9,
+        "right_hip": 176.7,
+        "left_elbow": 173.4,
+        "right_elbow": 167.6,
+        "left_shoulder": 11.7,
+        "right_shoulder": 15.1
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:25.072087",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 8.62,
+      "joint_angles": {
+        "left_knee": 179.5,
+        "right_knee": 179.7,
+        "left_hip": 176.8,
+        "right_hip": 176.9,
+        "left_elbow": 174.4,
+        "right_elbow": 167.7,
+        "left_shoulder": 11.5,
+        "right_shoulder": 14.9
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:25.165339",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 8.72,
+      "joint_angles": {
+        "left_knee": 179.5,
+        "right_knee": 179.6,
+        "left_hip": 176.8,
+        "right_hip": 176.8,
+        "left_elbow": 174.4,
+        "right_elbow": 167.9,
+        "left_shoulder": 11.6,
+        "right_shoulder": 14.8
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:25.278067",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 8.83,
+      "joint_angles": {
+        "left_knee": 179.5,
+        "right_knee": 179.6,
+        "left_hip": 176.8,
+        "right_hip": 176.8,
+        "left_elbow": 174.4,
+        "right_elbow": 167.8,
+        "left_shoulder": 11.6,
+        "right_shoulder": 14.9
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:25.399041",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 8.95,
+      "joint_angles": {
+        "left_knee": 179.4,
+        "right_knee": 179.8,
+        "left_hip": 176.8,
+        "right_hip": 176.7,
+        "left_elbow": 174.2,
+        "right_elbow": 168.4,
+        "left_shoulder": 11.4,
+        "right_shoulder": 14.7
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:25.502704",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 9.06,
+      "joint_angles": {
+        "left_knee": 178.7,
+        "right_knee": 179.6,
+        "left_hip": 176.4,
+        "right_hip": 177.1,
+        "left_elbow": 174.7,
+        "right_elbow": 168.6,
+        "left_shoulder": 10.9,
+        "right_shoulder": 15.2
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:25.606322",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 9.16,
+      "joint_angles": {
+        "left_knee": 178.8,
+        "right_knee": 179.8,
+        "left_hip": 176.4,
+        "right_hip": 177.0,
+        "left_elbow": 174.6,
+        "right_elbow": 168.8,
+        "left_shoulder": 10.9,
+        "right_shoulder": 15.6
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:25.733458",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 9.29,
+      "joint_angles": {
+        "left_knee": 178.6,
+        "right_knee": 179.8,
+        "left_hip": 176.6,
+        "right_hip": 177.1,
+        "left_elbow": 175.8,
+        "right_elbow": 170.0,
+        "left_shoulder": 9.9,
+        "right_shoulder": 15.4
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:25.834359",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 9.39,
+      "joint_angles": {
+        "left_knee": 178.7,
+        "right_knee": 179.9,
+        "left_hip": 176.8,
+        "right_hip": 176.7,
+        "left_elbow": 175.5,
+        "right_elbow": 171.6,
+        "left_shoulder": 10.1,
+        "right_shoulder": 14.5
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:25.938612",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 9.49,
+      "joint_angles": {
+        "left_knee": 178.5,
+        "right_knee": 179.6,
+        "left_hip": 177.0,
+        "right_hip": 176.6,
+        "left_elbow": 175.1,
+        "right_elbow": 172.1,
+        "left_shoulder": 10.4,
+        "right_shoulder": 14.9
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:26.046274",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 9.6,
+      "joint_angles": {
+        "left_knee": 178.4,
+        "right_knee": 179.2,
+        "left_hip": 176.4,
+        "right_hip": 176.9,
+        "left_elbow": 175.0,
+        "right_elbow": 168.5,
+        "left_shoulder": 10.4,
+        "right_shoulder": 15.8
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:26.170092",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 9.72,
+      "joint_angles": {
+        "left_knee": 178.3,
+        "right_knee": 179.6,
+        "left_hip": 176.6,
+        "right_hip": 176.8,
+        "left_elbow": 172.8,
+        "right_elbow": 167.2,
+        "left_shoulder": 11.3,
+        "right_shoulder": 17.2
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:26.269955",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 9.82,
+      "joint_angles": {
+        "left_knee": 178.0,
+        "right_knee": 179.8,
+        "left_hip": 176.7,
+        "right_hip": 176.8,
+        "left_elbow": 171.4,
+        "right_elbow": 166.9,
+        "left_shoulder": 10.9,
+        "right_shoulder": 17.3
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:26.375931",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 9.93,
+      "joint_angles": {
+        "left_knee": 177.8,
+        "right_knee": 179.6,
+        "left_hip": 177.3,
+        "right_hip": 176.5,
+        "left_elbow": 171.9,
+        "right_elbow": 167.4,
+        "left_shoulder": 11.2,
+        "right_shoulder": 17.5
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:26.510539",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 10.06,
+      "joint_angles": {
+        "left_knee": 178.0,
+        "right_knee": 179.4,
+        "left_hip": 177.7,
+        "right_hip": 175.7,
+        "left_elbow": 172.5,
+        "right_elbow": 169.0,
+        "left_shoulder": 11.2,
+        "right_shoulder": 17.4
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:26.634714",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 10.19,
+      "joint_angles": {
+        "left_knee": 178.2,
+        "right_knee": 179.4,
+        "left_hip": 177.7,
+        "right_hip": 175.8,
+        "left_elbow": 172.2,
+        "right_elbow": 172.8,
+        "left_shoulder": 11.3,
+        "right_shoulder": 15.2
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:26.741934",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 10.29,
+      "joint_angles": {
+        "left_knee": 178.3,
+        "right_knee": 179.7,
+        "left_hip": 178.2,
+        "right_hip": 175.7,
+        "left_elbow": 171.8,
+        "right_elbow": 171.8,
+        "left_shoulder": 11.4,
+        "right_shoulder": 15.8
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:26.842777",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 10.4,
+      "joint_angles": {
+        "left_knee": 178.3,
+        "right_knee": 179.0,
+        "left_hip": 178.3,
+        "right_hip": 175.3,
+        "left_elbow": 172.1,
+        "right_elbow": 170.5,
+        "left_shoulder": 11.6,
+        "right_shoulder": 16.1
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:26.939907",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 10.49,
+      "joint_angles": {
+        "left_knee": 178.5,
+        "right_knee": 179.1,
+        "left_hip": 178.2,
+        "right_hip": 175.3,
+        "left_elbow": 171.5,
+        "right_elbow": 169.4,
+        "left_shoulder": 12.0,
+        "right_shoulder": 16.1
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:27.046327",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 10.6,
+      "joint_angles": {
+        "left_knee": 178.0,
+        "right_knee": 178.5,
+        "left_hip": 178.2,
+        "right_hip": 175.2,
+        "left_elbow": 170.9,
+        "right_elbow": 170.3,
+        "left_shoulder": 12.1,
+        "right_shoulder": 15.5
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:27.144201",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 10.7,
+      "joint_angles": {
+        "left_knee": 177.8,
+        "right_knee": 178.4,
+        "left_hip": 178.1,
+        "right_hip": 175.2,
+        "left_elbow": 171.2,
+        "right_elbow": 172.4,
+        "left_shoulder": 12.3,
+        "right_shoulder": 15.5
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:27.240864",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 10.79,
+      "joint_angles": {
+        "left_knee": 177.8,
+        "right_knee": 178.4,
+        "left_hip": 177.9,
+        "right_hip": 175.3,
+        "left_elbow": 168.5,
+        "right_elbow": 172.0,
+        "left_shoulder": 11.3,
+        "right_shoulder": 15.8
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:27.338909",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 10.89,
+      "joint_angles": {
+        "left_knee": 178.0,
+        "right_knee": 178.5,
+        "left_hip": 177.6,
+        "right_hip": 175.5,
+        "left_elbow": 166.0,
+        "right_elbow": 170.7,
+        "left_shoulder": 11.1,
+        "right_shoulder": 15.6
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:27.443761",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 11.0,
+      "joint_angles": {
+        "left_knee": 178.7,
+        "right_knee": 179.1,
+        "left_hip": 177.4,
+        "right_hip": 176.1,
+        "left_elbow": 167.5,
+        "right_elbow": 170.8,
+        "left_shoulder": 10.6,
+        "right_shoulder": 14.9
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:27.546533",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 11.1,
+      "joint_angles": {
+        "left_knee": 178.5,
+        "right_knee": 178.7,
+        "left_hip": 177.3,
+        "right_hip": 176.1,
+        "left_elbow": 171.4,
+        "right_elbow": 170.6,
+        "left_shoulder": 9.4,
+        "right_shoulder": 15.1
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:27.644601",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 11.2,
+      "joint_angles": {
+        "left_knee": 178.4,
+        "right_knee": 178.7,
+        "left_hip": 176.7,
+        "right_hip": 176.3,
+        "left_elbow": 172.3,
+        "right_elbow": 120.8,
+        "left_shoulder": 8.7,
+        "right_shoulder": 15.0
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:27.745754",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 11.3,
+      "joint_angles": {
+        "left_knee": 178.4,
+        "right_knee": 177.9,
+        "left_hip": 177.4,
+        "right_hip": 175.1,
+        "left_elbow": 173.5,
+        "right_elbow": 140.8,
+        "left_shoulder": 8.9,
+        "right_shoulder": 16.0
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:27.848100",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 11.4,
+      "joint_angles": {
+        "left_knee": 179.1,
+        "right_knee": 178.6,
+        "left_hip": 177.1,
+        "right_hip": 175.0,
+        "left_elbow": 173.8,
+        "right_elbow": 156.9,
+        "left_shoulder": 9.0,
+        "right_shoulder": 15.4
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:27.950838",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 11.5,
+      "joint_angles": {
+        "left_knee": 180.0,
+        "right_knee": 179.6,
+        "left_hip": 176.7,
+        "right_hip": 175.7,
+        "left_elbow": 173.4,
+        "right_elbow": 163.7,
+        "left_shoulder": 9.3,
+        "right_shoulder": 12.4
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:28.063191",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 11.62,
+      "joint_angles": {
+        "left_knee": 179.8,
+        "right_knee": 178.5,
+        "left_hip": 175.6,
+        "right_hip": 177.1,
+        "left_elbow": 173.4,
+        "right_elbow": 164.6,
+        "left_shoulder": 9.4,
+        "right_shoulder": 14.7
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:28.159387",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 11.71,
+      "joint_angles": {
+        "left_knee": 179.5,
+        "right_knee": 177.9,
+        "left_hip": 175.0,
+        "right_hip": 177.4,
+        "left_elbow": 170.2,
+        "right_elbow": 168.6,
+        "left_shoulder": 13.4,
+        "right_shoulder": 15.2
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:28.264928",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 11.82,
+      "joint_angles": {
+        "left_knee": 178.3,
+        "right_knee": 178.2,
+        "left_hip": 174.4,
+        "right_hip": 176.0,
+        "left_elbow": 168.5,
+        "right_elbow": 170.1,
+        "left_shoulder": 14.0,
+        "right_shoulder": 13.5
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:28.369642",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 11.92,
+      "joint_angles": {
+        "left_knee": 178.6,
+        "right_knee": 177.5,
+        "left_hip": 173.9,
+        "right_hip": 176.2,
+        "left_elbow": 165.8,
+        "right_elbow": 164.4,
+        "left_shoulder": 13.5,
+        "right_shoulder": 11.6
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:28.464664",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 12.02,
+      "joint_angles": {
+        "left_knee": 178.1,
+        "right_knee": 177.4,
+        "left_hip": 172.9,
+        "right_hip": 177.0,
+        "left_elbow": 174.6,
+        "right_elbow": 171.1,
+        "left_shoulder": 12.2,
+        "right_shoulder": 14.6
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:28.580418",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 12.13,
+      "joint_angles": {
+        "left_knee": 178.4,
+        "right_knee": 177.8,
+        "left_hip": 173.9,
+        "right_hip": 176.2,
+        "left_elbow": 175.0,
+        "right_elbow": 172.7,
+        "left_shoulder": 10.6,
+        "right_shoulder": 13.0
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:28.699492",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 12.25,
+      "joint_angles": {
+        "left_knee": 179.3,
+        "right_knee": 178.4,
+        "left_hip": 174.0,
+        "right_hip": 177.2,
+        "left_elbow": 174.1,
+        "right_elbow": 168.5,
+        "left_shoulder": 12.0,
+        "right_shoulder": 11.5
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:28.805437",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 12.36,
+      "joint_angles": {
+        "left_knee": 179.9,
+        "right_knee": 178.1,
+        "left_hip": 174.6,
+        "right_hip": 177.9,
+        "left_elbow": 168.9,
+        "right_elbow": 171.3,
+        "left_shoulder": 16.9,
+        "right_shoulder": 10.6
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:28.901757",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 12.45,
+      "joint_angles": {
+        "left_knee": 179.8,
+        "right_knee": 178.1,
+        "left_hip": 175.7,
+        "right_hip": 177.8,
+        "left_elbow": 170.3,
+        "right_elbow": 172.0,
+        "left_shoulder": 16.4,
+        "right_shoulder": 10.7
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:29.013966",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 12.57,
+      "joint_angles": {
+        "left_knee": 179.4,
+        "right_knee": 179.9,
+        "left_hip": 176.1,
+        "right_hip": 177.6,
+        "left_elbow": 172.1,
+        "right_elbow": 167.2,
+        "left_shoulder": 15.3,
+        "right_shoulder": 15.3
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:29.139352",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 12.69,
+      "joint_angles": {
+        "left_knee": 179.7,
+        "right_knee": 179.9,
+        "left_hip": 176.1,
+        "right_hip": 176.9,
+        "left_elbow": 176.0,
+        "right_elbow": 167.9,
+        "left_shoulder": 11.3,
+        "right_shoulder": 12.8
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:29.243191",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 12.8,
+      "joint_angles": {
+        "left_knee": 179.8,
+        "right_knee": 179.9,
+        "left_hip": 176.8,
+        "right_hip": 176.7,
+        "left_elbow": 175.0,
+        "right_elbow": 167.5,
+        "left_shoulder": 11.4,
+        "right_shoulder": 13.1
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:29.339228",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 12.89,
+      "joint_angles": {
+        "left_knee": 179.4,
+        "right_knee": 178.6,
+        "left_hip": 176.0,
+        "right_hip": 177.3,
+        "left_elbow": 171.5,
+        "right_elbow": 158.0,
+        "left_shoulder": 15.7,
+        "right_shoulder": 12.1
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:29.445813",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 13.0,
+      "joint_angles": {
+        "left_knee": 179.2,
+        "right_knee": 177.4,
+        "left_hip": 175.7,
+        "right_hip": 175.8,
+        "left_elbow": 167.7,
+        "right_elbow": 167.6,
+        "left_shoulder": 16.7,
+        "right_shoulder": 7.1
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:29.587076",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 13.14,
+      "joint_angles": {
+        "left_knee": 179.1,
+        "right_knee": 176.1,
+        "left_hip": 174.1,
+        "right_hip": 176.0,
+        "left_elbow": 162.5,
+        "right_elbow": 167.8,
+        "left_shoulder": 17.6,
+        "right_shoulder": 7.1
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:29.699518",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 13.25,
+      "joint_angles": {
+        "left_knee": 179.2,
+        "right_knee": 176.5,
+        "left_hip": 173.7,
+        "right_hip": 175.6,
+        "left_elbow": 163.4,
+        "right_elbow": 165.6,
+        "left_shoulder": 15.4,
+        "right_shoulder": 6.7
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:29.799121",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 13.35,
+      "joint_angles": {
+        "left_knee": 179.5,
+        "right_knee": 178.2,
+        "left_hip": 174.0,
+        "right_hip": 175.7,
+        "left_elbow": 153.0,
+        "right_elbow": 169.2,
+        "left_shoulder": 15.7,
+        "right_shoulder": 8.1
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:29.902170",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 13.45,
+      "joint_angles": {
+        "left_knee": 178.6,
+        "right_knee": 179.9,
+        "left_hip": 173.2,
+        "right_hip": 176.9,
+        "left_elbow": 139.1,
+        "right_elbow": 164.3,
+        "left_shoulder": 15.5,
+        "right_shoulder": 7.7
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:29.998898",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 13.55,
+      "joint_angles": {
+        "left_knee": 178.4,
+        "right_knee": 179.1,
+        "left_hip": 174.0,
+        "right_hip": 175.9,
+        "left_elbow": 142.6,
+        "right_elbow": 165.9,
+        "left_shoulder": 14.9,
+        "right_shoulder": 10.4
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:30.097090",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 13.65,
+      "joint_angles": {
+        "left_knee": 179.0,
+        "right_knee": 178.4,
+        "left_hip": 174.9,
+        "right_hip": 175.6,
+        "left_elbow": 149.0,
+        "right_elbow": 147.9,
+        "left_shoulder": 13.6,
+        "right_shoulder": 9.9
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:30.198533",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 13.75,
+      "joint_angles": {
+        "left_knee": 179.3,
+        "right_knee": 178.8,
+        "left_hip": 175.4,
+        "right_hip": 175.5,
+        "left_elbow": 159.3,
+        "right_elbow": 153.8,
+        "left_shoulder": 12.2,
+        "right_shoulder": 7.5
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:30.294648",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 13.85,
+      "joint_angles": {
+        "left_knee": 179.7,
+        "right_knee": 179.1,
+        "left_hip": 175.1,
+        "right_hip": 175.7,
+        "left_elbow": 149.5,
+        "right_elbow": 152.1,
+        "left_shoulder": 13.8,
+        "right_shoulder": 7.4
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:30.394986",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 13.95,
+      "joint_angles": {
+        "left_knee": 179.6,
+        "right_knee": 179.7,
+        "left_hip": 174.9,
+        "right_hip": 176.1,
+        "left_elbow": 165.3,
+        "right_elbow": 163.2,
+        "left_shoulder": 12.9,
+        "right_shoulder": 6.3
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:30.498588",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 14.05,
+      "joint_angles": {
+        "left_knee": 179.8,
+        "right_knee": 179.5,
+        "left_hip": 175.0,
+        "right_hip": 176.3,
+        "left_elbow": 169.9,
+        "right_elbow": 173.3,
+        "left_shoulder": 12.5,
+        "right_shoulder": 10.3
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:30.603079",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 14.16,
+      "joint_angles": {
+        "left_knee": 179.4,
+        "right_knee": 178.7,
+        "left_hip": 175.2,
+        "right_hip": 174.0,
+        "left_elbow": 171.5,
+        "right_elbow": 175.1,
+        "left_shoulder": 12.1,
+        "right_shoulder": 13.8
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:30.711301",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 14.26,
+      "joint_angles": {
+        "left_knee": 179.6,
+        "right_knee": 179.2,
+        "left_hip": 175.5,
+        "right_hip": 175.5,
+        "left_elbow": 174.1,
+        "right_elbow": 169.4,
+        "left_shoulder": 11.2,
+        "right_shoulder": 16.2
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:30.843100",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 14.4,
+      "joint_angles": {
+        "left_knee": 179.9,
+        "right_knee": 178.7,
+        "left_hip": 176.3,
+        "right_hip": 176.1,
+        "left_elbow": 177.8,
+        "right_elbow": 173.4,
+        "left_shoulder": 9.7,
+        "right_shoulder": 12.2
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:30.965546",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 14.52,
+      "joint_angles": {
+        "left_knee": 179.2,
+        "right_knee": 177.5,
+        "left_hip": 177.8,
+        "right_hip": 175.2,
+        "left_elbow": 174.6,
+        "right_elbow": 166.8,
+        "left_shoulder": 11.2,
+        "right_shoulder": 16.5
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:31.062606",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 14.62,
+      "joint_angles": {
+        "left_knee": 178.5,
+        "right_knee": 177.1,
+        "left_hip": 179.1,
+        "right_hip": 175.8,
+        "left_elbow": 174.0,
+        "right_elbow": 164.6,
+        "left_shoulder": 12.3,
+        "right_shoulder": 18.1
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:31.160410",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 14.71,
+      "joint_angles": {
+        "left_knee": 178.4,
+        "right_knee": 178.9,
+        "left_hip": 179.3,
+        "right_hip": 176.3,
+        "left_elbow": 176.8,
+        "right_elbow": 173.9,
+        "left_shoulder": 9.4,
+        "right_shoulder": 12.1
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:31.261844",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 14.81,
+      "joint_angles": {
+        "left_knee": 178.5,
+        "right_knee": 179.1,
+        "left_hip": 178.0,
+        "right_hip": 177.4,
+        "left_elbow": 178.1,
+        "right_elbow": 177.4,
+        "left_shoulder": 9.4,
+        "right_shoulder": 8.9
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:31.361045",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 14.91,
+      "joint_angles": {
+        "left_knee": 178.0,
+        "right_knee": 178.9,
+        "left_hip": 178.1,
+        "right_hip": 177.7,
+        "left_elbow": 176.1,
+        "right_elbow": 179.7,
+        "left_shoulder": 6.7,
+        "right_shoulder": 7.1
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:31.453967",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 15.01,
+      "joint_angles": {
+        "left_knee": 177.8,
+        "right_knee": 178.6,
+        "left_hip": 178.1,
+        "right_hip": 178.1,
+        "left_elbow": 177.7,
+        "right_elbow": 176.7,
+        "left_shoulder": 5.9,
+        "right_shoulder": 7.2
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:31.563014",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 15.12,
+      "joint_angles": {
+        "left_knee": 177.9,
+        "right_knee": 178.2,
+        "left_hip": 177.7,
+        "right_hip": 177.1,
+        "left_elbow": 179.1,
+        "right_elbow": 174.2,
+        "left_shoulder": 6.5,
+        "right_shoulder": 9.2
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:31.658632",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 15.21,
+      "joint_angles": {
+        "left_knee": 178.1,
+        "right_knee": 178.2,
+        "left_hip": 177.4,
+        "right_hip": 177.2,
+        "left_elbow": 177.7,
+        "right_elbow": 175.7,
+        "left_shoulder": 5.9,
+        "right_shoulder": 8.3
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:31.757681",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 15.31,
+      "joint_angles": {
+        "left_knee": 178.1,
+        "right_knee": 178.6,
+        "left_hip": 177.5,
+        "right_hip": 177.3,
+        "left_elbow": 177.6,
+        "right_elbow": 173.0,
+        "left_shoulder": 5.8,
+        "right_shoulder": 10.1
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:31.863810",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 15.42,
+      "joint_angles": {
+        "left_knee": 177.3,
+        "right_knee": 178.5,
+        "left_hip": 178.0,
+        "right_hip": 176.9,
+        "left_elbow": 176.4,
+        "right_elbow": 170.3,
+        "left_shoulder": 6.0,
+        "right_shoulder": 12.3
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:31.964111",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 15.52,
+      "joint_angles": {
+        "left_knee": 176.9,
+        "right_knee": 178.0,
+        "left_hip": 178.2,
+        "right_hip": 176.4,
+        "left_elbow": 178.4,
+        "right_elbow": 172.3,
+        "left_shoulder": 6.3,
+        "right_shoulder": 12.3
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:32.070225",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 15.62,
+      "joint_angles": {
+        "left_knee": 177.1,
+        "right_knee": 177.9,
+        "left_hip": 178.3,
+        "right_hip": 176.1,
+        "left_elbow": 177.5,
+        "right_elbow": 172.9,
+        "left_shoulder": 5.5,
+        "right_shoulder": 12.7
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:32.194912",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 15.75,
+      "joint_angles": {
+        "left_knee": 176.8,
+        "right_knee": 178.1,
+        "left_hip": 178.8,
+        "right_hip": 176.9,
+        "left_elbow": 177.7,
+        "right_elbow": 171.3,
+        "left_shoulder": 5.8,
+        "right_shoulder": 13.6
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:32.311035",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 15.86,
+      "joint_angles": {
+        "left_knee": 176.7,
+        "right_knee": 178.3,
+        "left_hip": 179.3,
+        "right_hip": 176.9,
+        "left_elbow": 178.5,
+        "right_elbow": 172.1,
+        "left_shoulder": 5.4,
+        "right_shoulder": 12.9
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:32.427837",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 15.98,
+      "joint_angles": {
+        "left_knee": 176.7,
+        "right_knee": 177.9,
+        "left_hip": 179.4,
+        "right_hip": 176.4,
+        "left_elbow": 176.9,
+        "right_elbow": 172.3,
+        "left_shoulder": 5.1,
+        "right_shoulder": 13.1
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:32.529157",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 16.08,
+      "joint_angles": {
+        "left_knee": 176.9,
+        "right_knee": 177.5,
+        "left_hip": 179.5,
+        "right_hip": 175.3,
+        "left_elbow": 177.8,
+        "right_elbow": 175.0,
+        "left_shoulder": 6.8,
+        "right_shoulder": 13.5
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:32.632909",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 16.19,
+      "joint_angles": {
+        "left_knee": 176.7,
+        "right_knee": 177.4,
+        "left_hip": 179.7,
+        "right_hip": 175.6,
+        "left_elbow": 177.7,
+        "right_elbow": 175.0,
+        "left_shoulder": 6.3,
+        "right_shoulder": 13.6
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:32.732915",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 16.29,
+      "joint_angles": {
+        "left_knee": 176.7,
+        "right_knee": 177.8,
+        "left_hip": 179.7,
+        "right_hip": 175.9,
+        "left_elbow": 177.7,
+        "right_elbow": 176.6,
+        "left_shoulder": 6.1,
+        "right_shoulder": 14.2
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:32.846917",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 16.4,
+      "joint_angles": {
+        "left_knee": 176.6,
+        "right_knee": 177.8,
+        "left_hip": 179.9,
+        "right_hip": 176.0,
+        "left_elbow": 179.1,
+        "right_elbow": 175.5,
+        "left_shoulder": 5.8,
+        "right_shoulder": 14.7
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:32.979501",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 16.53,
+      "joint_angles": {
+        "left_knee": 176.7,
+        "right_knee": 177.6,
+        "left_hip": 180.0,
+        "right_hip": 175.7,
+        "left_elbow": 178.4,
+        "right_elbow": 172.7,
+        "left_shoulder": 5.5,
+        "right_shoulder": 14.9
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:33.097551",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 16.65,
+      "joint_angles": {
+        "left_knee": 176.8,
+        "right_knee": 177.6,
+        "left_hip": 179.7,
+        "right_hip": 175.7,
+        "left_elbow": 178.5,
+        "right_elbow": 171.9,
+        "left_shoulder": 5.4,
+        "right_shoulder": 14.9
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:33.200295",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 16.75,
+      "joint_angles": {
+        "left_knee": 177.5,
+        "right_knee": 177.9,
+        "left_hip": 179.6,
+        "right_hip": 175.7,
+        "left_elbow": 176.3,
+        "right_elbow": 170.7,
+        "left_shoulder": 4.2,
+        "right_shoulder": 15.1
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:33.310053",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 16.86,
+      "joint_angles": {
+        "left_knee": 177.7,
+        "right_knee": 177.7,
+        "left_hip": 179.1,
+        "right_hip": 175.7,
+        "left_elbow": 175.4,
+        "right_elbow": 170.4,
+        "left_shoulder": 3.6,
+        "right_shoulder": 14.3
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:33.445754",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 17.0,
+      "joint_angles": {
+        "left_knee": 177.8,
+        "right_knee": 177.4,
+        "left_hip": 178.8,
+        "right_hip": 175.7,
+        "left_elbow": 178.7,
+        "right_elbow": 170.8,
+        "left_shoulder": 4.8,
+        "right_shoulder": 13.9
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:33.597078",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 17.15,
+      "joint_angles": {
+        "left_knee": 177.8,
+        "right_knee": 177.2,
+        "left_hip": 179.0,
+        "right_hip": 175.5,
+        "left_elbow": 180.0,
+        "right_elbow": 172.2,
+        "left_shoulder": 5.6,
+        "right_shoulder": 13.3
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:33.706826",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 17.26,
+      "joint_angles": {
+        "left_knee": 177.8,
+        "right_knee": 177.3,
+        "left_hip": 179.0,
+        "right_hip": 175.4,
+        "left_elbow": 178.5,
+        "right_elbow": 174.0,
+        "left_shoulder": 6.6,
+        "right_shoulder": 12.4
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:33.807461",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 17.36,
+      "joint_angles": {
+        "left_knee": 177.8,
+        "right_knee": 177.3,
+        "left_hip": 179.0,
+        "right_hip": 175.3,
+        "left_elbow": 176.2,
+        "right_elbow": 174.6,
+        "left_shoulder": 8.3,
+        "right_shoulder": 12.5
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:33.935349",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 17.49,
+      "joint_angles": {
+        "left_knee": 177.9,
+        "right_knee": 177.4,
+        "left_hip": 178.8,
+        "right_hip": 175.3,
+        "left_elbow": 174.0,
+        "right_elbow": 175.2,
+        "left_shoulder": 9.7,
+        "right_shoulder": 12.4
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:34.044086",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 17.6,
+      "joint_angles": {
+        "left_knee": 178.2,
+        "right_knee": 177.6,
+        "left_hip": 178.8,
+        "right_hip": 175.3,
+        "left_elbow": 174.8,
+        "right_elbow": 175.2,
+        "left_shoulder": 9.3,
+        "right_shoulder": 11.0
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:34.168105",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 17.72,
+      "joint_angles": {
+        "left_knee": 178.4,
+        "right_knee": 177.8,
+        "left_hip": 178.5,
+        "right_hip": 175.3,
+        "left_elbow": 174.2,
+        "right_elbow": 176.3,
+        "left_shoulder": 9.7,
+        "right_shoulder": 10.5
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:34.269529",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 17.82,
+      "joint_angles": {
+        "left_knee": 178.6,
+        "right_knee": 177.8,
+        "left_hip": 178.4,
+        "right_hip": 175.2,
+        "left_elbow": 172.9,
+        "right_elbow": 176.9,
+        "left_shoulder": 11.0,
+        "right_shoulder": 10.5
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:34.367090",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 17.92,
+      "joint_angles": {
+        "left_knee": 178.8,
+        "right_knee": 177.8,
+        "left_hip": 178.1,
+        "right_hip": 175.1,
+        "left_elbow": 175.6,
+        "right_elbow": 177.2,
+        "left_shoulder": 11.6,
+        "right_shoulder": 10.7
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:34.467282",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 18.02,
+      "joint_angles": {
+        "left_knee": 178.7,
+        "right_knee": 177.8,
+        "left_hip": 178.0,
+        "right_hip": 175.0,
+        "left_elbow": 174.2,
+        "right_elbow": 177.1,
+        "left_shoulder": 12.0,
+        "right_shoulder": 11.6
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:34.589937",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 18.14,
+      "joint_angles": {
+        "left_knee": 178.9,
+        "right_knee": 177.8,
+        "left_hip": 177.7,
+        "right_hip": 175.2,
+        "left_elbow": 174.1,
+        "right_elbow": 178.4,
+        "left_shoulder": 12.0,
+        "right_shoulder": 11.7
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:34.706282",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 18.26,
+      "joint_angles": {
+        "left_knee": 178.6,
+        "right_knee": 177.8,
+        "left_hip": 178.0,
+        "right_hip": 175.0,
+        "left_elbow": 173.6,
+        "right_elbow": 178.1,
+        "left_shoulder": 11.9,
+        "right_shoulder": 12.0
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:34.807796",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 18.36,
+      "joint_angles": {
+        "left_knee": 178.8,
+        "right_knee": 178.2,
+        "left_hip": 178.0,
+        "right_hip": 175.2,
+        "left_elbow": 173.6,
+        "right_elbow": 177.4,
+        "left_shoulder": 11.8,
+        "right_shoulder": 12.4
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:34.904931",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 18.46,
+      "joint_angles": {
+        "left_knee": 178.9,
+        "right_knee": 178.6,
+        "left_hip": 177.9,
+        "right_hip": 175.6,
+        "left_elbow": 172.5,
+        "right_elbow": 175.2,
+        "left_shoulder": 12.5,
+        "right_shoulder": 14.6
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:35.023104",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 18.58,
+      "joint_angles": {
+        "left_knee": 178.6,
+        "right_knee": 178.5,
+        "left_hip": 177.9,
+        "right_hip": 175.7,
+        "left_elbow": 172.6,
+        "right_elbow": 175.7,
+        "left_shoulder": 12.6,
+        "right_shoulder": 14.6
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:35.139290",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 18.69,
+      "joint_angles": {
+        "left_knee": 178.4,
+        "right_knee": 178.5,
+        "left_hip": 178.1,
+        "right_hip": 175.6,
+        "left_elbow": 173.8,
+        "right_elbow": 175.6,
+        "left_shoulder": 11.5,
+        "right_shoulder": 14.7
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:35.239124",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 18.79,
+      "joint_angles": {
+        "left_knee": 178.3,
+        "right_knee": 178.6,
+        "left_hip": 178.2,
+        "right_hip": 175.8,
+        "left_elbow": 173.5,
+        "right_elbow": 175.6,
+        "left_shoulder": 11.7,
+        "right_shoulder": 14.5
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:35.338538",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 18.89,
+      "joint_angles": {
+        "left_knee": 178.4,
+        "right_knee": 178.6,
+        "left_hip": 177.9,
+        "right_hip": 176.0,
+        "left_elbow": 173.6,
+        "right_elbow": 175.9,
+        "left_shoulder": 11.6,
+        "right_shoulder": 14.3
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:35.468252",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 19.02,
+      "joint_angles": {
+        "left_knee": 178.4,
+        "right_knee": 178.7,
+        "left_hip": 177.9,
+        "right_hip": 176.2,
+        "left_elbow": 173.6,
+        "right_elbow": 173.2,
+        "left_shoulder": 11.9,
+        "right_shoulder": 14.7
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:35.617425",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 19.17,
+      "joint_angles": {
+        "left_knee": 178.4,
+        "right_knee": 179.3,
+        "left_hip": 177.8,
+        "right_hip": 176.5,
+        "left_elbow": 171.1,
+        "right_elbow": 170.1,
+        "left_shoulder": 12.3,
+        "right_shoulder": 15.0
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:35.747409",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 19.3,
+      "joint_angles": {
+        "left_knee": 178.6,
+        "right_knee": 179.1,
+        "left_hip": 177.6,
+        "right_hip": 176.4,
+        "left_elbow": 169.1,
+        "right_elbow": 167.9,
+        "left_shoulder": 11.1,
+        "right_shoulder": 15.3
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:35.846701",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 19.4,
+      "joint_angles": {
+        "left_knee": 178.8,
+        "right_knee": 179.2,
+        "left_hip": 177.5,
+        "right_hip": 176.4,
+        "left_elbow": 170.9,
+        "right_elbow": 165.2,
+        "left_shoulder": 10.9,
+        "right_shoulder": 15.3
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:35.942809",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 19.5,
+      "joint_angles": {
+        "left_knee": 178.8,
+        "right_knee": 179.1,
+        "left_hip": 177.6,
+        "right_hip": 176.4,
+        "left_elbow": 172.2,
+        "right_elbow": 165.6,
+        "left_shoulder": 10.3,
+        "right_shoulder": 15.5
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:36.048868",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 19.6,
+      "joint_angles": {
+        "left_knee": 178.7,
+        "right_knee": 178.6,
+        "left_hip": 177.7,
+        "right_hip": 176.3,
+        "left_elbow": 166.7,
+        "right_elbow": 165.9,
+        "left_shoulder": 10.0,
+        "right_shoulder": 15.5
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:36.148611",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 19.7,
+      "joint_angles": {
+        "left_knee": 178.3,
+        "right_knee": 178.6,
+        "left_hip": 177.7,
+        "right_hip": 176.6,
+        "left_elbow": 167.7,
+        "right_elbow": 165.5,
+        "left_shoulder": 10.2,
+        "right_shoulder": 15.7
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:36.244972",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 19.8,
+      "joint_angles": {
+        "left_knee": 178.5,
+        "right_knee": 178.5,
+        "left_hip": 177.5,
+        "right_hip": 176.7,
+        "left_elbow": 156.0,
+        "right_elbow": 160.9,
+        "left_shoulder": 10.5,
+        "right_shoulder": 13.9
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:36.364053",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 19.92,
+      "joint_angles": {
+        "left_knee": 178.4,
+        "right_knee": 178.5,
+        "left_hip": 177.6,
+        "right_hip": 176.7,
+        "left_elbow": 160.2,
+        "right_elbow": 164.3,
+        "left_shoulder": 10.4,
+        "right_shoulder": 13.5
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:36.479651",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 20.03,
+      "joint_angles": {
+        "left_knee": 178.7,
+        "right_knee": 178.7,
+        "left_hip": 177.5,
+        "right_hip": 176.8,
+        "left_elbow": 160.5,
+        "right_elbow": 163.7,
+        "left_shoulder": 10.3,
+        "right_shoulder": 13.5
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:36.582848",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 20.14,
+      "joint_angles": {
+        "left_knee": 179.4,
+        "right_knee": 179.2,
+        "left_hip": 177.6,
+        "right_hip": 176.5,
+        "left_elbow": 148.9,
+        "right_elbow": 162.9,
+        "left_shoulder": 9.7,
+        "right_shoulder": 12.9
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:36.707983",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 20.26,
+      "joint_angles": {
+        "left_knee": 179.4,
+        "right_knee": 179.0,
+        "left_hip": 177.7,
+        "right_hip": 176.4,
+        "left_elbow": 145.6,
+        "right_elbow": 161.7,
+        "left_shoulder": 9.7,
+        "right_shoulder": 12.9
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:36.830407",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 20.38,
+      "joint_angles": {
+        "left_knee": 179.3,
+        "right_knee": 179.3,
+        "left_hip": 177.7,
+        "right_hip": 176.6,
+        "left_elbow": 169.3,
+        "right_elbow": 165.8,
+        "left_shoulder": 8.8,
+        "right_shoulder": 13.1
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:36.947813",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 20.5,
+      "joint_angles": {
+        "left_knee": 179.1,
+        "right_knee": 179.4,
+        "left_hip": 178.0,
+        "right_hip": 176.3,
+        "left_elbow": 171.0,
+        "right_elbow": 165.9,
+        "left_shoulder": 8.1,
+        "right_shoulder": 13.2
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:37.064225",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 20.62,
+      "joint_angles": {
+        "left_knee": 179.0,
+        "right_knee": 179.4,
+        "left_hip": 178.0,
+        "right_hip": 176.3,
+        "left_elbow": 173.8,
+        "right_elbow": 169.1,
+        "left_shoulder": 8.2,
+        "right_shoulder": 13.5
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:37.193162",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 20.75,
+      "joint_angles": {
+        "left_knee": 178.9,
+        "right_knee": 179.2,
+        "left_hip": 178.1,
+        "right_hip": 176.0,
+        "left_elbow": 175.1,
+        "right_elbow": 170.0,
+        "left_shoulder": 8.3,
+        "right_shoulder": 13.9
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:37.334818",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 20.89,
+      "joint_angles": {
+        "left_knee": 178.9,
+        "right_knee": 179.2,
+        "left_hip": 178.1,
+        "right_hip": 176.0,
+        "left_elbow": 176.6,
+        "right_elbow": 169.9,
+        "left_shoulder": 8.2,
+        "right_shoulder": 14.1
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:37.449224",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 21.0,
+      "joint_angles": {
+        "left_knee": 178.8,
+        "right_knee": 178.9,
+        "left_hip": 178.3,
+        "right_hip": 175.7,
+        "left_elbow": 177.4,
+        "right_elbow": 168.4,
+        "left_shoulder": 7.8,
+        "right_shoulder": 14.1
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:37.556273",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 21.11,
+      "joint_angles": {
+        "left_knee": 178.9,
+        "right_knee": 179.0,
+        "left_hip": 178.3,
+        "right_hip": 175.8,
+        "left_elbow": 177.9,
+        "right_elbow": 169.3,
+        "left_shoulder": 7.4,
+        "right_shoulder": 14.3
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:37.654740",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 21.21,
+      "joint_angles": {
+        "left_knee": 178.9,
+        "right_knee": 179.0,
+        "left_hip": 178.3,
+        "right_hip": 175.8,
+        "left_elbow": 177.4,
+        "right_elbow": 169.4,
+        "left_shoulder": 7.5,
+        "right_shoulder": 14.4
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:37.747159",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 21.3,
+      "joint_angles": {
+        "left_knee": 178.8,
+        "right_knee": 178.9,
+        "left_hip": 178.4,
+        "right_hip": 175.9,
+        "left_elbow": 177.2,
+        "right_elbow": 170.6,
+        "left_shoulder": 7.5,
+        "right_shoulder": 14.7
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:37.857555",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 21.41,
+      "joint_angles": {
+        "left_knee": 178.7,
+        "right_knee": 178.8,
+        "left_hip": 178.4,
+        "right_hip": 175.8,
+        "left_elbow": 176.2,
+        "right_elbow": 170.4,
+        "left_shoulder": 7.6,
+        "right_shoulder": 14.7
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:37.957650",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 21.51,
+      "joint_angles": {
+        "left_knee": 178.7,
+        "right_knee": 178.8,
+        "left_hip": 178.3,
+        "right_hip": 175.9,
+        "left_elbow": 176.3,
+        "right_elbow": 169.9,
+        "left_shoulder": 7.8,
+        "right_shoulder": 14.6
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:38.069471",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 21.62,
+      "joint_angles": {
+        "left_knee": 178.7,
+        "right_knee": 178.8,
+        "left_hip": 178.2,
+        "right_hip": 175.9,
+        "left_elbow": 175.5,
+        "right_elbow": 168.4,
+        "left_shoulder": 8.1,
+        "right_shoulder": 14.7
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:38.186581",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 21.74,
+      "joint_angles": {
+        "left_knee": 178.8,
+        "right_knee": 179.0,
+        "left_hip": 178.2,
+        "right_hip": 176.0,
+        "left_elbow": 175.5,
+        "right_elbow": 167.7,
+        "left_shoulder": 8.2,
+        "right_shoulder": 14.6
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:38.289767",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 21.84,
+      "joint_angles": {
+        "left_knee": 178.7,
+        "right_knee": 179.2,
+        "left_hip": 178.0,
+        "right_hip": 176.4,
+        "left_elbow": 175.9,
+        "right_elbow": 168.4,
+        "left_shoulder": 8.2,
+        "right_shoulder": 14.5
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:38.393710",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 21.95,
+      "joint_angles": {
+        "left_knee": 178.6,
+        "right_knee": 179.3,
+        "left_hip": 177.9,
+        "right_hip": 176.5,
+        "left_elbow": 175.9,
+        "right_elbow": 168.0,
+        "left_shoulder": 8.4,
+        "right_shoulder": 14.4
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:38.493594",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 22.05,
+      "joint_angles": {
+        "left_knee": 178.7,
+        "right_knee": 179.4,
+        "left_hip": 177.9,
+        "right_hip": 176.6,
+        "left_elbow": 176.3,
+        "right_elbow": 168.1,
+        "left_shoulder": 8.2,
+        "right_shoulder": 14.2
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:38.590032",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 22.14,
+      "joint_angles": {
+        "left_knee": 178.7,
+        "right_knee": 179.3,
+        "left_hip": 177.9,
+        "right_hip": 176.5,
+        "left_elbow": 176.6,
+        "right_elbow": 168.2,
+        "left_shoulder": 8.3,
+        "right_shoulder": 14.1
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:38.698401",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 22.25,
+      "joint_angles": {
+        "left_knee": 178.7,
+        "right_knee": 179.3,
+        "left_hip": 177.9,
+        "right_hip": 176.4,
+        "left_elbow": 176.1,
+        "right_elbow": 169.1,
+        "left_shoulder": 9.0,
+        "right_shoulder": 14.0
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:38.825921",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 22.38,
+      "joint_angles": {
+        "left_knee": 178.6,
+        "right_knee": 179.3,
+        "left_hip": 177.8,
+        "right_hip": 176.5,
+        "left_elbow": 175.9,
+        "right_elbow": 169.5,
+        "left_shoulder": 9.1,
+        "right_shoulder": 14.1
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:38.926797",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 22.48,
+      "joint_angles": {
+        "left_knee": 178.4,
+        "right_knee": 179.1,
+        "left_hip": 177.7,
+        "right_hip": 176.5,
+        "left_elbow": 177.6,
+        "right_elbow": 170.1,
+        "left_shoulder": 9.2,
+        "right_shoulder": 14.2
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:39.025420",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 22.58,
+      "joint_angles": {
+        "left_knee": 178.5,
+        "right_knee": 179.3,
+        "left_hip": 177.8,
+        "right_hip": 176.4,
+        "left_elbow": 177.4,
+        "right_elbow": 170.0,
+        "left_shoulder": 9.2,
+        "right_shoulder": 14.2
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:39.124389",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 22.68,
+      "joint_angles": {
+        "left_knee": 178.5,
+        "right_knee": 179.3,
+        "left_hip": 177.7,
+        "right_hip": 176.4,
+        "left_elbow": 177.3,
+        "right_elbow": 170.9,
+        "left_shoulder": 9.5,
+        "right_shoulder": 14.3
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:39.227430",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 22.78,
+      "joint_angles": {
+        "left_knee": 178.7,
+        "right_knee": 179.3,
+        "left_hip": 177.9,
+        "right_hip": 176.2,
+        "left_elbow": 177.0,
+        "right_elbow": 171.0,
+        "left_shoulder": 9.5,
+        "right_shoulder": 14.4
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:39.338963",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 22.89,
+      "joint_angles": {
+        "left_knee": 178.7,
+        "right_knee": 179.4,
+        "left_hip": 177.9,
+        "right_hip": 176.1,
+        "left_elbow": 178.0,
+        "right_elbow": 170.4,
+        "left_shoulder": 8.8,
+        "right_shoulder": 14.5
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:39.456345",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 23.01,
+      "joint_angles": {
+        "left_knee": 178.7,
+        "right_knee": 179.4,
+        "left_hip": 177.9,
+        "right_hip": 176.1,
+        "left_elbow": 175.2,
+        "right_elbow": 169.5,
+        "left_shoulder": 9.0,
+        "right_shoulder": 14.5
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:39.560740",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 23.11,
+      "joint_angles": {
+        "left_knee": 178.7,
+        "right_knee": 179.2,
+        "left_hip": 177.9,
+        "right_hip": 176.1,
+        "left_elbow": 174.2,
+        "right_elbow": 169.2,
+        "left_shoulder": 9.1,
+        "right_shoulder": 14.9
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:39.656201",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 23.21,
+      "joint_angles": {
+        "left_knee": 178.7,
+        "right_knee": 179.0,
+        "left_hip": 177.9,
+        "right_hip": 176.1,
+        "left_elbow": 174.2,
+        "right_elbow": 170.4,
+        "left_shoulder": 9.3,
+        "right_shoulder": 15.0
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:39.760451",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 23.31,
+      "joint_angles": {
+        "left_knee": 178.5,
+        "right_knee": 178.7,
+        "left_hip": 177.9,
+        "right_hip": 176.2,
+        "left_elbow": 174.7,
+        "right_elbow": 170.7,
+        "left_shoulder": 9.5,
+        "right_shoulder": 15.1
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:39.868924",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 23.42,
+      "joint_angles": {
+        "left_knee": 178.4,
+        "right_knee": 178.7,
+        "left_hip": 177.8,
+        "right_hip": 176.1,
+        "left_elbow": 176.2,
+        "right_elbow": 170.9,
+        "left_shoulder": 9.6,
+        "right_shoulder": 15.1
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:39.992420",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 23.54,
+      "joint_angles": {
+        "left_knee": 178.4,
+        "right_knee": 178.8,
+        "left_hip": 177.7,
+        "right_hip": 176.1,
+        "left_elbow": 176.6,
+        "right_elbow": 171.1,
+        "left_shoulder": 9.3,
+        "right_shoulder": 15.0
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:40.094947",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 23.65,
+      "joint_angles": {
+        "left_knee": 178.5,
+        "right_knee": 178.9,
+        "left_hip": 177.7,
+        "right_hip": 176.3,
+        "left_elbow": 176.6,
+        "right_elbow": 171.2,
+        "left_shoulder": 9.1,
+        "right_shoulder": 14.8
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:40.204639",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 23.76,
+      "joint_angles": {
+        "left_knee": 178.5,
+        "right_knee": 179.1,
+        "left_hip": 177.8,
+        "right_hip": 176.2,
+        "left_elbow": 176.4,
+        "right_elbow": 170.8,
+        "left_shoulder": 8.9,
+        "right_shoulder": 14.8
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:40.331934",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 23.88,
+      "joint_angles": {
+        "left_knee": 178.6,
+        "right_knee": 179.1,
+        "left_hip": 177.8,
+        "right_hip": 176.2,
+        "left_elbow": 176.3,
+        "right_elbow": 171.3,
+        "left_shoulder": 8.9,
+        "right_shoulder": 14.4
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:40.432196",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 23.98,
+      "joint_angles": {
+        "left_knee": 178.6,
+        "right_knee": 179.1,
+        "left_hip": 177.8,
+        "right_hip": 176.2,
+        "left_elbow": 175.8,
+        "right_elbow": 170.0,
+        "left_shoulder": 8.8,
+        "right_shoulder": 14.3
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:40.530084",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 24.08,
+      "joint_angles": {
+        "left_knee": 178.7,
+        "right_knee": 179.1,
+        "left_hip": 177.9,
+        "right_hip": 176.1,
+        "left_elbow": 171.3,
+        "right_elbow": 166.3,
+        "left_shoulder": 8.8,
+        "right_shoulder": 14.3
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:40.631366",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 24.18,
+      "joint_angles": {
+        "left_knee": 178.7,
+        "right_knee": 179.2,
+        "left_hip": 177.9,
+        "right_hip": 176.2,
+        "left_elbow": 171.8,
+        "right_elbow": 167.7,
+        "left_shoulder": 8.7,
+        "right_shoulder": 14.0
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:40.734437",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 24.29,
+      "joint_angles": {
+        "left_knee": 178.8,
+        "right_knee": 179.3,
+        "left_hip": 177.9,
+        "right_hip": 176.3,
+        "left_elbow": 172.1,
+        "right_elbow": 168.0,
+        "left_shoulder": 8.6,
+        "right_shoulder": 13.9
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:40.835970",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 24.39,
+      "joint_angles": {
+        "left_knee": 178.8,
+        "right_knee": 179.3,
+        "left_hip": 178.0,
+        "right_hip": 176.2,
+        "left_elbow": 171.6,
+        "right_elbow": 167.5,
+        "left_shoulder": 9.1,
+        "right_shoulder": 13.8
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:40.932908",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 24.49,
+      "joint_angles": {
+        "left_knee": 178.8,
+        "right_knee": 178.9,
+        "left_hip": 178.2,
+        "right_hip": 175.7,
+        "left_elbow": 172.1,
+        "right_elbow": 167.6,
+        "left_shoulder": 9.4,
+        "right_shoulder": 13.7
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:41.031506",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 24.58,
+      "joint_angles": {
+        "left_knee": 178.8,
+        "right_knee": 178.9,
+        "left_hip": 178.1,
+        "right_hip": 175.5,
+        "left_elbow": 168.2,
+        "right_elbow": 165.2,
+        "left_shoulder": 11.3,
+        "right_shoulder": 14.6
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:41.139019",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 24.69,
+      "joint_angles": {
+        "left_knee": 178.8,
+        "right_knee": 179.0,
+        "left_hip": 178.0,
+        "right_hip": 175.8,
+        "left_elbow": 163.7,
+        "right_elbow": 163.2,
+        "left_shoulder": 10.7,
+        "right_shoulder": 16.0
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:41.233904",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 24.79,
+      "joint_angles": {
+        "left_knee": 178.8,
+        "right_knee": 179.0,
+        "left_hip": 177.9,
+        "right_hip": 176.0,
+        "left_elbow": 168.1,
+        "right_elbow": 162.3,
+        "left_shoulder": 11.3,
+        "right_shoulder": 17.9
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:41.329976",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 24.88,
+      "joint_angles": {
+        "left_knee": 178.7,
+        "right_knee": 179.1,
+        "left_hip": 177.8,
+        "right_hip": 176.2,
+        "left_elbow": 167.3,
+        "right_elbow": 163.9,
+        "left_shoulder": 12.5,
+        "right_shoulder": 18.8
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:41.447992",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 25.0,
+      "joint_angles": {
+        "left_knee": 178.7,
+        "right_knee": 179.1,
+        "left_hip": 177.8,
+        "right_hip": 176.2,
+        "left_elbow": 171.0,
+        "right_elbow": 167.3,
+        "left_shoulder": 14.2,
+        "right_shoulder": 18.9
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:41.570484",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 25.12,
+      "joint_angles": {
+        "left_knee": 178.5,
+        "right_knee": 179.1,
+        "left_hip": 177.8,
+        "right_hip": 176.2,
+        "left_elbow": 170.4,
+        "right_elbow": 166.6,
+        "left_shoulder": 16.5,
+        "right_shoulder": 18.9
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:41.673014",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 25.23,
+      "joint_angles": {
+        "left_knee": 178.2,
+        "right_knee": 178.8,
+        "left_hip": 177.9,
+        "right_hip": 176.0,
+        "left_elbow": 169.5,
+        "right_elbow": 166.9,
+        "left_shoulder": 17.1,
+        "right_shoulder": 18.4
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:41.772212",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 25.32,
+      "joint_angles": {
+        "left_knee": 178.3,
+        "right_knee": 178.6,
+        "left_hip": 178.0,
+        "right_hip": 175.9,
+        "left_elbow": 169.1,
+        "right_elbow": 168.6,
+        "left_shoulder": 16.8,
+        "right_shoulder": 16.5
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:41.946455",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 25.5,
+      "joint_angles": {
+        "left_knee": 178.3,
+        "right_knee": 178.7,
+        "left_hip": 178.2,
+        "right_hip": 175.8,
+        "left_elbow": 167.8,
+        "right_elbow": 169.4,
+        "left_shoulder": 16.7,
+        "right_shoulder": 15.9
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:42.066731",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 25.62,
+      "joint_angles": {
+        "left_knee": 178.4,
+        "right_knee": 178.5,
+        "left_hip": 178.1,
+        "right_hip": 175.7,
+        "left_elbow": 167.8,
+        "right_elbow": 169.6,
+        "left_shoulder": 16.6,
+        "right_shoulder": 15.8
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:42.188865",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 25.74,
+      "joint_angles": {
+        "left_knee": 178.4,
+        "right_knee": 178.5,
+        "left_hip": 178.2,
+        "right_hip": 175.7,
+        "left_elbow": 167.9,
+        "right_elbow": 170.8,
+        "left_shoulder": 16.3,
+        "right_shoulder": 15.1
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:42.321765",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 25.87,
+      "joint_angles": {
+        "left_knee": 178.4,
+        "right_knee": 178.6,
+        "left_hip": 178.2,
+        "right_hip": 175.7,
+        "left_elbow": 168.6,
+        "right_elbow": 171.3,
+        "left_shoulder": 16.2,
+        "right_shoulder": 14.9
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:42.559207",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 26.11,
+      "joint_angles": {
+        "left_knee": 178.6,
+        "right_knee": 179.1,
+        "left_hip": 177.7,
+        "right_hip": 176.4,
+        "left_elbow": 169.2,
+        "right_elbow": 171.7,
+        "left_shoulder": 16.1,
+        "right_shoulder": 15.0
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:42.704758",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 26.26,
+      "joint_angles": {
+        "left_knee": 178.5,
+        "right_knee": 179.5,
+        "left_hip": 177.7,
+        "right_hip": 176.3,
+        "left_elbow": 170.1,
+        "right_elbow": 172.1,
+        "left_shoulder": 15.5,
+        "right_shoulder": 14.5
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:42.816007",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 26.37,
+      "joint_angles": {
+        "left_knee": 178.5,
+        "right_knee": 179.4,
+        "left_hip": 177.8,
+        "right_hip": 176.2,
+        "left_elbow": 170.0,
+        "right_elbow": 172.2,
+        "left_shoulder": 15.5,
+        "right_shoulder": 14.3
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:42.961442",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 26.51,
+      "joint_angles": {
+        "left_knee": 178.6,
+        "right_knee": 179.1,
+        "left_hip": 177.9,
+        "right_hip": 176.0,
+        "left_elbow": 167.1,
+        "right_elbow": 172.0,
+        "left_shoulder": 15.3,
+        "right_shoulder": 13.5
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:43.099304",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 26.65,
+      "joint_angles": {
+        "left_knee": 178.6,
+        "right_knee": 179.2,
+        "left_hip": 177.9,
+        "right_hip": 176.0,
+        "left_elbow": 167.8,
+        "right_elbow": 172.0,
+        "left_shoulder": 15.4,
+        "right_shoulder": 13.5
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:43.227573",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 26.78,
+      "joint_angles": {
+        "left_knee": 178.6,
+        "right_knee": 179.2,
+        "left_hip": 177.8,
+        "right_hip": 176.2,
+        "left_elbow": 168.5,
+        "right_elbow": 171.5,
+        "left_shoulder": 15.5,
+        "right_shoulder": 13.3
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:43.356299",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 26.91,
+      "joint_angles": {
+        "left_knee": 178.6,
+        "right_knee": 179.0,
+        "left_hip": 177.8,
+        "right_hip": 176.0,
+        "left_elbow": 168.2,
+        "right_elbow": 172.6,
+        "left_shoulder": 15.4,
+        "right_shoulder": 13.5
+      }
+    },
+    {
+      "timestamp": "2026-02-25T04:54:43.488451",
+      "session_id": "session_20260225_045416",
+      "exercise_type": "Standing",
+      "confidence": 0.7,
+      "bpm": 120,
+      "fatigue_zone": "Normal",
+      "rep_count": 0,
+      "duration_seconds": 27.04,
+      "joint_angles": {
+        "left_knee": 178.6,
+        "right_knee": 178.8,
+        "left_hip": 177.8,
+        "right_hip": 175.9,
+        "left_elbow": 168.4,
+        "right_elbow": 172.6,
+        "left_shoulder": 15.8,
+        "right_shoulder": 14.8
+      }
+    }
+  ],
+  "summary": {
+    "session_id": "session_20260225_045416",
+    "start_time": "2026-02-25T04:54:16.447485",
+    "end_time": "2026-02-25T04:54:43.527063",
+    "total_duration_seconds": 27.08,
+    "exercises_detected": [
+      "Standing"
+    ],
+    "exercise_frame_counts": {
+      "Standing": 231
+    },
+    "max_reps_per_exercise": {
+      "Standing": 0
+    },
+    "fatigue_zone_distribution": {
+      "Normal": 231
+    },
+    "fatigue_zone_pct": {
+      "Normal": 100.0
+    },
+    "avg_bpm": 120.0,
+    "max_bpm": 120,
+    "min_bpm": 120,
+    "total_frames": 231
+  }
+}
