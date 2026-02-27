@@ -285,13 +285,35 @@ class ExerciseDetector:
 
         self._mp_pose = mp.solutions.pose
         self._mp_draw = mp.solutions.drawing_utils
-        self._mp_draw_styles = mp.solutions.drawing_styles
 
         self.pose = self._mp_pose.Pose(
             model_complexity=1,
             min_detection_confidence=min_detection_confidence,
             min_tracking_confidence=min_tracking_confidence,
         )
+
+        # ── Body-only drawing specs (exclude face landmarks 0-10) ──────────
+        # Indices 0-10: nose, eyes, ears, mouth — skip all of them.
+        # Body landmarks start at 11 (LEFT_SHOULDER).
+        _FACE_IDX = set(range(11))
+        _DrawSpec  = mp.solutions.drawing_utils.DrawingSpec
+
+        # Connections: keep only segments where both endpoints are body joints
+        self._body_connections = frozenset(
+            (s, e) for s, e in self._mp_pose.POSE_CONNECTIONS
+            if s not in _FACE_IDX and e not in _FACE_IDX
+        )
+
+        # Landmark dots: invisible for face, green dot for body
+        _visible   = _DrawSpec(color=(0, 255, 0),   thickness=2, circle_radius=4)
+        _invisible = _DrawSpec(color=(0, 0, 0),     thickness=0, circle_radius=0)
+        self._landmark_spec: dict[int, mp.solutions.drawing_utils.DrawingSpec] = {
+            i: (_invisible if i in _FACE_IDX else _visible)
+            for i in range(33)
+        }
+
+        # Connection lines: white body skeleton
+        self._connection_spec = _DrawSpec(color=(200, 200, 200), thickness=2)
 
         # Per-exercise rep counters (shared across instances)
         self._counters: dict[str, RepCounter] = {
@@ -342,8 +364,9 @@ class ExerciseDetector:
             self._mp_draw.draw_landmarks(
                 annotated,
                 results.pose_landmarks,
-                self._mp_pose.POSE_CONNECTIONS,
-                landmark_drawing_spec=self._mp_draw_styles.get_default_pose_landmarks_style(),
+                self._body_connections,
+                landmark_drawing_spec=self._landmark_spec,
+                connection_drawing_spec=self._connection_spec,
             )
 
             self.joint_angles = self._compute_angles()
