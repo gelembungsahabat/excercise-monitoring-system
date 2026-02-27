@@ -1,6 +1,6 @@
 # Exercise Monitoring System
 
-Real-time exercise tracking and heart-rate zone classification built with **MediaPipe Pose**, **scikit-learn**, **OpenCV**, **Streamlit**, and **Bluetooth LE** (Polar H10 / any standard BLE HR monitor).
+Real-time exercise tracking and heart-rate zone classification built with **MediaPipe Pose**, **scikit-learn**, **OpenCV**, **React + TypeScript**, and **Bluetooth LE** (Polar H10 / any standard BLE HR monitor).
 
 ---
 
@@ -13,7 +13,7 @@ Exercise Monitoring System watches you exercise through your webcam and simultan
 3. **Reads your heart rate live** from a Polar H10 (or any Bluetooth LE HR monitor) via the standard BLE Heart Rate Service — no manual input needed.
 4. **Predicts your fatigue zone** (Normal / Aerobic / Anaerobic / Maximum / Recovery) from the live BPM using a Random Forest classifier trained on real workout data.
 5. **Records every frame** of the session — exercise type, rep count, BPM, fatigue zone, joint angles, and timestamps — and saves it all as a structured JSON file.
-6. **Visualises your sessions** in an interactive Streamlit dashboard with charts for exercise distribution, fatigue zones, heart rate over time, and rep counts.
+6. **Visualises your sessions** in a React + TypeScript SPA dashboard (served by a FastAPI backend) with charts for exercise distribution, fatigue zones, heart rate over time, and rep counts.
 
 ---
 
@@ -28,7 +28,17 @@ excercise-monitoring-system/
 │   ├── session_recorder.py   ← Frame logger + JSON export
 │   └── ble_hr_monitor.py     ← Bluetooth LE heart rate monitor (Polar H10)
 ├── dashboard/
-│   └── app.py                ← Streamlit session dashboard
+│   ├── api.py                ← FastAPI backend (serves session data + SPA)
+│   └── frontend/             ← React + TypeScript + Vite SPA
+│       ├── src/
+│       │   ├── App.tsx       ← Root component + state
+│       │   ├── api.ts        ← API client
+│       │   ├── types.ts      ← TypeScript interfaces
+│       │   ├── styles/main.css  ← Full CSS design system
+│       │   ├── components/   ← Sidebar, Header, charts, table
+│       │   └── hooks/        ← useAutoRefresh
+│       ├── package.json
+│       └── vite.config.ts
 ├── scripts/
 │   └── train_model.py        ← Retrain the HR classifier
 ├── data/
@@ -166,58 +176,93 @@ The webcam loop runs at up to 30 FPS and:
 | Maximum   | Red        |
 | Recovery  | Light blue |
 
-### 6. Streamlit Dashboard (`dashboard/app.py`)
+### 6. React Dashboard (`dashboard/`)
 
-A browser-based dashboard that reads all `session_*.json` files from `data/sessions/`. Select any session from the sidebar dropdown to see:
+A **React + TypeScript SPA** built with Vite and served by a **FastAPI** backend.  Styled with a pure-CSS design system (TailAdmin-inspired, no Tailwind) using CSS custom properties for easy theming.
 
-- **KPI cards** — total workout duration, avg BPM, max BPM, total reps, frame count
-- **Exercise bar chart** — how many frames were spent on each exercise
-- **Fatigue zone pie chart** — proportion of time in each zone
-- **BPM line chart** — heart rate colour-coded by zone over session time
-- **Reps table** — max reps achieved per exercise
-- **CSV export** — download the session summary with one click
+**Backend** (`dashboard/api.py`):
+- `GET /api/sessions` — list all sessions (lightweight metadata, no frames)
+- `GET /api/sessions/{id}` — full session JSON including all frames
+- `GET /api/sessions/{id}/summary` — summary only for live polling
+- Serves the built React app as static files in production
 
-Enable **Auto-refresh (5 s)** in the sidebar to watch the dashboard update live while a session is recording.
+**Frontend** (`dashboard/frontend/`):
+
+| Feature | Details |
+| ------- | ------- |
+| Session sidebar | Newest-first list, click to load |
+| 5 KPI metric cards | Duration · Avg BPM · Max BPM · Total Reps · Frames |
+| Exercise bar chart | Horizontal bars, frame count per exercise (Recharts) |
+| Fatigue zone donut | Colour-coded by zone (Recharts) |
+| BPM timeline | Line chart with zone threshold reference lines (Recharts) |
+| Reps table | Sorted by max reps, monospace values |
+| CSV export | Client-side blob download, no server round-trip |
+| Auto-refresh | Polls API every 5 s when enabled (live session tracking) |
+
+**CSS design system** (`src/styles/main.css`):
+- All design tokens as CSS custom properties (`--accent`, `--zone-*`, `--sp-*`, etc.)
+- BEM-like class naming, organised into 15 labelled sections
+- Dark sidebar (`#1c2434`), light content area (`#f1f5f9`), white cards
+- Responsive grid: 5-col metrics → 3-col → 2-col → 1-col at breakpoints
 
 ---
 
 ## Quick Start
 
 ```bash
-# Install dependencies (includes bleak for BLE)
+# 1. Install Python dependencies
 pip install -r requirements.txt
 
-# Train the HR classifier (only needed once)
-python scripts/train_model.py
+# 2. Install frontend dependencies (one-time)
+cd dashboard/frontend && npm install && cd ../..
 
-# ── Option A: run without BLE (manual BPM via keyboard) ───────────────────
+# 3. Train the HR classifier (one-time)
+python scripts/train_model.py
+```
+
+### Run the tracker
+
+```bash
+# Without BLE (manual BPM via keyboard)
 python src/main.py
 
-# ── Option B: run with Polar H10 / BLE HR monitor ─────────────────────────
-
-# Step 1 – find your device address (one-time)
+# With Polar H10 – scan for address first (one-time)
 python src/ble_hr_monitor.py
-
-# Step 2a – connect by name (scans for ~6 s on start)
+# Then connect by name:
 python src/main.py --ble
-
-# Step 2b – connect directly by address (instant, no scan delay)
+# Or directly by address (instant):
 python src/main.py --ble --ble-address "A0:9E:1A:XX:XX:XX"
+```
 
-# Scan-only helper (lists nearby BLE HR devices and exits)
-python src/main.py --ble-scan
+### Run the dashboard
 
-# Open the dashboard in another terminal
-streamlit run dashboard/app.py
+**Development** (hot-reload, Vite proxies `/api` to FastAPI):
+
+```bash
+# Terminal 1 – API server
+python dashboard/api.py
+
+# Terminal 2 – Vite dev server
+cd dashboard/frontend && npm run dev
+# Open http://localhost:5173
+```
+
+**Production** (single server):
+
+```bash
+cd dashboard/frontend && npm run build && cd ../..
+python dashboard/api.py
+# Open http://localhost:8000
 ```
 
 ---
 
 ## Requirements
 
-- Python 3.9+
-- Webcam
-- Bluetooth adapter (for BLE HR monitor integration)
-- `mediapipe`, `opencv-python`, `scikit-learn`, `numpy`, `pandas`, `joblib`, `streamlit`, `plotly`, `bleak`
+**Python** (3.9+): `mediapipe`, `opencv-python`, `scikit-learn`, `numpy`, `pandas`, `joblib`, `fastapi`, `uvicorn`, `bleak`
 
-See [requirements.txt](requirements.txt) and the full technical docs in [docs/README.md](docs/README.md).
+**Node.js** (18+): `react`, `react-dom`, `recharts`, `vite`, `typescript`
+
+**Hardware**: Webcam · Bluetooth adapter (for BLE HR monitor)
+
+See [requirements.txt](requirements.txt) for Python deps and [dashboard/frontend/package.json](dashboard/frontend/package.json) for Node deps.
