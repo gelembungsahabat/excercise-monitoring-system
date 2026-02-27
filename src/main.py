@@ -5,13 +5,28 @@ OpenCV webcam loop that integrates:
     • ExerciseDetector  (MediaPipe pose + rep counting)
     • HRClassifier      (fatigue-zone prediction from BPM)
     • SessionRecorder   (frame-level logging + JSON export)
+    • BLEHRMonitor      (optional – real-time BPM from Polar H10 or any
+                         BLE heart rate monitor via standard HR Service)
 
 Keyboard controls
 -----------------
-    b         : Enter BPM input mode  (type digits, Enter to confirm, Esc to cancel)
+    b         : Override BPM manually  (type digits → Enter, Esc to cancel)
+                In BLE mode this forces a one-time override until the next
+                BLE reading arrives.
     s         : Save session manually (session continues)
     r         : Reset rep counters
     q / Esc   : Quit and auto-save the session
+
+BLE quick-start
+---------------
+    # 1. Find your device address first (one-time):
+    python src/ble_hr_monitor.py
+
+    # 2. Run with BLE enabled (name-based scan):
+    python src/main.py --ble
+
+    # 3. Or supply the address directly for instant connection:
+    python src/main.py --ble --ble-address "A0:9E:1A:XX:XX:XX"
 """
 
 from __future__ import annotations
@@ -35,6 +50,13 @@ from src.exercise_detector import ExerciseDetector
 from src.hr_classifier import HRClassifier, ZONE_COLORS
 from src.session_recorder import SessionRecorder
 
+try:
+    from src.ble_hr_monitor import BLEHRMonitor, BLEState
+    _BLE_AVAILABLE = True
+except ImportError:
+    _BLE_AVAILABLE = False
+    BLEHRMonitor = None  # type: ignore[assignment,misc]
+
 # ── Logging ────────────────────────────────────────────────────────────────
 logging.basicConfig(
     level=logging.INFO,
@@ -56,6 +78,11 @@ WHITE   = (255, 255, 255)
 BLACK   = (0,   0,   0)
 GREY    = (80,  80,  80)
 YELLOW  = (0,   220, 220)
+
+# BLE status indicator colours (BGR)
+BLE_CONNECTED_COLOR    = (80,  220, 80)   # green
+BLE_SCANNING_COLOR     = (0,   200, 230)  # yellow
+BLE_DISCONNECTED_COLOR = (100, 100, 100)  # grey
 
 
 # ── Overlay helpers ───────────────────────────────────────────────────────
@@ -84,6 +111,15 @@ def _put_text_with_bg(
     cv2.putText(img, text, (x, y), FONT, font_scale, color, thickness, cv2.LINE_AA)
 
 
+def _ble_indicator_color(ble_state: str) -> tuple[int, int, int]:
+    """Return BGR colour for the BLE status pill."""
+    if ble_state == BLEState.CONNECTED if _BLE_AVAILABLE else "connected":
+        return BLE_CONNECTED_COLOR
+    if ble_state in ("scanning", "connecting"):
+        return BLE_SCANNING_COLOR
+    return BLE_DISCONNECTED_COLOR
+
+
 def _draw_info_panel(
     frame: np.ndarray,
     exercise: str,
@@ -94,13 +130,24 @@ def _draw_info_panel(
     elapsed: float,
     bpm_input_mode: bool,
     bpm_buffer: str,
+    ble_state: str = "disabled",
+    ble_battery: Optional[int] = None,
 ) -> None:
-    """Render the heads-up display overlay on *frame* (in-place)."""
+    """
+    Render the heads-up display overlay on *frame* (in-place).
+
+    Parameters
+    ----------
+    ble_state : str
+        One of BLEState constants or "disabled".
+    ble_battery : int | None
+        Device battery percentage, shown when connected.
+    """
     h, w = frame.shape[:2]
     zone_color = ZONE_COLORS.get(zone, (180, 180, 180))
 
     # ── Semi-transparent top banner ────────────────────────────────────────
-    banner_h = 100
+    banner_h = 105
     overlay = frame.copy()
     cv2.rectangle(overlay, (0, 0), (w, banner_h), (20, 20, 20), cv2.FILLED)
     cv2.addWeighted(overlay, OVERLAY_ALPHA, frame, 1 - OVERLAY_ALPHA, 0, frame)
@@ -111,10 +158,32 @@ def _draw_info_panel(
     _put_text_with_bg(frame, ex_text,   (12, 32),  WHITE, 0.85, FONT_BOLD, bg_color=None)
     _put_text_with_bg(frame, conf_text, (12, 60),  GREY,  0.6,  FONT_THIN, bg_color=None)
 
-    # Timer (top-right)
+    # ── BLE status pill (top-right) ────────────────────────────────────────
+    if ble_state != "disabled":
+        ble_color = _ble_indicator_color(ble_state)
+
+        if ble_state == "connected":
+            bat_str   = f" | BAT {ble_battery}%" if ble_battery is not None else ""
+            ble_label = f"BLE  CONNECTED{bat_str}"
+        elif ble_state in ("scanning", "connecting"):
+            ble_label = f"BLE  {ble_state.upper()}..."
+        else:
+            ble_label = "BLE  OFFLINE"
+
+        (bw, bh), _ = cv2.getTextSize(ble_label, FONT, 0.52, FONT_THIN)
+        bx = w - bw - 24
+        # draw filled pill background
+        cv2.rectangle(frame, (bx - 8, 10), (w - 8, bh + 22), (30, 30, 30), cv2.FILLED)
+        cv2.rectangle(frame, (bx - 8, 10), (w - 8, bh + 22), ble_color, 1)
+        # coloured dot
+        cv2.circle(frame, (bx - 0, 10 + bh // 2 + 6), 5, ble_color, cv2.FILLED)
+        _put_text_with_bg(frame, ble_label, (bx + 10, bh + 16), ble_color, 0.52, FONT_THIN, bg_color=None)
+
+    # Timer (below BLE pill on top-right)
     mins, secs = divmod(int(elapsed), 60)
     timer_text = f"{mins:02d}:{secs:02d}"
-    _put_text_with_bg(frame, timer_text, (w - 110, 42), YELLOW, 0.9, FONT_BOLD, bg_color=None)
+    ty = 80 if ble_state != "disabled" else 42
+    _put_text_with_bg(frame, timer_text, (w - 110, ty), YELLOW, 0.9, FONT_BOLD, bg_color=None)
 
     # ── Semi-transparent bottom panel ─────────────────────────────────────
     panel_h = 90
@@ -129,9 +198,16 @@ def _draw_info_panel(
     zone_text = f"Zone: {zone}"
     _put_text_with_bg(frame, zone_text, (18, h - 60), zone_color, 0.75, FONT_BOLD, bg_color=None)
 
-    # BPM
-    bpm_display = f"BPM input: {bpm_buffer}_" if bpm_input_mode else f"BPM: {bpm}"
-    bpm_color   = YELLOW if bpm_input_mode else WHITE
+    # BPM – label changes based on source
+    if bpm_input_mode:
+        bpm_display = f"BPM override: {bpm_buffer}_"
+        bpm_color   = YELLOW
+    elif ble_state == "connected":
+        bpm_display = f"BPM: {bpm}  [BLE]"
+        bpm_color   = BLE_CONNECTED_COLOR
+    else:
+        bpm_display = f"BPM: {bpm}  [MAN]"
+        bpm_color   = WHITE
     _put_text_with_bg(frame, bpm_display, (18, h - 30), bpm_color, 0.7, FONT_THIN, bg_color=None)
 
     # Reps (right side)
@@ -139,7 +215,7 @@ def _draw_info_panel(
     _put_text_with_bg(frame, rep_text, (w - 150, h - 40), WHITE, 1.0, FONT_BOLD, bg_color=None)
 
     # ── Keybinding hint bar ────────────────────────────────────────────────
-    hints = "[B] BPM   [S] Save   [R] Reset   [Q] Quit"
+    hints = "[B] BPM override   [S] Save   [R] Reset   [Q] Quit"
     _put_text_with_bg(
         frame, hints,
         (12, h - panel_h + 18),
@@ -152,7 +228,7 @@ def _draw_info_panel(
 class FitTrackApp:
     """
     Orchestrates the webcam loop with exercise detection, HR zone
-    classification, and session recording.
+    classification, session recording, and optional BLE heart-rate input.
 
     Parameters
     ----------
@@ -160,12 +236,21 @@ class FitTrackApp:
         OpenCV camera device index (0 = default webcam).
     window_name : str
         Title of the OpenCV display window.
+    ble_device_name : str | None
+        If set, enables BLE HR monitoring.  Used for advertisement-name
+        scanning when ``ble_address`` is not provided.
+        Example: ``"Polar H10"``
+    ble_address : str | None
+        BLE device MAC (Linux/Windows) or UUID (macOS).  Skips scanning
+        and connects directly.
     """
 
     def __init__(
         self,
         camera_index: int = 0,
         window_name: str = "FitTrack AI",
+        ble_device_name: Optional[str] = None,
+        ble_address: Optional[str] = None,
     ) -> None:
         self.camera_index = camera_index
         self.window_name  = window_name
@@ -181,7 +266,26 @@ class FitTrackApp:
         self.detector  = ExerciseDetector()
         self.recorder  = SessionRecorder()
 
-        # State
+        # ── BLE monitor (optional) ─────────────────────────────────────────
+        self.ble: Optional["BLEHRMonitor"] = None
+        if ble_device_name or ble_address:
+            if not _BLE_AVAILABLE:
+                logger.error(
+                    "BLE requested but 'bleak' is not installed.\n"
+                    "Run:  pip install bleak"
+                )
+            else:
+                self.ble = BLEHRMonitor(
+                    device_name=ble_device_name or "Polar H10",
+                    device_address=ble_address,
+                )
+                self.ble.start()
+                logger.info(
+                    "BLE monitor started – waiting for '%s' …",
+                    ble_device_name or ble_address,
+                )
+
+        # ── State ──────────────────────────────────────────────────────────
         self._bpm:            int  = DEFAULT_BPM
         self._bpm_input_mode: bool = False
         self._bpm_buffer:     str  = ""
@@ -228,12 +332,22 @@ class FitTrackApp:
                     logger.warning("Frame capture failed – retrying …")
                     continue
 
+                # ── Pull BPM from BLE (if connected and not in manual override)
+                ble_state   = "disabled"
+                ble_battery = None
+                if self.ble is not None:
+                    ble_state   = self.ble.status
+                    ble_battery = self.ble.battery_level
+                    if self.ble.is_connected and not self._bpm_input_mode:
+                        live_bpm = self.ble.bpm
+                        if live_bpm > 0:
+                            self._bpm = live_bpm
+
                 # ── Pose detection ──────────────────────────────────────
                 annotated, exercise, confidence, reps = self.detector.process_frame(frame)
 
                 # ── HR zone prediction ──────────────────────────────────
-                zone  = self.classifier.predict(self._bpm)
-                color = self.classifier.get_zone_color(zone)
+                zone = self.classifier.predict(self._bpm)
 
                 # ── Record frame ────────────────────────────────────────
                 self.recorder.record_frame(
@@ -256,6 +370,8 @@ class FitTrackApp:
                     elapsed=self.recorder.elapsed_seconds(),
                     bpm_input_mode=self._bpm_input_mode,
                     bpm_buffer=self._bpm_buffer,
+                    ble_state=ble_state,
+                    ble_battery=ble_battery,
                 )
 
                 cv2.imshow(self.window_name, annotated)
@@ -325,6 +441,8 @@ class FitTrackApp:
                 summary.get("total_duration_seconds", 0),
                 summary.get("total_frames", 0),
             )
+        if self.ble is not None:
+            self.ble.stop()
         self.detector.close()
         cap.release()
         cv2.destroyAllWindows()
@@ -337,18 +455,73 @@ def main() -> None:
     """Parse CLI arguments and launch the app."""
     import argparse
 
-    parser = argparse.ArgumentParser(description="FitTrack AI – Real-time exercise tracker")
+    parser = argparse.ArgumentParser(
+        description="FitTrack AI – Real-time exercise tracker",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
     parser.add_argument(
         "--camera", type=int, default=0,
-        help="Camera device index (default: 0)",
+        help="Camera device index",
     )
     parser.add_argument(
         "--train", action="store_true",
         help="Force re-training the HR classifier before starting",
     )
+
+    # ── BLE options ──────────────────────────────────────────────────────
+    ble_group = parser.add_argument_group("BLE heart rate monitor")
+    ble_group.add_argument(
+        "--ble", action="store_true",
+        help="Enable BLE heart rate monitor (Polar H10 or any standard HR device)",
+    )
+    ble_group.add_argument(
+        "--ble-name", type=str, default="Polar H10",
+        metavar="NAME",
+        help="Advertised device name substring to search for during BLE scan",
+    )
+    ble_group.add_argument(
+        "--ble-address", type=str, default=None,
+        metavar="ADDRESS",
+        help=(
+            "BLE device MAC address (Linux/Windows) or UUID (macOS). "
+            "Skips scanning and connects directly. "
+            "Find your device address with:  python src/ble_hr_monitor.py"
+        ),
+    )
+    ble_group.add_argument(
+        "--ble-scan", action="store_true",
+        help="Scan for nearby BLE heart rate devices and exit (does not start the app)",
+    )
+
     args = parser.parse_args()
 
-    app = FitTrackApp(camera_index=args.camera)
+    # ── BLE scan-only mode ────────────────────────────────────────────────
+    if args.ble_scan:
+        if not _BLE_AVAILABLE:
+            print("ERROR: bleak is not installed.  Run: pip install bleak")
+            return
+        print("Scanning for BLE heart rate devices (8 s) …\n")
+        found = BLEHRMonitor.scan(timeout=8.0)
+        if found:
+            print(f"Found {len(found)} device(s):\n")
+            for d in found:
+                print(f"  Name   : {d['name']}")
+                print(f"  Address: {d['address']}\n")
+            print("Tip: pass the address with --ble-address for instant connection.")
+        else:
+            print("No BLE HR devices found.  Make sure Bluetooth is on and the "
+                  "Polar H10 is worn and powered on.")
+        return
+
+    # ── Build and run the app ─────────────────────────────────────────────
+    ble_name    = args.ble_name    if (args.ble or args.ble_address) else None
+    ble_address = args.ble_address if (args.ble or args.ble_address) else None
+
+    app = FitTrackApp(
+        camera_index=args.camera,
+        ble_device_name=ble_name,
+        ble_address=ble_address,
+    )
 
     if args.train:
         logger.info("Force re-training the HR classifier …")

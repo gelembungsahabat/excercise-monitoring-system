@@ -1,6 +1,6 @@
 # Exercise Monitoring System
 
-Real-time exercise tracking and heart-rate zone classification built with **MediaPipe Pose**, **scikit-learn**, **OpenCV**, and **Streamlit**.
+Real-time exercise tracking and heart-rate zone classification built with **MediaPipe Pose**, **scikit-learn**, **OpenCV**, **Streamlit**, and **Bluetooth LE** (Polar H10 / any standard BLE HR monitor).
 
 ---
 
@@ -10,9 +10,10 @@ Exercise Monitoring System watches you exercise through your webcam and simultan
 
 1. **Identifies which exercise you are doing** (Squat, Push-Up, Bicep Curl, Shoulder Press, Jumping Jack, Running, or Standing) by analysing the angles of your joints in real time.
 2. **Counts your repetitions** automatically using a state machine that tracks the up/down cycle of each movement.
-3. **Predicts your fatigue zone** (Normal / Aerobic / Anaerobic / Maximum / Recovery) from your current heart rate using a Random Forest classifier trained on real workout data.
-4. **Records every frame** of the session — exercise type, rep count, BPM, fatigue zone, joint angles, and timestamps — and saves it all as a structured JSON file.
-5. **Visualises your sessions** in an interactive Streamlit dashboard with charts for exercise distribution, fatigue zones, heart rate over time, and rep counts.
+3. **Reads your heart rate live** from a Polar H10 (or any Bluetooth LE HR monitor) via the standard BLE Heart Rate Service — no manual input needed.
+4. **Predicts your fatigue zone** (Normal / Aerobic / Anaerobic / Maximum / Recovery) from the live BPM using a Random Forest classifier trained on real workout data.
+5. **Records every frame** of the session — exercise type, rep count, BPM, fatigue zone, joint angles, and timestamps — and saves it all as a structured JSON file.
+6. **Visualises your sessions** in an interactive Streamlit dashboard with charts for exercise distribution, fatigue zones, heart rate over time, and rep counts.
 
 ---
 
@@ -24,7 +25,8 @@ excercise-monitoring-system/
 │   ├── main.py               ← Live webcam app (start here)
 │   ├── exercise_detector.py  ← MediaPipe pose + joint angles + rep counter
 │   ├── hr_classifier.py      ← Random Forest: BPM → fatigue zone
-│   └── session_recorder.py   ← Frame logger + JSON export
+│   ├── session_recorder.py   ← Frame logger + JSON export
+│   └── ble_hr_monitor.py     ← Bluetooth LE heart rate monitor (Polar H10)
 ├── dashboard/
 │   └── app.py                ← Streamlit session dashboard
 ├── scripts/
@@ -104,23 +106,55 @@ When you press `s` to save (or `q` to quit), the recorder:
 - Calculates a **session summary**: total duration, exercise frame counts, max reps per exercise, fatigue zone distribution, avg/min/max BPM.
 - Writes a single JSON file to `data/sessions/session_YYYYMMDD_HHMMSS.json`.
 
-### 4. Main App (`src/main.py`)
+### 4. BLE Heart Rate Monitor (`src/ble_hr_monitor.py`)
+
+Connects to a Polar H10 (or any Bluetooth LE device that implements the standard **Heart Rate Service, UUID 0x180D**) and streams real-time BPM data to the main app.
+
+**How it works:**
+
+- Uses the [`bleak`](https://github.com/hbldh/bleak) library — a cross-platform async BLE client.
+- The BLE asyncio event loop runs in a **background daemon thread** so the OpenCV main loop is never blocked.
+- Parses the **Heart Rate Measurement characteristic (UUID 0x2A37)** to extract BPM and RR-intervals.
+- Also reads the **Battery Level characteristic (UUID 0x2A19)** and shows it in the HUD.
+- **Auto-reconnects** if the strap disconnects — no manual restart needed.
+- All shared state (BPM, status, battery) is protected by a `threading.Lock`.
+
+**Connection states shown in the HUD:**
+
+| State        | Indicator colour | HUD text              |
+| ------------ | ---------------- | --------------------- |
+| Connected    | Green            | `BLE  CONNECTED`      |
+| Scanning     | Yellow           | `BLE  SCANNING...`    |
+| Connecting   | Yellow           | `BLE  CONNECTING...`  |
+| Offline      | Grey             | `BLE  OFFLINE`        |
+
+**BPM source label** in the bottom panel:
+
+| Source          | Label        | Colour |
+| --------------- | ------------ | ------ |
+| BLE (live)      | `BPM: 142 [BLE]` | Green  |
+| Manual override | `BPM: 120 [MAN]` | White  |
+
+### 5. Main App (`src/main.py`)
 
 The webcam loop runs at up to 30 FPS and:
 
+- Pulls live BPM from the BLE monitor each frame (when connected).
 - Feeds each frame through the exercise detector (pose → angles → exercise + reps).
 - Predicts the fatigue zone from the current BPM via the HR classifier.
 - Records the frame data.
-- Draws a heads-up display on the video with colour-coded fatigue zone, exercise name, rep count, and session timer.
+- Draws a heads-up display on the video with colour-coded fatigue zone, exercise name, rep count, BLE status pill, and session timer.
 
 **Keyboard controls:**
 
-| Key       | Action                                          |
-| --------- | ----------------------------------------------- |
-| `b`       | Enter BPM — type digits, press Enter to confirm |
-| `s`       | Save session snapshot (recording continues)     |
-| `r`       | Reset all rep counters                          |
-| `q` / Esc | Quit and auto-save the session                  |
+| Key       | Action                                                             |
+| --------- | ------------------------------------------------------------------ |
+| `b`       | Override BPM manually — type digits, press Enter to confirm        |
+| `s`       | Save session snapshot (recording continues)                        |
+| `r`       | Reset all rep counters                                             |
+| `q` / Esc | Quit and auto-save the session                                     |
+
+> In BLE mode, pressing `b` sets a manual override. The BLE reading takes over again as soon as the next notification arrives.
 
 **Fatigue zone colour coding:**
 
@@ -132,7 +166,7 @@ The webcam loop runs at up to 30 FPS and:
 | Maximum   | Red        |
 | Recovery  | Light blue |
 
-### 5. Streamlit Dashboard (`dashboard/app.py`)
+### 6. Streamlit Dashboard (`dashboard/app.py`)
 
 A browser-based dashboard that reads all `session_*.json` files from `data/sessions/`. Select any session from the sidebar dropdown to see:
 
@@ -150,15 +184,28 @@ Enable **Auto-refresh (5 s)** in the sidebar to watch the dashboard update live 
 ## Quick Start
 
 ```bash
-
-# Install dependencies
+# Install dependencies (includes bleak for BLE)
 pip install -r requirements.txt
 
 # Train the HR classifier (only needed once)
 python scripts/train_model.py
 
-# Start the live tracking app
+# ── Option A: run without BLE (manual BPM via keyboard) ───────────────────
 python src/main.py
+
+# ── Option B: run with Polar H10 / BLE HR monitor ─────────────────────────
+
+# Step 1 – find your device address (one-time)
+python src/ble_hr_monitor.py
+
+# Step 2a – connect by name (scans for ~6 s on start)
+python src/main.py --ble
+
+# Step 2b – connect directly by address (instant, no scan delay)
+python src/main.py --ble --ble-address "A0:9E:1A:XX:XX:XX"
+
+# Scan-only helper (lists nearby BLE HR devices and exits)
+python src/main.py --ble-scan
 
 # Open the dashboard in another terminal
 streamlit run dashboard/app.py
@@ -170,6 +217,7 @@ streamlit run dashboard/app.py
 
 - Python 3.9+
 - Webcam
-- `mediapipe`, `opencv-python`, `scikit-learn`, `numpy`, `pandas`, `joblib`, `streamlit`, `plotly`
+- Bluetooth adapter (for BLE HR monitor integration)
+- `mediapipe`, `opencv-python`, `scikit-learn`, `numpy`, `pandas`, `joblib`, `streamlit`, `plotly`, `bleak`
 
 See [requirements.txt](requirements.txt) and the full technical docs in [docs/README.md](docs/README.md).
