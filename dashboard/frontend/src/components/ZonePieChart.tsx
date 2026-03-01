@@ -5,46 +5,32 @@ import {
 import type { ZoneSlice } from '../types'
 import { ZONE_COLORS } from '../types'
 
-interface Props {
-  data: ZoneSlice[]
-}
+interface Props { data: ZoneSlice[] }
 
-interface TooltipPayload {
-  name: string
-  value: number
-  payload: ZoneSlice
-}
+interface TTPayload { name: string; value: number; payload: ZoneSlice }
+interface TTProps { active?: boolean; payload?: TTPayload[] }
 
-interface CustomTooltipProps {
-  active?: boolean
-  payload?: TooltipPayload[]
-}
-
-function CustomTooltip({ active, payload }: CustomTooltipProps) {
+function Tooltip_({ active, payload }: TTProps) {
   if (!active || !payload?.length) return null
   const d = payload[0]
   return (
-    <div className="custom-tooltip">
-      <div className="custom-tooltip__label">{d.name}</div>
-      <div className="custom-tooltip__value">
-        {d.value.toLocaleString()} frames · {d.payload.pct.toFixed(1)}%
-      </div>
+    <div className="chart-tooltip">
+      <div className="chart-tooltip__label">{d.name}</div>
+      <div className="chart-tooltip__value">{d.payload.pct.toFixed(1)}%</div>
+      <div className="chart-tooltip__sub">{d.value.toLocaleString()} frames</div>
     </div>
   )
 }
 
-interface LegendPayload {
-  value: string
-  color?: string
-}
+interface LegendEntry { value: string; color?: string }
 
-function CustomLegend({ payload }: { payload?: LegendPayload[] }) {
+function Legend_({ payload }: { payload?: LegendEntry[] }) {
   if (!payload) return null
   return (
-    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px 16px', justifyContent: 'center', marginTop: 8 }}>
+    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px 14px', justifyContent: 'center', marginTop: 8 }}>
       {payload.map((p) => (
-        <span key={p.value} style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 12, color: '#64748b' }}>
-          <span style={{ width: 10, height: 10, borderRadius: '50%', background: p.color, display: 'inline-block' }} />
+        <span key={p.value} style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 12, color: 'var(--text-sub)' }}>
+          <span style={{ width: 9, height: 9, borderRadius: '50%', background: p.color, display: 'inline-block', flexShrink: 0 }} />
           {p.value}
         </span>
       ))}
@@ -53,38 +39,30 @@ function CustomLegend({ payload }: { payload?: LegendPayload[] }) {
 }
 
 export function ZonePieChart({ data }: Props) {
-  if (data.length === 0) {
-    return (
-      <div className="empty-state">
-        <div className="empty-state__icon">🥧</div>
-        <div className="empty-state__text">No zone data</div>
-      </div>
-    )
-  }
+  if (!data.length) return (
+    <div className="empty" style={{ padding: 'var(--s8)' }}>
+      <div className="empty__icon">🥧</div>
+      <div className="empty__text">No fatigue zone data</div>
+    </div>
+  )
 
   return (
-    <div className="chart-container">
+    <div className="chart-wrap">
       <ResponsiveContainer width="100%" height="100%">
         <PieChart>
           <Pie
-            data={data}
-            dataKey="value"
-            nameKey="name"
-            cx="50%"
-            cy="45%"
-            innerRadius="38%"
-            outerRadius="62%"
+            data={data} dataKey="value" nameKey="name"
+            cx="50%" cy="44%"
+            innerRadius="36%" outerRadius="60%"
             paddingAngle={2}
+            strokeWidth={0}
           >
-            {data.map((entry) => (
-              <Cell
-                key={entry.name}
-                fill={ZONE_COLORS[entry.name] ?? ZONE_COLORS.Unknown}
-              />
+            {data.map((e) => (
+              <Cell key={e.name} fill={ZONE_COLORS[e.name] ?? ZONE_COLORS.Unknown} />
             ))}
           </Pie>
-          <Tooltip content={<CustomTooltip />} />
-          <Legend content={<CustomLegend />} />
+          <Tooltip content={<Tooltip_ />} />
+          <Legend content={<Legend_ />} />
         </PieChart>
       </ResponsiveContainer>
     </div>

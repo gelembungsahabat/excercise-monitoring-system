@@ -8,79 +8,98 @@ interface Props {
   onToggleRefresh: (v: boolean) => void
 }
 
-function formatDate(iso: string): string {
+function fmt(iso: string, opts: Intl.DateTimeFormatOptions): string {
   if (!iso) return '—'
-  const d = new Date(iso)
-  return d.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })
+  return new Date(iso).toLocaleString(undefined, opts)
 }
 
-function formatTime(iso: string): string {
-  if (!iso) return ''
-  const d = new Date(iso)
-  return d.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' })
-}
-
-function formatDuration(secs: number): string {
-  const m = Math.floor(secs / 60)
-  const s = Math.floor(secs % 60)
-  if (m >= 60) {
-    const h = Math.floor(m / 60)
-    return `${h}h ${m % 60}m`
-  }
-  return `${m}m ${s}s`
+function fmtDuration(s: number): string {
+  const m = Math.floor(s / 60)
+  if (m >= 60) return `${Math.floor(m / 60)}h ${m % 60}m`
+  return `${m}m ${Math.floor(s % 60)}s`
 }
 
 export function Sidebar({ sessions, activeId, autoRefresh, onSelect, onToggleRefresh }: Props) {
+  const switchId = 'auto-refresh-switch'
+
   return (
     <aside className="sidebar">
-      <div className="sidebar__logo">
-        <span className="sidebar__logo-icon">💪</span>
-        <span className="sidebar__logo-text">
-          Fit<span>Track</span> AI
-        </span>
+      {/* Logo */}
+      <div className="sidebar-logo">
+        <div className="sidebar-logo__mark">💪</div>
+        <div className="sidebar-logo__wordmark">
+          <div className="sidebar-logo__name">
+            Fit<span>Track</span> AI
+          </div>
+          <div className="sidebar-logo__tagline">Exercise Dashboard</div>
+        </div>
       </div>
 
-      <div className="sidebar__section-label">Sessions</div>
+      {/* Session list */}
+      <div className="sidebar-group">
+        <div className="sidebar-group__label">Sessions</div>
 
-      <div className="sidebar__sessions">
         {sessions.length === 0 ? (
-          <div style={{ padding: '12px', color: 'var(--sidebar-text)', fontSize: 'var(--text-xs)' }}>
-            No sessions found. Record one with the main app.
+          <div style={{ padding: '12px 10px', color: 'var(--sb-text)', fontSize: 'var(--t-xs)', lineHeight: 1.6 }}>
+            No sessions found.<br />Record one using the main app.
           </div>
         ) : (
-          sessions.map((s) => (
-            <div
-              key={s.id}
-              className={`session-item${s.id === activeId ? ' session-item--active' : ''}`}
-              onClick={() => onSelect(s.id)}
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => e.key === 'Enter' && onSelect(s.id)}
-            >
-              <div className="session-item__date">
-                {formatDate(s.start_time)} · {formatTime(s.start_time)}
+          sessions.map((s) => {
+            const active = s.id === activeId
+            return (
+              <div
+                key={s.id}
+                className={`session-item${active ? ' session-item--active' : ''}`}
+                onClick={() => onSelect(s.id)}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => e.key === 'Enter' && onSelect(s.id)}
+                aria-pressed={active}
+              >
+                <div className="session-item__date">
+                  {fmt(s.start_time, { month: 'short', day: 'numeric', year: 'numeric' })}
+                  &nbsp;·&nbsp;
+                  {fmt(s.start_time, { hour: '2-digit', minute: '2-digit' })}
+                </div>
+                <div className="session-item__meta">
+                  {fmtDuration(s.duration_seconds)}
+                  {s.avg_bpm > 0 ? ` · avg ${Math.round(s.avg_bpm)} bpm` : ''}
+                </div>
+                {s.exercises.length > 0 && (
+                  <div className="session-item__pills">
+                    {s.exercises.slice(0, 3).map((ex) => (
+                      <span key={ex} className="session-pill">{ex}</span>
+                    ))}
+                    {s.exercises.length > 3 && (
+                      <span className="session-pill">+{s.exercises.length - 3}</span>
+                    )}
+                  </div>
+                )}
               </div>
-              <div className="session-item__meta">
-                {formatDuration(s.duration_seconds)} · {s.exercises.slice(0, 2).join(', ')}
-                {s.exercises.length > 2 ? ` +${s.exercises.length - 2}` : ''}
-              </div>
-            </div>
-          ))
+            )
+          })
         )}
       </div>
 
-      <div className="sidebar__footer">
-        <label className="toggle sidebar__refresh">
-          <input
-            type="checkbox"
-            className="toggle__input"
-            checked={autoRefresh}
-            onChange={(e) => onToggleRefresh(e.target.checked)}
-          />
-          <span className="toggle__track" />
-          {autoRefresh && <span className="live-dot" style={{ marginLeft: 4 }} />}
-          Auto-refresh (5 s)
-        </label>
+      {/* Footer */}
+      <div className="sidebar-footer">
+        <div className="sidebar-footer__label">Options</div>
+        <div className="toggle-row">
+          <div className="toggle-row__text">
+            {autoRefresh && <span className="live-dot" />}
+            Auto-refresh (5 s)
+          </div>
+          <label className="switch" htmlFor={switchId}>
+            <input
+              id={switchId}
+              type="checkbox"
+              className="switch__input"
+              checked={autoRefresh}
+              onChange={(e) => onToggleRefresh(e.target.checked)}
+            />
+            <span className="switch__track" />
+          </label>
+        </div>
       </div>
     </aside>
   )

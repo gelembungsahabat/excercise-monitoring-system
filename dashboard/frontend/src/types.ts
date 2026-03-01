@@ -87,10 +87,10 @@ export interface RepRow {
 // ── Zone colour map ────────────────────────────────────────────────────────
 
 export const ZONE_COLORS: Record<string, string> = {
-  Normal:    '#00c800',
-  Aerobic:   '#00c8ff',
-  Anaerobic: '#ff8c00',
-  Maximum:   '#ff2020',
-  Recovery:  '#a0a0ff',
-  Unknown:   '#808080',
+  Normal:    '#10b981',
+  Aerobic:   '#06b6d4',
+  Anaerobic: '#f59e0b',
+  Maximum:   '#ef4444',
+  Recovery:  '#8b5cf6',
+  Unknown:   '#94a3b8',
 }

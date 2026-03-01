@@ -1,40 +1,54 @@
 import type { RepRow } from '../types'
 
-interface Props {
-  data: RepRow[]
-}
+interface Props { data: RepRow[] }
 
 export function RepsTable({ data }: Props) {
-  if (data.length === 0) {
-    return (
-      <div className="empty-state" style={{ padding: 'var(--sp-6)' }}>
-        <div className="empty-state__text">No rep data recorded</div>
-      </div>
-    )
-  }
+  // Only show exercises where at least 1 rep was counted
+  const rows = [...data]
+    .filter((r) => r.reps > 0)
+    .sort((a, b) => b.reps - a.reps)
 
-  const sorted = [...data].sort((a, b) => b.reps - a.reps)
+  if (!rows.length) return (
+    <div className="empty" style={{ padding: 'var(--s6)' }}>
+      <div className="empty__icon">🔁</div>
+      <div className="empty__text">No reps counted this session</div>
+    </div>
+  )
+
+  const max = rows[0].reps
 
   return (
-    <table className="data-table">
-      <thead>
-        <tr>
-          <th style={{ width: 36 }}>#</th>
-          <th>Exercise</th>
-          <th style={{ textAlign: 'right' }}>Max Reps</th>
-        </tr>
-      </thead>
-      <tbody>
-        {sorted.map((row, i) => (
-          <tr key={row.exercise}>
-            <td className="data-table__rank">{i + 1}</td>
-            <td>{row.exercise}</td>
-            <td className="data-table__reps" style={{ textAlign: 'right' }}>
-              {row.reps}
-            </td>
+    <div className="table-wrap">
+      <table className="data-table">
+        <thead>
+          <tr>
+            <th style={{ width: 40 }}>#</th>
+            <th>Exercise</th>
+            <th>Progress</th>
+            <th style={{ textAlign: 'right' }}>Reps</th>
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {rows.map((row, i) => (
+            <tr key={row.exercise}>
+              <td className="td-rank">{i + 1}</td>
+              <td className="td-name">{row.exercise}</td>
+              <td style={{ width: '40%' }}>
+                <div style={{ background: 'var(--input-bg)', borderRadius: 'var(--r-full)', height: 6, overflow: 'hidden' }}>
+                  <div style={{
+                    height: '100%',
+                    width: `${(row.reps / max) * 100}%`,
+                    background: 'var(--brand)',
+                    borderRadius: 'var(--r-full)',
+                    transition: 'width 0.4s ease',
+                  }} />
+                </div>
+              </td>
+              <td className="td-value">{row.reps}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   )
 }
