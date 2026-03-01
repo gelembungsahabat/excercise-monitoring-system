@@ -20,6 +20,7 @@ Run with:
 
 from __future__ import annotations
 
+import asyncio
 import json
 import logging
 import os
@@ -29,13 +30,14 @@ from typing import Any
 import uvicorn
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 
 # ── Paths ──────────────────────────────────────────────────────────────────
 _HERE         = Path(__file__).resolve().parent
 _ROOT         = _HERE.parent
 SESSIONS_DIR  = _ROOT / "data" / "sessions"
+LIVE_FILE     = _ROOT / "data" / "live.json"
 FRONTEND_DIST = _HERE / "frontend" / "dist"
 
 # ── Logging ────────────────────────────────────────────────────────────────
@@ -70,6 +72,16 @@ def _session_files() -> list[Path]:
         key=os.path.getmtime,
         reverse=True,
     )
+
+
+def _read_live() -> dict[str, Any]:
+    """Return the current live session state, or {"status": "idle"} if none."""
+    if not LIVE_FILE.exists():
+        return {"status": "idle"}
+    try:
+        return _load_json(LIVE_FILE)
+    except Exception:
+        return {"status": "idle"}
 
 
 def _meta(path: Path, data: dict[str, Any]) -> dict[str, Any]:
@@ -122,6 +134,36 @@ def get_session_summary(session_id: str) -> dict[str, Any]:
         raise HTTPException(status_code=404, detail=f"Session '{session_id}' not found")
     data = _load_json(path)
     return data.get("summary", {})
+
+
+# ── Live session endpoints ─────────────────────────────────────────────────
+
+@app.get("/api/live", summary="Current live session state")
+def get_live() -> dict[str, Any]:
+    """Return the most recent live.json snapshot (polling fallback)."""
+    return _read_live()
+
+
+@app.get("/api/live/stream", summary="SSE stream for live session")
+async def live_stream() -> StreamingResponse:
+    """
+    Server-Sent Events stream that emits the live session state every second.
+    Connect with:  new EventSource('/api/live/stream')
+    """
+    async def generator():
+        while True:
+            data = _read_live()
+            yield f"data: {json.dumps(data)}\n\n"
+            await asyncio.sleep(1.0)
+
+    return StreamingResponse(
+        generator(),
+        media_type="text/event-stream",
+        headers={
+            "Cache-Control": "no-cache",
+            "X-Accel-Buffering": "no",
+        },
+    )
 
 
 # ── Static file serving (production) ──────────────────────────────────────

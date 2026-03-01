@@ -34,6 +34,7 @@ from __future__ import annotations
 import logging
 import sys
 import time
+from collections import deque
 from pathlib import Path
 from typing import Optional
 
@@ -290,6 +291,8 @@ class FitTrackApp:
         self._bpm_input_mode: bool = False
         self._bpm_buffer:     str  = ""
         self._running:        bool = False
+        self._bpm_history:    deque[int] = deque(maxlen=60)
+        self._last_live_write: float = 0.0
 
     # ── Public API ─────────────────────────────────────────────────────────
 
@@ -358,6 +361,19 @@ class FitTrackApp:
                     rep_count=reps,
                     joint_angles=self.detector.get_joint_angles(),
                 )
+
+                # ── Write live state (~1 Hz) ─────────────────────────────
+                self._bpm_history.append(self._bpm)
+                if now - self._last_live_write >= 1.0:
+                    self._last_live_write = now
+                    self.recorder.write_live_state(
+                        exercise=exercise,
+                        confidence=confidence,
+                        bpm=self._bpm,
+                        zone=zone,
+                        reps=reps,
+                        bpm_history=list(self._bpm_history),
+                    )
 
                 # ── Render overlay ──────────────────────────────────────
                 _draw_info_panel(
@@ -441,6 +457,7 @@ class FitTrackApp:
                 summary.get("total_duration_seconds", 0),
                 summary.get("total_frames", 0),
             )
+        SessionRecorder.clear_live_state()
         if self.ble is not None:
             self.ble.stop()
         self.detector.close()

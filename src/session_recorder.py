@@ -41,8 +41,9 @@ from pathlib import Path
 from typing import Any, Optional
 
 # ── Paths ──────────────────────────────────────────────────────────────────
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR     = Path(__file__).resolve().parent.parent
 SESSIONS_DIR = BASE_DIR / "data" / "sessions"
+LIVE_FILE    = BASE_DIR / "data" / "live.json"   # written while recording, cleared on stop
 
 # ── Logging ────────────────────────────────────────────────────────────────
 logger = logging.getLogger(__name__)
@@ -351,6 +352,59 @@ class SessionRecorder:
             return []
         files = sorted(d.glob("session_*.json"), key=os.path.getmtime, reverse=True)
         return list(files)
+
+    def write_live_state(
+        self,
+        exercise: str,
+        confidence: float,
+        bpm: int,
+        zone: str,
+        reps: int,
+        bpm_history: list[int],
+    ) -> None:
+        """
+        Write the current live frame state to ``data/live.json``.
+
+        Called from the main loop roughly once per second so the dashboard
+        can stream real-time updates via SSE without polling every frame.
+        """
+        if not self._active:
+            return
+        partial = self._build_summary()
+        state: dict[str, Any] = {
+            "status":          "active",
+            "session_id":      self._session_id,
+            "start_time":      self._start_dt.isoformat() if self._start_dt else "",
+            "elapsed_seconds": round(self.elapsed_seconds(), 1),
+            "exercise":        exercise,
+            "confidence":      round(confidence, 2),
+            "bpm":             bpm,
+            "zone":            zone,
+            "reps":            reps,
+            "bpm_history":     bpm_history[-60:],   # last 60 s of readings
+            "total_frames":    len(self._frames),
+            "summary": {
+                "avg_bpm":                  partial.get("avg_bpm", 0),
+                "max_bpm":                  partial.get("max_bpm", 0),
+                "exercises_detected":       partial.get("exercises_detected", []),
+                "fatigue_zone_distribution": partial.get("fatigue_zone_distribution", {}),
+                "max_reps_per_exercise":    partial.get("max_reps_per_exercise", {}),
+            },
+        }
+        try:
+            LIVE_FILE.parent.mkdir(parents=True, exist_ok=True)
+            with open(LIVE_FILE, "w", encoding="utf-8") as fh:
+                json.dump(state, fh)
+        except Exception as exc:
+            logger.warning("Failed to write live state: %s", exc)
+
+    @staticmethod
+    def clear_live_state() -> None:
+        """Remove the live session file when recording stops."""
+        try:
+            LIVE_FILE.unlink(missing_ok=True)
+        except Exception:
+            pass
 
     def get_live_summary(self) -> dict[str, Any]:
         """

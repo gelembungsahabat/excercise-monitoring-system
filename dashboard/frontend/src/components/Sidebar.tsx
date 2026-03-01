@@ -1,6 +1,11 @@
 import type { SessionMeta } from '../types'
 
+type View = 'live' | 'sessions'
+
 interface Props {
+  view: View
+  liveActive: boolean
+  onViewChange: (v: View) => void
   sessions: SessionMeta[]
   activeId: string | null
   autoRefresh: boolean
@@ -19,7 +24,11 @@ function fmtDuration(s: number): string {
   return `${m}m ${Math.floor(s % 60)}s`
 }
 
-export function Sidebar({ sessions, activeId, autoRefresh, onSelect, onToggleRefresh }: Props) {
+export function Sidebar({
+  view, liveActive, onViewChange,
+  sessions, activeId, autoRefresh,
+  onSelect, onToggleRefresh,
+}: Props) {
   const switchId = 'auto-refresh-switch'
 
   return (
@@ -28,20 +37,63 @@ export function Sidebar({ sessions, activeId, autoRefresh, onSelect, onToggleRef
       <div className="sidebar-logo">
         <div className="sidebar-logo__mark">💪</div>
         <div className="sidebar-logo__wordmark">
-          <div className="sidebar-logo__name">
-            Fit<span>Track</span> AI
-          </div>
+          <div className="sidebar-logo__name">Fit<span>Track</span> AI</div>
           <div className="sidebar-logo__tagline">Exercise Dashboard</div>
+        </div>
+      </div>
+
+      {/* Navigation */}
+      <div className="sidebar-nav">
+        <div className="sidebar-nav__label">Menu</div>
+
+        <div
+          className={`nav-item${view === 'live' ? ' nav-item--active' : ''}`}
+          onClick={() => onViewChange('live')}
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => e.key === 'Enter' && onViewChange('live')}
+          aria-pressed={view === 'live'}
+        >
+          <div className="nav-item__icon">📡</div>
+          <span className="nav-item__label">Live Monitoring</span>
+          {liveActive && (
+            <div className="nav-item__live-badge">
+              <span className="live-dot" style={{ background: '#ef4444', boxShadow: '0 0 0 2px rgba(239,68,68,0.25)' }} />
+              LIVE
+            </div>
+          )}
+        </div>
+
+        <div
+          className={`nav-item${view === 'sessions' ? ' nav-item--active' : ''}`}
+          onClick={() => onViewChange('sessions')}
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => e.key === 'Enter' && onViewChange('sessions')}
+          aria-pressed={view === 'sessions'}
+        >
+          <div className="nav-item__icon">📂</div>
+          <span className="nav-item__label">Sessions</span>
+          {sessions.length > 0 && (
+            <span style={{
+              fontSize: 10, fontWeight: 700,
+              background: 'rgba(255,255,255,0.12)',
+              color: view === 'sessions' ? '#fff' : 'var(--sb-text-hi)',
+              padding: '1px 6px', borderRadius: 'var(--r-full)',
+            }}>
+              {sessions.length}
+            </span>
+          )}
         </div>
       </div>
 
       {/* Session list */}
       <div className="sidebar-group">
-        <div className="sidebar-group__label">Sessions</div>
+        <div className="sidebar-group__label">Recent Sessions</div>
 
         {sessions.length === 0 ? (
-          <div style={{ padding: '12px 10px', color: 'var(--sb-text)', fontSize: 'var(--t-xs)', lineHeight: 1.6 }}>
-            No sessions found.<br />Record one using the main app.
+          <div style={{ padding: '10px 10px', color: 'var(--sb-text)', fontSize: 'var(--t-xs)', lineHeight: 1.6 }}>
+            No sessions yet.<br />Record one with the main app.
           </div>
         ) : (
           sessions.map((s) => {
@@ -50,10 +102,10 @@ export function Sidebar({ sessions, activeId, autoRefresh, onSelect, onToggleRef
               <div
                 key={s.id}
                 className={`session-item${active ? ' session-item--active' : ''}`}
-                onClick={() => onSelect(s.id)}
+                onClick={() => { onSelect(s.id); onViewChange('sessions') }}
                 role="button"
                 tabIndex={0}
-                onKeyDown={(e) => e.key === 'Enter' && onSelect(s.id)}
+                onKeyDown={(e) => e.key === 'Enter' && (onSelect(s.id), onViewChange('sessions'))}
                 aria-pressed={active}
               >
                 <div className="session-item__date">
