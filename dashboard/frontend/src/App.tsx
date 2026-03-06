@@ -6,7 +6,6 @@ import type {
 import { Sidebar } from './components/Sidebar'
 import { LivePage } from './LivePage'
 import { SessionsPage } from './SessionsPage'
-import { useAutoRefresh } from './hooks/useAutoRefresh'
 import { useLiveSession } from './hooks/useLiveSession'
 
 type View = 'live' | 'sessions'
@@ -80,14 +79,12 @@ function exportCsv(session: Session): void {
 
 export function App() {
   const { live, apiReachable } = useLiveSession()
-  const [view,        setView]        = useState<View>('live')
-  const [sessions,    setSessions]    = useState<SessionMeta[]>([])
-  const [activeId,    setActiveId]    = useState<string | null>(null)
-  const [session,     setSession]     = useState<Session | null>(null)
-  const [loading,     setLoading]     = useState(false)
-  const [refreshing,  setRefreshing]  = useState(false)
-  const [error,       setError]       = useState<string | null>(null)
-  const [autoRefresh, setAutoRefresh] = useState(false)
+  const [view,     setView]     = useState<View>('live')
+  const [sessions, setSessions] = useState<SessionMeta[]>([])
+  const [activeId, setActiveId] = useState<string | null>(null)
+  const [session,  setSession]  = useState<Session | null>(null)
+  const [loading,  setLoading]  = useState(false)
+  const [error,    setError]    = useState<string | null>(null)
 
   const hasAutoSelected = useRef(false)
   const prevLiveActive  = useRef(false)
@@ -107,21 +104,17 @@ export function App() {
   }, [])
 
   // ── Fetch selected session ───────────────────────────────────────────────
-  const fetchSession = useCallback(async (id: string, silent = false) => {
-    if (!silent) { setLoading(true); setError(null) }
-    else         { setRefreshing(true) }
+  const fetchSession = useCallback(async (id: string) => {
+    setLoading(true)
+    setError(null)
     try {
       const data = await api.getSession(id)
       setSession(data)
-      setError(null)
     } catch (e) {
-      if (!silent) {
-        setError(e instanceof Error ? e.message : 'Failed to load session')
-        setSession(null)
-      }
+      setError(e instanceof Error ? e.message : 'Failed to load session')
+      setSession(null)
     } finally {
       setLoading(false)
-      setRefreshing(false)
     }
   }, [])
 
@@ -134,20 +127,13 @@ export function App() {
     else          setSession(null)
   }, [activeId, fetchSession])
 
-  // Auto-refresh: list + current session
-  useAutoRefresh(() => {
-    fetchList()
-    if (activeId) fetchSession(activeId, true)
-  }, 5000, autoRefresh)
-
   // When a live session ends → refresh list + auto-select newest session
   useEffect(() => {
     const isLive = live !== null
     if (prevLiveActive.current && !isLive) {
-      // Session just finished recording — refresh list to pick it up
-      hasAutoSelected.current = false   // allow re-auto-select of the new session
+      hasAutoSelected.current = false
       fetchList()
-      setView('sessions')               // switch to sessions view automatically
+      setView('sessions')
     }
     prevLiveActive.current = isLive
   }, [live, fetchList])
@@ -167,9 +153,7 @@ export function App() {
         onViewChange={setView}
         sessions={sessions}
         activeId={activeId}
-        autoRefresh={autoRefresh}
         onSelect={setActiveId}
-        onToggleRefresh={setAutoRefresh}
       />
 
       <div className="layout__body">
@@ -179,10 +163,8 @@ export function App() {
           <SessionsPage
             session={session}
             loading={loading}
-            refreshing={refreshing}
             error={error}
             activeId={activeId}
-            autoRefresh={autoRefresh}
             exerciseBars={exerciseBars}
             zoneSlices={zoneSlices}
             bpmPoints={bpmPoints}

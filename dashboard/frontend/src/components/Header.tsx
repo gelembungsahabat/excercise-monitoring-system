@@ -1,8 +1,7 @@
 import type { Session } from '../types'
 
 interface Props {
-  session: Session | null
-  autoRefresh: boolean
+  session:  Session | null
   onExport: () => void
 }
 
@@ -34,7 +33,7 @@ function IconActivity() {
   )
 }
 
-export function Header({ session, autoRefresh, onExport }: Props) {
+export function Header({ session, onExport }: Props) {
   return (
     <header className="header">
       <div className="header__icon">
@@ -56,12 +55,6 @@ export function Header({ session, autoRefresh, onExport }: Props) {
       </div>
 
       <div className="header__actions">
-        {autoRefresh && (
-          <span style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 'var(--t-xs)', color: 'var(--success)', fontWeight: 600 }}>
-            <span className="live-dot" />
-            LIVE
-          </span>
-        )}
         {session && (
           <button className="btn btn--outline" onClick={onExport} title="Export summary as CSV">
             <IconDownload />

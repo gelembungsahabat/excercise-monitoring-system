@@ -9,10 +9,8 @@ import { RepsTable } from './components/RepsTable'
 interface Props {
   session:      Session | null
   loading:      boolean
-  refreshing:   boolean
   error:        string | null
   activeId:     string | null
-  autoRefresh:  boolean
   exerciseBars: ExerciseBar[]
   zoneSlices:   ZoneSlice[]
   bpmPoints:    BpmPoint[]
@@ -22,13 +20,13 @@ interface Props {
 }
 
 export function SessionsPage({
-  session, loading, refreshing, error, activeId, autoRefresh,
+  session, loading, error, activeId,
   exerciseBars, zoneSlices, bpmPoints, repRows,
   onRetry, onExport,
 }: Props) {
   return (
     <>
-      <Header session={session} autoRefresh={autoRefresh} onExport={onExport} />
+      <Header session={session} onExport={onExport} />
 
       <main className="content">
 
@@ -64,19 +62,6 @@ export function SessionsPage({
         {/* ── Session content ── */}
         {session && !loading && !error && (
           <>
-            {/* Silent refresh banner */}
-            {refreshing && (
-              <div style={{
-                display: 'flex', alignItems: 'center', gap: 8,
-                padding: '6px 16px',
-                background: 'var(--brand-light)', borderRadius: 'var(--r-md)',
-                fontSize: 'var(--t-xs)', color: 'var(--brand)', fontWeight: 600,
-              }}>
-                <span className="live-dot" />
-                Refreshing data…
-              </div>
-            )}
-
             <MetricCards summary={session.summary} />
 
             {/* Exercise + Zone charts */}

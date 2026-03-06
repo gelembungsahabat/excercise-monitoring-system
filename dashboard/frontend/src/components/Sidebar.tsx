@@ -3,14 +3,12 @@ import type { SessionMeta } from '../types'
 type View = 'live' | 'sessions'
 
 interface Props {
-  view: View
-  liveActive: boolean
-  onViewChange: (v: View) => void
-  sessions: SessionMeta[]
-  activeId: string | null
-  autoRefresh: boolean
-  onSelect: (id: string) => void
-  onToggleRefresh: (v: boolean) => void
+  view:          View
+  liveActive:    boolean
+  onViewChange:  (v: View) => void
+  sessions:      SessionMeta[]
+  activeId:      string | null
+  onSelect:      (id: string) => void
 }
 
 function fmt(iso: string, opts: Intl.DateTimeFormatOptions): string {
@@ -26,14 +24,12 @@ function fmtDuration(s: number): string {
 
 export function Sidebar({
   view, liveActive, onViewChange,
-  sessions, activeId, autoRefresh,
-  onSelect, onToggleRefresh,
+  sessions, activeId, onSelect,
 }: Props) {
-  const switchId = 'auto-refresh-switch'
-
   return (
     <aside className="sidebar">
-      {/* Logo */}
+
+      {/* ── Logo ─────────────────────────────────────────────────── */}
       <div className="sidebar-logo">
         <div className="sidebar-logo__mark">💪</div>
         <div className="sidebar-logo__wordmark">
@@ -42,17 +38,15 @@ export function Sidebar({
         </div>
       </div>
 
-      {/* Navigation */}
+      {/* ── Navigation ───────────────────────────────────────────── */}
       <div className="sidebar-nav">
         <div className="sidebar-nav__label">Menu</div>
 
         <div
           className={`nav-item${view === 'live' ? ' nav-item--active' : ''}`}
           onClick={() => onViewChange('live')}
-          role="button"
-          tabIndex={0}
+          role="button" tabIndex={0}
           onKeyDown={(e) => e.key === 'Enter' && onViewChange('live')}
-          aria-pressed={view === 'live'}
         >
           <div className="nav-item__icon">📡</div>
           <span className="nav-item__label">Live Monitoring</span>
@@ -67,10 +61,8 @@ export function Sidebar({
         <div
           className={`nav-item${view === 'sessions' ? ' nav-item--active' : ''}`}
           onClick={() => onViewChange('sessions')}
-          role="button"
-          tabIndex={0}
+          role="button" tabIndex={0}
           onKeyDown={(e) => e.key === 'Enter' && onViewChange('sessions')}
-          aria-pressed={view === 'sessions'}
         >
           <div className="nav-item__icon">📂</div>
           <span className="nav-item__label">Sessions</span>
@@ -87,12 +79,17 @@ export function Sidebar({
         </div>
       </div>
 
-      {/* Session list */}
+      {/* ── Session list ─────────────────────────────────────────── */}
       <div className="sidebar-group">
         <div className="sidebar-group__label">Recent Sessions</div>
 
         {sessions.length === 0 ? (
-          <div style={{ padding: '10px 10px', color: 'var(--sb-text)', fontSize: 'var(--t-xs)', lineHeight: 1.6 }}>
+          <div style={{
+            padding: '10px var(--s3)',
+            color: 'var(--sb-text)',
+            fontSize: 'var(--t-xs)',
+            lineHeight: 1.6,
+          }}>
             No sessions yet.<br />Record one with the main app.
           </div>
         ) : (
@@ -103,10 +100,8 @@ export function Sidebar({
                 key={s.id}
                 className={`session-item${active ? ' session-item--active' : ''}`}
                 onClick={() => { onSelect(s.id); onViewChange('sessions') }}
-                role="button"
-                tabIndex={0}
+                role="button" tabIndex={0}
                 onKeyDown={(e) => e.key === 'Enter' && (onSelect(s.id), onViewChange('sessions'))}
-                aria-pressed={active}
               >
                 <div className="session-item__date">
                   {fmt(s.start_time, { month: 'short', day: 'numeric', year: 'numeric' })}
@@ -133,26 +128,6 @@ export function Sidebar({
         )}
       </div>
 
-      {/* Footer */}
-      <div className="sidebar-footer">
-        <div className="sidebar-footer__label">Options</div>
-        <div className="toggle-row">
-          <div className="toggle-row__text">
-            {autoRefresh && <span className="live-dot" />}
-            Auto-refresh (5 s)
-          </div>
-          <label className="switch" htmlFor={switchId}>
-            <input
-              id={switchId}
-              type="checkbox"
-              className="switch__input"
-              checked={autoRefresh}
-              onChange={(e) => onToggleRefresh(e.target.checked)}
-            />
-            <span className="switch__track" />
-          </label>
-        </div>
-      </div>
     </aside>
   )
 }
