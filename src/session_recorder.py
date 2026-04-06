@@ -384,11 +384,12 @@ class SessionRecorder:
             "bpm_history":     bpm_history[-60:],   # last 60 s of readings
             "total_frames":    len(self._frames),
             "summary": {
-                "avg_bpm":                  partial.get("avg_bpm", 0),
-                "max_bpm":                  partial.get("max_bpm", 0),
-                "exercises_detected":       partial.get("exercises_detected", []),
+                "avg_bpm":                   partial.get("avg_bpm", 0),
+                "max_bpm":                   partial.get("max_bpm", 0),
+                "exercises_detected":        partial.get("exercises_detected", []),
+                "exercise_frame_counts":     partial.get("exercise_frame_counts", {}),
                 "fatigue_zone_distribution": partial.get("fatigue_zone_distribution", {}),
-                "max_reps_per_exercise":    partial.get("max_reps_per_exercise", {}),
+                "max_reps_per_exercise":     partial.get("max_reps_per_exercise", {}),
             },
         }
         try:

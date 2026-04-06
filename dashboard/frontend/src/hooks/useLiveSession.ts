@@ -16,6 +16,7 @@ export interface LiveSession {
     avg_bpm: number
     max_bpm: number
     exercises_detected: string[]
+    exercise_frame_counts?: Record<string, number>   // added in latest session_recorder
     fatigue_zone_distribution: Record<string, number>
     max_reps_per_exercise: Record<string, number>
   }

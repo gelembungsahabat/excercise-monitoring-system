@@ -14,15 +14,22 @@ function fmtElapsed(s: number): string {
 }
 
 function buildExerciseBars(live: LiveSession): ExerciseBar[] {
-  return Object.entries(live.summary.max_reps_per_exercise)
-    .map(([exercise, reps]) => ({ exercise, frames: reps }))
+  // Prefer frame counts — populated from frame 1 (exercises_detected covers
+  // every frame regardless of rep state). Falls back to reps if unavailable.
+  const frameCounts = live.summary.exercise_frame_counts ?? {}
+  const repCounts   = live.summary.max_reps_per_exercise  ?? {}
+  const source = Object.keys(frameCounts).length > 0 ? frameCounts : repCounts
+  return Object.entries(source)
+    .filter(([, v]) => v > 0)
+    .map(([exercise, frames]) => ({ exercise, frames }))
     .sort((a, b) => b.frames - a.frames)
 }
 
 function buildZoneSlices(live: LiveSession): ZoneSlice[] {
-  const dist  = live.summary.fatigue_zone_distribution
+  const dist  = live.summary.fatigue_zone_distribution ?? {}
   const total = live.total_frames || 1
   return Object.entries(dist)
+    .filter(([, v]) => v > 0)
     .map(([name, value]) => ({ name, value, pct: (value / total) * 100 }))
     .sort((a, b) => b.value - a.value)
 }
