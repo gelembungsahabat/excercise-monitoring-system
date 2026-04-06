@@ -178,82 +178,118 @@ The webcam loop runs at up to 30 FPS and:
 
 ### 6. React Dashboard (`dashboard/`)
 
-A **React + TypeScript SPA** built with Vite and served by a **FastAPI** backend.  Styled with a pure-CSS design system (TailAdmin-inspired, no Tailwind) using CSS custom properties for easy theming.
+A **React + TypeScript SPA** built with Vite and served by a **FastAPI** backend. Styled with a Tailwind-inspired pure-CSS design system using CSS custom properties.
 
 **Backend** (`dashboard/api.py`):
 - `GET /api/sessions` — list all sessions (lightweight metadata, no frames)
 - `GET /api/sessions/{id}` — full session JSON including all frames
-- `GET /api/sessions/{id}/summary` — summary only for live polling
+- `GET /api/live` — current live session state (polled every second by the frontend)
 - Serves the built React app as static files in production
 
 **Frontend** (`dashboard/frontend/`):
 
-| Feature | Details |
-| ------- | ------- |
-| Session sidebar | Newest-first list, click to load |
-| 5 KPI metric cards | Duration · Avg BPM · Max BPM · Total Reps · Frames |
-| Exercise bar chart | Horizontal bars, frame count per exercise (Recharts) |
-| Fatigue zone donut | Colour-coded by zone (Recharts) |
-| BPM timeline | Line chart with zone threshold reference lines (Recharts) |
-| Reps table | Sorted by max reps, monospace values |
-| CSV export | Client-side blob download, no server round-trip |
-| Auto-refresh | Polls API every 5 s when enabled (live session tracking) |
+| View | Feature | Details |
+| ---- | ------- | ------- |
+| Live Monitoring | Real-time metric cards | Current exercise, BPM, zone, reps, total reps |
+| Live Monitoring | Live BPM chart | Area chart updating every second (Recharts) |
+| Live Monitoring | Exercise distribution | Bar chart of detected exercises |
+| Live Monitoring | Fatigue zone breakdown | Donut chart, colour-coded by zone |
+| Live Monitoring | Reps table | Live rep counts per exercise |
+| Sessions | 5 KPI metric cards | Duration · Avg BPM · Peak BPM · Total Reps · Frames |
+| Sessions | Exercise bar chart | Horizontal bars, frame count per exercise |
+| Sessions | Fatigue zone donut | Colour-coded by zone (Recharts) |
+| Sessions | BPM timeline | Area chart with zone threshold reference lines |
+| Sessions | Reps table | Sorted by max reps, progress bars |
+| Both | CSV export | Client-side blob download, no server round-trip |
+| Both | Sidebar navigation | Live Monitoring / Sessions menu with LIVE badge |
 
 **CSS design system** (`src/styles/main.css`):
-- All design tokens as CSS custom properties (`--accent`, `--zone-*`, `--sp-*`, etc.)
-- BEM-like class naming, organised into 15 labelled sections
-- Dark sidebar (`#1c2434`), light content area (`#f1f5f9`), white cards
+- Tailwind-inspired tokens: `--brand`, `--zone-*`, `--sh-*` (shadow scale), `--r-*` (radius scale)
+- BEM-like class naming, organised into 18 labelled sections
+- Dark sidebar (`#111827`), light content area (`#f9fafb`), white cards
 - Responsive grid: 5-col metrics → 3-col → 2-col → 1-col at breakpoints
 
 ---
 
 ## Quick Start
 
+### 1. Install dependencies (one-time)
+
 ```bash
-# 1. Install Python dependencies
+# Python dependencies
 pip install -r requirements.txt
 
-# 2. Install frontend dependencies (one-time)
+# Frontend dependencies
 cd dashboard/frontend && npm install && cd ../..
+```
 
-# 3. Train the HR classifier (one-time)
+### 2. Build the frontend (one-time, or after any UI change)
+
+```bash
+cd dashboard/frontend && npm run build && cd ../..
+```
+
+### 3. Train the HR classifier (one-time)
+
+```bash
 python scripts/train_model.py
 ```
 
-### Run the tracker
+---
+
+## Running the System
+
+### Easiest: use the helper script
+
+`start.sh` launches the API server and the webcam tracker together. Press `Ctrl+C` to stop both.
 
 ```bash
-# Without BLE (manual BPM via keyboard)
+bash start.sh
+# Open http://localhost:8000
+```
+
+### Manual: two terminals
+
+```bash
+# Terminal 1 – dashboard API + frontend
+python dashboard/api.py
+# Open http://localhost:8000
+
+# Terminal 2 – webcam tracker (no BLE)
 python src/main.py
 
-# With Polar H10 – scan for address first (one-time)
-python src/ble_hr_monitor.py
-# Then connect by name:
+# Terminal 2 – webcam tracker with Polar H10
 python src/main.py --ble
-# Or directly by address (instant):
+# Or connect directly by address (faster):
 python src/main.py --ble --ble-address "A0:9E:1A:XX:XX:XX"
 ```
 
-### Run the dashboard
+> To find your Polar H10 address (one-time): `python src/ble_hr_monitor.py`
 
-**Development** (hot-reload, Vite proxies `/api` to FastAPI):
+### Development mode (hot-reload UI)
 
 ```bash
 # Terminal 1 – API server
 python dashboard/api.py
 
-# Terminal 2 – Vite dev server
+# Terminal 2 – Vite dev server (proxies /api to FastAPI)
 cd dashboard/frontend && npm run dev
 # Open http://localhost:5173
+
+# Terminal 3 – webcam tracker
+python src/main.py
 ```
 
-**Production** (single server):
+---
 
-```bash
-cd dashboard/frontend && npm run build && cd ../..
-python dashboard/api.py
-# Open http://localhost:8000
-```
+## Keyboard Controls (during tracker session)
+
+| Key | Action |
+| --- | ------ |
+| `b` | Override BPM manually — type digits, press Enter |
+| `s` | Save a session snapshot (recording continues) |
+| `r` | Reset all rep counters |
+| `q` / Esc | Quit and auto-save the session |
 
 ---
 
