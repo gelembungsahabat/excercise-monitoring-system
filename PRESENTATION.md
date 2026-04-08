@@ -20,7 +20,7 @@ The system watches a user exercise through a webcam, reads live heart rate from 
 |---|---|
 | Supervised classification | Random Forest predicting 5 fatigue zones from BPM |
 | Feature engineering | 4 features derived from a single raw BPM value |
-| Train/test split (80/20, stratified) | `scripts/train_model.py` |
+| Train/test split (80/20, stratified) | `training/train_model.py` |
 | Class imbalance handling | `class_weight="balanced"` in RandomForestClassifier |
 | Model evaluation | `classification_report` + accuracy score on test set |
 | Model persistence | `joblib` serialisation to `models/` — no retraining on each run |
@@ -47,7 +47,7 @@ The system watches a user exercise through a webcam, reads live heart rate from 
 | Rule-based classification | Scored confidence per exercise, winner-take-all with confidence gate |
 | State machine | Per-exercise up/down rep counter with angle thresholds |
 
-**Joint angle formula** used in `src/exercise_detector.py`:
+**Joint angle formula** used in `tracker/exercise_detector.py`:
 
 ```
 angle(A, B, C) = arccos( (BA · BC) / (|BA| × |BC|) )
@@ -76,14 +76,14 @@ Where B is the vertex joint (e.g. the knee for the knee angle). Computed for: le
 ### Software Engineering & Architecture
 
 ```
-src/main.py              ← Webcam loop, integrates all modules
-src/exercise_detector.py ← MediaPipe pose + angles + rep counter
-src/hr_classifier.py     ← Random Forest: BPM → fatigue zone
-src/session_recorder.py  ← Frame logger + JSON export + live state
-src/ble_hr_monitor.py    ← Bluetooth LE heart rate monitor (Polar H10)
-dashboard/api.py         ← FastAPI REST backend + SPA serving
-dashboard/frontend/      ← React + TypeScript SPA (Vite)
-scripts/train_model.py   ← Standalone model retraining script
+tracker/main.py              ← Webcam loop, integrates all modules
+tracker/exercise_detector.py ← MediaPipe pose + angles + rep counter
+tracker/hr_classifier.py     ← Random Forest: BPM → fatigue zone
+tracker/session_recorder.py  ← Frame logger + JSON export + live state
+tracker/ble_hr_monitor.py    ← Bluetooth LE heart rate monitor (Polar H10)
+dashboard/api.py             ← FastAPI REST backend + SPA serving
+dashboard/frontend/          ← React + TypeScript SPA (Vite)
+training/train_model.py      ← Standalone model retraining script
 ```
 
 | Concept | Where applied |
@@ -167,7 +167,7 @@ Exercise detection from joint angles is fundamentally a geometric problem — yo
 
 **Q: "What is the accuracy of your HR classifier?"**
 
-Run `python scripts/train_model.py` before the presentation and record the output. It prints accuracy and a full per-class `classification_report` showing precision, recall, and F1-score for all 5 zones. Have these numbers ready.
+Run `python training/train_model.py` before the presentation and record the output. It prints accuracy and a full per-class `classification_report` showing precision, recall, and F1-score for all 5 zones. Have these numbers ready.
 
 ---
 
@@ -205,16 +205,16 @@ pip install -r requirements.txt
 cd dashboard/frontend && npm install && cd ../..
 
 # 2. Train the model (one-time — do this before presenting)
-python scripts/train_model.py
+python training/train_model.py
 
 # 3. Start everything
 bash start.sh
 # Opens: http://localhost:8000
 
 # 4. In a separate terminal, start the webcam tracker
-python src/main.py
+python tracker/main.py
 # With Polar H10:
-python src/main.py --ble
+python tracker/main.py --ble
 ```
 
 **Keyboard controls during demo:**

@@ -3,9 +3,9 @@ Standalone training script for the FitTrack AI HR Classifier.
 
 Usage
 -----
-    python scripts/train_model.py
-    python scripts/train_model.py --data data/my_data.csv --estimators 300
-    python scripts/train_model.py --no-plot
+    python training/train_model.py
+    python training/train_model.py --data data/my_data.csv --estimators 300
+    python training/train_model.py --no-plot
 """
 
 from __future__ import annotations
@@ -16,12 +16,12 @@ import sys
 from pathlib import Path
 
 # ── Make project root importable ─────────────────────────────────────────
-_SCRIPT_DIR = Path(__file__).resolve().parent
-_ROOT_DIR   = _SCRIPT_DIR.parent
+_TRAINING_DIR = Path(__file__).resolve().parent
+_ROOT_DIR     = _TRAINING_DIR.parent
 if str(_ROOT_DIR) not in sys.path:
     sys.path.insert(0, str(_ROOT_DIR))
 
-from src.hr_classifier import HRClassifier, DATA_PATH, MODEL_PATH, ENCODER_PATH
+from tracker.hr_classifier import HRClassifier, DATA_PATH, MODEL_PATH, ENCODER_PATH
 
 # ── Logging ────────────────────────────────────────────────────────────────
 logging.basicConfig(

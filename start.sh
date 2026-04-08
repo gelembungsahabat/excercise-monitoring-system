@@ -23,8 +23,8 @@ API_PID=$!
 # Give the API a moment to bind to the port
 sleep 1
 
-echo "[start.sh] Starting workout tracker (src/main.py) ..."
-"$PYTHON" src/main.py &
+echo "[start.sh] Starting workout tracker (tracker/main.py) ..."
+"$PYTHON" tracker/main.py &
 MAIN_PID=$!
 
 # Gracefully stop both on Ctrl+C / SIGTERM

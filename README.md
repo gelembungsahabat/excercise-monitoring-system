@@ -21,7 +21,7 @@ Exercise Monitoring System watches you exercise through your webcam and simultan
 
 ```
 excercise-monitoring-system/
-├── src/
+├── tracker/
 │   ├── main.py               ← Live webcam app (start here)
 │   ├── exercise_detector.py  ← MediaPipe pose + joint angles + rep counter
 │   ├── hr_classifier.py      ← Random Forest: BPM → fatigue zone
@@ -36,17 +36,16 @@ excercise-monitoring-system/
 │       │   ├── types.ts      ← TypeScript interfaces
 │       │   ├── styles/main.css  ← Full CSS design system
 │       │   ├── components/   ← Sidebar, Header, charts, table
-│       │   └── hooks/        ← useAutoRefresh
+│       │   └── hooks/        ← useLiveSession
 │       ├── package.json
 │       └── vite.config.ts
-├── scripts/
+├── training/
 │   └── train_model.py        ← Retrain the HR classifier
 ├── data/
 │   ├── dataset_training_withclass_edited.csv   ← Training dataset
 │   └── sessions/             ← Saved session JSON files (auto-created)
 ├── models/                   ← Serialised model files (auto-created)
-├── docs/
-│   └── README.md             ← Full technical documentation
+├── start.sh                  ← Launch API + tracker together
 └── requirements.txt
 ```
 
@@ -54,7 +53,7 @@ excercise-monitoring-system/
 
 ## How Each Part Works
 
-### 1. Heart Rate Zone Classifier (`src/hr_classifier.py`)
+### 1. Heart Rate Zone Classifier (`tracker/hr_classifier.py`)
 
 The classifier is trained on `data/dataset_training_withclass_edited.csv`, which contains real workout recordings with columns:
 
@@ -76,7 +75,7 @@ Four features are engineered from the raw BPM to help the model capture both lin
 
 A **Random Forest** with 200 trees and balanced class weights is fitted on an 80/20 train/test split. The trained model and label encoder are saved to `models/` with `joblib` so they load instantly on subsequent runs. If the model file is absent, the classifier falls back to simple BPM threshold rules.
 
-### 2. Exercise Detector (`src/exercise_detector.py`)
+### 2. Exercise Detector (`tracker/exercise_detector.py`)
 
 MediaPipe Pose returns 33 body landmarks (x, y, z coordinates normalised to the image size). The detector picks the key joints — hips, knees, ankles, shoulders, elbows, wrists — and computes **8 joint angles** using the cosine rule:
 
@@ -102,7 +101,7 @@ The exercise with the highest score is the prediction. If no exercise scores abo
 
 **Rep counting** uses a per-exercise up/down state machine. For example, a Squat rep is counted when the knee angle drops below 90° (bottom) and then rises back above 160° (top). Each exercise has its own pair of thresholds.
 
-### 3. Session Recorder (`src/session_recorder.py`)
+### 3. Session Recorder (`tracker/session_recorder.py`)
 
 Every frame processed by the webcam loop is appended to an in-memory buffer as a record containing:
 
@@ -116,7 +115,7 @@ When you press `s` to save (or `q` to quit), the recorder:
 - Calculates a **session summary**: total duration, exercise frame counts, max reps per exercise, fatigue zone distribution, avg/min/max BPM.
 - Writes a single JSON file to `data/sessions/session_YYYYMMDD_HHMMSS.json`.
 
-### 4. BLE Heart Rate Monitor (`src/ble_hr_monitor.py`)
+### 4. BLE Heart Rate Monitor (`tracker/ble_hr_monitor.py`)
 
 Connects to a Polar H10 (or any Bluetooth LE device that implements the standard **Heart Rate Service, UUID 0x180D**) and streams real-time BPM data to the main app.
 
@@ -145,7 +144,7 @@ Connects to a Polar H10 (or any Bluetooth LE device that implements the standard
 | BLE (live)      | `BPM: 142 [BLE]` | Green  |
 | Manual override | `BPM: 120 [MAN]` | White  |
 
-### 5. Main App (`src/main.py`)
+### 5. Main App (`tracker/main.py`)
 
 The webcam loop runs at up to 30 FPS and:
 
@@ -232,7 +231,7 @@ cd dashboard/frontend && npm run build && cd ../..
 ### 3. Train the HR classifier (one-time)
 
 ```bash
-python scripts/train_model.py
+python training/train_model.py
 ```
 
 ---
@@ -256,15 +255,15 @@ python dashboard/api.py
 # Open http://localhost:8000
 
 # Terminal 2 – webcam tracker (no BLE)
-python src/main.py
+python tracker/main.py
 
 # Terminal 2 – webcam tracker with Polar H10
-python src/main.py --ble
+python tracker/main.py --ble
 # Or connect directly by address (faster):
-python src/main.py --ble --ble-address "A0:9E:1A:XX:XX:XX"
+python tracker/main.py --ble --ble-address "A0:9E:1A:XX:XX:XX"
 ```
 
-> To find your Polar H10 address (one-time): `python src/ble_hr_monitor.py`
+> To find your Polar H10 address (one-time): `python tracker/ble_hr_monitor.py`
 
 ### Development mode (hot-reload UI)
 
@@ -277,7 +276,7 @@ cd dashboard/frontend && npm run dev
 # Open http://localhost:5173
 
 # Terminal 3 – webcam tracker
-python src/main.py
+python tracker/main.py
 ```
 
 ---

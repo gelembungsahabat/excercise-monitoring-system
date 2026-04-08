@@ -42,17 +42,17 @@ import cv2
 import numpy as np
 
 # ── Add project root to path so sibling imports work ──────────────────────
-_SRC_DIR = Path(__file__).resolve().parent
-_ROOT_DIR = _SRC_DIR.parent
+_TRACKER_DIR = Path(__file__).resolve().parent
+_ROOT_DIR    = _TRACKER_DIR.parent
 if str(_ROOT_DIR) not in sys.path:
     sys.path.insert(0, str(_ROOT_DIR))
 
-from src.exercise_detector import ExerciseDetector
-from src.hr_classifier import HRClassifier, ZONE_COLORS
-from src.session_recorder import SessionRecorder
+from tracker.exercise_detector import ExerciseDetector
+from tracker.hr_classifier import HRClassifier, ZONE_COLORS
+from tracker.session_recorder import SessionRecorder
 
 try:
-    from src.ble_hr_monitor import BLEHRMonitor, BLEState
+    from tracker.ble_hr_monitor import BLEHRMonitor, BLEState
     _BLE_AVAILABLE = True
 except ImportError:
     _BLE_AVAILABLE = False
