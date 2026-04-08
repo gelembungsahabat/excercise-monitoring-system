@@ -3,7 +3,8 @@
     "allow": [
       "Bash(python3 -c ':*)",
       "Bash(git mv:*)",
-      "Bash(git rm:*)"
+      "Bash(git rm:*)",
+      "Bash(python training/train_model.py)"
     ]
   }
 }

@@ -237,17 +237,19 @@ class HRClassifier:
         --------
         - bpm           : raw BPM value
         - bpm_sq        : BPM squared (captures non-linear boundary)
-        - bpm_log       : log(BPM) – compresses high-BPM range
-        - bpm_norm      : BPM normalised to [0, 1] based on training max
+        - bpm_log       : log(BPM+1) – compresses high-BPM range
+        - bpm_norm      : BPM / 220 — normalised by physiological HRmax constant
+                          (Fox et al., 1971: HRmax ≈ 220 − age; 220 is the
+                          upper bound used consistently at training AND inference)
         """
         bpm = df["Average BPM"].values.astype(float)
-        bpm_max = bpm.max() if bpm.max() > 0 else 1.0
+        _HRMAX = 220.0   # physiological constant — must match _bpm_to_features
 
         X = np.column_stack([
             bpm,
             bpm ** 2,
             np.log1p(bpm),
-            bpm / bpm_max,
+            bpm / _HRMAX,
         ])
 
         enc = LabelEncoder()
@@ -256,13 +258,19 @@ class HRClassifier:
 
     @staticmethod
     def _bpm_to_features(bpm: float) -> np.ndarray:
-        """Convert a single BPM scalar to the 4-feature vector."""
-        bpm_max = 220.0  # physiological upper bound used as normaliser
+        """
+        Convert a single BPM scalar to the 4-feature vector.
+
+        IMPORTANT: the normalisation constant (220.0) must be identical to
+        the one used in _build_features — if they diverge the model sees a
+        different feature distribution at inference than at training.
+        """
+        _HRMAX = 220.0   # must match _build_features
         return np.array([[
             bpm,
             bpm ** 2,
             np.log1p(bpm),
-            bpm / bpm_max,
+            bpm / _HRMAX,
         ]])
 
     def _save(self) -> None:
