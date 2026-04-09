@@ -416,83 +416,78 @@ export function useBrowserTracker(
     streamRef.current?.getTracks().forEach(t => t.stop())
     streamRef.current = null
 
-    // Close and release the landmarker so its internal graph state (including
-    // the free_memory stream) is fully reset before the next session.
-    // The WASM fileset stays cached in visionRef, so recreation is fast.
-    if (landmarkerRef.current) {
-      landmarkerRef.current.close()
-      landmarkerRef.current = null
-    }
+    // Close and release the landmarker so its internal graph state is fully
+    // reset before the next session. WASM fileset stays cached in visionRef.
+    try {
+      landmarkerRef.current?.close()
+    } catch { /* ignore */ }
+    landmarkerRef.current = null
 
-    // Build and save session
-    const frames = framesRef.current
-    if (frames.length > 0) {
-      const startIso = new Date(startTimeRef.current).toISOString()
-      const endIso   = new Date().toISOString()
-      const duration = (Date.now() - startTimeRef.current) / 1000
+    // ── Flip UI to stopped immediately — don't wait for the network save ──
+    // Awaiting api.saveSession() before setting isRunning:false caused the
+    // "stuck on recording" bug: large payloads or slow connections meant the
+    // stop button appeared frozen until the POST completed (or hung forever).
+    setState(prev => ({ ...prev, isRunning: false, sessionId: null }))
 
-      const bpmValues: number[] = frames.map(f => f.bpm)
-      const exFrames:  Record<string, number> = {}
-      const zoneDist:  Record<string, number> = {}
-
-      for (const f of frames) {
-        exFrames[f.exercise_type] = (exFrames[f.exercise_type] ?? 0) + 1
-        zoneDist[f.fatigue_zone]  = (zoneDist[f.fatigue_zone]  ?? 0) + 1
-      }
-
-      const maxReps: Record<string, number> = {}
-      for (const [ex, st] of Object.entries(repStatesRef.current)) {
-        if (st.count > 0) maxReps[ex] = st.count
-      }
-
-      const total = frames.length || 1
-      const zonePct: Record<string, number> = {}
-      for (const [z, c] of Object.entries(zoneDist)) {
-        zonePct[z] = Math.round((c / total) * 1000) / 10
-      }
-
-      const session = {
-        session_id:       sessionIdRef.current,
-        start_time:       startIso,
-        end_time:         endIso,
-        duration_seconds: Math.round(duration),
-        frames,
-        summary: {
-          session_id:                sessionIdRef.current,
-          start_time:                startIso,
-          end_time:                  endIso,
-          total_duration_seconds:    Math.round(duration),
-          exercises_detected:        Object.keys(exFrames).filter(
-            ex => ex !== 'Standing' && (exFrames[ex] ?? 0) > 5
-          ),
-          exercise_frame_counts:     exFrames,
-          max_reps_per_exercise:     maxReps,
-          fatigue_zone_distribution: zoneDist,
-          fatigue_zone_pct:          zonePct,
-          avg_bpm: bpmValues.length
-            ? Math.round(bpmValues.reduce((a, b) => a + b, 0) / bpmValues.length)
-            : 0,
-          max_bpm:      bpmValues.length ? Math.max(...bpmValues) : 0,
-          min_bpm:      bpmValues.length ? Math.min(...bpmValues) : 0,
-          total_frames: frames.length,
-        },
-      }
-
-      try {
-        await api.saveSession(session)
-      } catch (e) {
-        console.error('Failed to save session:', e)
-      }
-    }
-
-    // Clear live state on server
+    // Clear live state on server (fire-and-forget)
     api.postLive({ status: 'idle' }).catch(() => {})
 
-    setState(prev => ({
-      ...prev,
-      isRunning: false,
-      sessionId: null,
-    }))
+    // Build and save session in the background
+    const frames = framesRef.current
+    if (frames.length === 0) return
+
+    const startIso = new Date(startTimeRef.current).toISOString()
+    const endIso   = new Date().toISOString()
+    const duration = (Date.now() - startTimeRef.current) / 1000
+
+    const bpmValues: number[] = frames.map(f => f.bpm)
+    const exFrames:  Record<string, number> = {}
+    const zoneDist:  Record<string, number> = {}
+
+    for (const f of frames) {
+      exFrames[f.exercise_type] = (exFrames[f.exercise_type] ?? 0) + 1
+      zoneDist[f.fatigue_zone]  = (zoneDist[f.fatigue_zone]  ?? 0) + 1
+    }
+
+    const maxReps: Record<string, number> = {}
+    for (const [ex, st] of Object.entries(repStatesRef.current)) {
+      if (st.count > 0) maxReps[ex] = st.count
+    }
+
+    const total = frames.length || 1
+    const zonePct: Record<string, number> = {}
+    for (const [z, c] of Object.entries(zoneDist)) {
+      zonePct[z] = Math.round((c / total) * 1000) / 10
+    }
+
+    const session = {
+      session_id:       sessionIdRef.current,
+      start_time:       startIso,
+      end_time:         endIso,
+      duration_seconds: Math.round(duration),
+      frames,
+      summary: {
+        session_id:                sessionIdRef.current,
+        start_time:                startIso,
+        end_time:                  endIso,
+        total_duration_seconds:    Math.round(duration),
+        exercises_detected:        Object.keys(exFrames).filter(
+          ex => ex !== 'Standing' && (exFrames[ex] ?? 0) > 5
+        ),
+        exercise_frame_counts:     exFrames,
+        max_reps_per_exercise:     maxReps,
+        fatigue_zone_distribution: zoneDist,
+        fatigue_zone_pct:          zonePct,
+        avg_bpm: bpmValues.length
+          ? Math.round(bpmValues.reduce((a, b) => a + b, 0) / bpmValues.length)
+          : 0,
+        max_bpm:      bpmValues.length ? Math.max(...bpmValues) : 0,
+        min_bpm:      bpmValues.length ? Math.min(...bpmValues) : 0,
+        total_frames: frames.length,
+      },
+    }
+
+    api.saveSession(session).catch(e => console.error('Failed to save session:', e))
   }, [])
 
   // ── Cleanup on unmount ────────────────────────────────────────────────────

@@ -168,18 +168,14 @@ interface Props { live: LiveSession | null; apiReachable: boolean }
 export function LivePage({ live, apiReachable }: Props) {
   const videoRef  = useRef<HTMLVideoElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const [stopping, setStopping] = useState(false)
-
   const { state: tracker, start, stop, setBpm } = useBrowserTracker(videoRef, canvasRef)
 
   const handleStart = useCallback(async () => {
     await start(120)
   }, [start])
 
-  const handleStop = useCallback(async () => {
-    setStopping(true)
-    try { await stop() }
-    finally { setStopping(false) }
+  const handleStop = useCallback(() => {
+    stop()
   }, [stop])
 
   const isActive = tracker.isRunning || live !== null
@@ -283,10 +279,9 @@ export function LivePage({ live, apiReachable }: Props) {
                     <button
                       className="btn btn--danger"
                       onClick={handleStop}
-                      disabled={stopping}
                       style={{ minWidth: 110, fontSize: 'var(--t-xs)', padding: '5px 10px' }}
                     >
-                      {stopping ? 'Saving…' : '■  Stop'}
+                      ■  Stop
                     </button>
                   </div>
                 </div>
