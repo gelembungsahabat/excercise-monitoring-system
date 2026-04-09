@@ -1,6 +1,7 @@
 FROM python:3.11-slim
 
 WORKDIR /app
+ENV PYTHONPATH=/app
 
 # ── Python dependencies ───────────────────────────────────────────────────
 COPY requirements.txt .
@@ -19,4 +20,4 @@ COPY . .
 
 # ── Run ──────────────────────────────────────────────────────────────────
 EXPOSE 8000
-CMD ["python", "dashboard/api.py"]
+CMD ["sh", "-c", "uvicorn dashboard.api:app --host 0.0.0.0 --port ${PORT:-8000}"]
