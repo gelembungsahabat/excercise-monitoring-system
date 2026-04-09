@@ -185,7 +185,12 @@ export function LivePage({ live, apiReachable }: Props) {
   if (!apiReachable) return <ApiDownState />
 
   if (!tracker.isRunning && !live) {
-    return <IdleState loading={tracker.isLoading} error={tracker.error} onStart={handleStart} />
+    return (
+      <>
+        <video ref={videoRef as React.RefObject<HTMLVideoElement>} autoPlay muted playsInline style={{ display: 'none' }} />
+        <IdleState loading={tracker.isLoading} error={tracker.error} onStart={handleStart} />
+      </>
+    )
   }
 
   // Use browser tracker state when running; fall back to server live state for display
