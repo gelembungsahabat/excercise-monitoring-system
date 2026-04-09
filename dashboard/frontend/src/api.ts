@@ -24,6 +24,15 @@ async function postJson<T>(path: string, body: unknown): Promise<T> {
   return res.json() as Promise<T>
 }
 
+async function del<T>(path: string): Promise<T> {
+  const res = await fetch(`${BASE}${path}`, { method: 'DELETE' })
+  if (!res.ok) {
+    const text = await res.text().catch(() => res.statusText)
+    throw new Error(`${res.status} ${text}`)
+  }
+  return res.json() as Promise<T>
+}
+
 export const api = {
   /** List all sessions (metadata only). */
   listSessions: (): Promise<SessionMeta[]> =>
@@ -44,6 +53,10 @@ export const api = {
   /** Save a completed session from browser tracker to server. */
   saveSession: (data: unknown): Promise<{ ok: boolean; id: string }> =>
     postJson<{ ok: boolean; id: string }>('/sessions', data),
+
+  /** Permanently delete a session. */
+  deleteSession: (id: string): Promise<{ ok: boolean; id: string }> =>
+    del<{ ok: boolean; id: string }>(`/sessions/${id}`),
 
   /** Classify a BPM value into a fatigue zone (uses ML model on server). */
   classifyBpm: (bpm: number): Promise<{ zone: string }> =>

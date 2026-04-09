@@ -127,6 +127,21 @@ export function App() {
     else          setSession(null)
   }, [activeId, fetchSession])
 
+  // ── Delete session ───────────────────────────────────────────────────────
+  const handleDelete = useCallback(async (id: string) => {
+    try {
+      await api.deleteSession(id)
+      setSessions((prev) => prev.filter((s) => s.id !== id))
+      if (activeId === id) {
+        setActiveId(null)
+        setSession(null)
+      }
+    } catch (e) {
+      console.error('Failed to delete session:', e)
+      alert('Failed to delete session: ' + (e instanceof Error ? e.message : String(e)))
+    }
+  }, [activeId])
+
   // When a live session ends → refresh list + auto-select newest session
   useEffect(() => {
     const isLive = live !== null
@@ -154,6 +169,7 @@ export function App() {
         sessions={sessions}
         activeId={activeId}
         onSelect={setActiveId}
+        onDelete={handleDelete}
       />
 
       <div className="layout__body">

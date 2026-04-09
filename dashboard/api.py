@@ -4,17 +4,23 @@ FitTrack AI – FastAPI Backend
 Serves session JSON data for the React SPA dashboard.
 Receives live state and completed sessions from the browser-side tracker.
 
+Storage
+-------
+If DATABASE_URL is set (PostgreSQL), sessions are persisted there and survive
+Railway redeployments. Otherwise sessions fall back to local JSON files.
+
 Endpoints
 ---------
-GET  /api/sessions              – list all sessions (metadata only)
-GET  /api/sessions/{id}         – full session payload including frames
-GET  /api/sessions/{id}/summary – summary only
-GET  /api/live                  – current live session state (polling)
-GET  /api/live/stream           – SSE stream of live state
-POST /api/live                  – browser tracker pushes live snapshots
-POST /api/sessions              – browser tracker saves completed session
-GET  /api/classify-bpm          – predict fatigue zone from BPM
-GET  /api/sessions/{id}/insight – AI coaching insight (OpenRouter)
+GET    /api/sessions              – list all sessions (metadata only)
+GET    /api/sessions/{id}         – full session payload including frames
+GET    /api/sessions/{id}/summary – summary only
+DELETE /api/sessions/{id}         – permanently delete a session
+GET    /api/live                  – current live session state (polling)
+GET    /api/live/stream           – SSE stream of live state
+POST   /api/live                  – browser tracker pushes live snapshots
+POST   /api/sessions              – browser tracker saves completed session
+GET    /api/classify-bpm          – predict fatigue zone from BPM
+GET    /api/sessions/{id}/insight – AI coaching insight (OpenRouter)
 
 Run with:
     uvicorn dashboard.api:app --host 0.0.0.0 --port 8000
@@ -27,9 +33,10 @@ import json
 import logging
 import os
 import sys
+from contextlib import contextmanager
 from datetime import datetime
 from pathlib import Path
-from typing import Any
+from typing import Any, Generator
 
 import httpx
 import uvicorn
@@ -53,6 +60,54 @@ if str(_ROOT) not in sys.path:
 logging.basicConfig(level=logging.INFO, format="%(levelname)s | %(message)s")
 logger = logging.getLogger(__name__)
 
+# ── PostgreSQL ─────────────────────────────────────────────────────────────
+DATABASE_URL = os.environ.get("DATABASE_URL", "")
+
+# psycopg2 is only required when DATABASE_URL is configured
+_psycopg2: Any = None
+if DATABASE_URL:
+    try:
+        import psycopg2
+        import psycopg2.extras
+        _psycopg2 = psycopg2
+        logger.info("psycopg2 loaded — PostgreSQL storage enabled.")
+    except ImportError:
+        logger.error("psycopg2 not installed but DATABASE_URL is set. Sessions will fall back to files.")
+        DATABASE_URL = ""
+
+
+def _db_enabled() -> bool:
+    return bool(DATABASE_URL and _psycopg2)
+
+
+@contextmanager
+def _db_conn() -> Generator:
+    """Yield a psycopg2 connection; commits on clean exit, rolls back on error."""
+    conn = _psycopg2.connect(DATABASE_URL)
+    try:
+        yield conn
+        conn.commit()
+    except Exception:
+        conn.rollback()
+        raise
+    finally:
+        conn.close()
+
+
+def _init_db() -> None:
+    """Create the sessions table if it doesn't exist."""
+    with _db_conn() as conn:
+        with conn.cursor() as cur:
+            cur.execute("""
+                CREATE TABLE IF NOT EXISTS sessions (
+                    session_id  TEXT PRIMARY KEY,
+                    data        JSONB NOT NULL,
+                    created_at  TIMESTAMPTZ DEFAULT NOW()
+                )
+            """)
+    logger.info("PostgreSQL sessions table ready.")
+
+
 # ── App ────────────────────────────────────────────────────────────────────
 app = FastAPI(title="FitTrack AI", version="2.0.0", docs_url="/api/docs")
 
@@ -62,6 +117,20 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+@app.on_event("startup")
+def on_startup() -> None:
+    if _db_enabled():
+        try:
+            _init_db()
+        except Exception as exc:
+            logger.error("DB init failed: %s — falling back to file storage.", exc)
+            global DATABASE_URL
+            DATABASE_URL = ""
+    else:
+        logger.info("DATABASE_URL not set — using file-based session storage.")
+        SESSIONS_DIR.mkdir(parents=True, exist_ok=True)
 
 
 # ── HR Classifier (lazy, optional) ────────────────────────────────────────
@@ -96,7 +165,7 @@ def _get_classifier() -> Any:
     return _classifier_cache
 
 
-# ── Helpers ────────────────────────────────────────────────────────────────
+# ── Storage helpers ────────────────────────────────────────────────────────
 
 def _load_json(path: Path) -> dict[str, Any]:
     with open(path, encoding="utf-8") as fh:
@@ -114,19 +183,10 @@ def _session_files() -> list[Path]:
     )
 
 
-def _read_live() -> dict[str, Any]:
-    if not LIVE_FILE.exists():
-        return {"status": "idle"}
-    try:
-        return _load_json(LIVE_FILE)
-    except Exception:
-        return {"status": "idle"}
-
-
-def _meta(path: Path, data: dict[str, Any]) -> dict[str, Any]:
+def _meta(session_id: str, data: dict[str, Any]) -> dict[str, Any]:
     summary = data.get("summary", {})
     return {
-        "id":               path.stem,
+        "id":               session_id,
         "start_time":       data.get("start_time", ""),
         "end_time":         data.get("end_time", ""),
         "duration_seconds": data.get("duration_seconds", 0),
@@ -137,15 +197,72 @@ def _meta(path: Path, data: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+# ── DB-backed session ops ──────────────────────────────────────────────────
+
+def _db_list_sessions() -> list[dict[str, Any]]:
+    with _db_conn() as conn:
+        with conn.cursor(_psycopg2.extras.RealDictCursor) as cur:
+            cur.execute("SELECT session_id, data FROM sessions ORDER BY created_at DESC")
+            rows = cur.fetchall()
+    return [_meta(row["session_id"], row["data"]) for row in rows]
+
+
+def _db_get_session(session_id: str) -> dict[str, Any] | None:
+    with _db_conn() as conn:
+        with conn.cursor(_psycopg2.extras.RealDictCursor) as cur:
+            cur.execute("SELECT data FROM sessions WHERE session_id = %s", (session_id,))
+            row = cur.fetchone()
+    return dict(row["data"]) if row else None
+
+
+def _db_save_session(session_id: str, data: dict[str, Any]) -> None:
+    with _db_conn() as conn:
+        with conn.cursor() as cur:
+            cur.execute(
+                """
+                INSERT INTO sessions (session_id, data)
+                VALUES (%s, %s)
+                ON CONFLICT (session_id) DO UPDATE SET data = EXCLUDED.data
+                """,
+                (session_id, _psycopg2.extras.Json(data)),
+            )
+
+
+def _db_delete_session(session_id: str) -> bool:
+    """Returns True if a row was deleted."""
+    with _db_conn() as conn:
+        with conn.cursor() as cur:
+            cur.execute("DELETE FROM sessions WHERE session_id = %s", (session_id,))
+            return cur.rowcount > 0
+
+
+# ── Live session helpers ───────────────────────────────────────────────────
+
+def _read_live() -> dict[str, Any]:
+    if not LIVE_FILE.exists():
+        return {"status": "idle"}
+    try:
+        return _load_json(LIVE_FILE)
+    except Exception:
+        return {"status": "idle"}
+
+
 # ── Session read endpoints ─────────────────────────────────────────────────
 
 @app.get("/api/sessions", summary="List all sessions")
 def list_sessions() -> list[dict[str, Any]]:
+    if _db_enabled():
+        try:
+            return _db_list_sessions()
+        except Exception as exc:
+            logger.error("DB list_sessions failed: %s", exc)
+            raise HTTPException(500, "Database error")
+
     result = []
     for path in _session_files():
         try:
             data = _load_json(path)
-            result.append(_meta(path, data))
+            result.append(_meta(path.stem, data))
         except Exception as exc:
             logger.warning("Could not read %s: %s", path.name, exc)
     return result
@@ -153,6 +270,16 @@ def list_sessions() -> list[dict[str, Any]]:
 
 @app.get("/api/sessions/{session_id}", summary="Get full session")
 def get_session(session_id: str) -> dict[str, Any]:
+    if _db_enabled():
+        try:
+            data = _db_get_session(session_id)
+        except Exception as exc:
+            logger.error("DB get_session failed: %s", exc)
+            raise HTTPException(500, "Database error")
+        if data is None:
+            raise HTTPException(404, f"Session '{session_id}' not found")
+        return data
+
     path = SESSIONS_DIR / f"{session_id}.json"
     if not path.exists():
         raise HTTPException(404, f"Session '{session_id}' not found")
@@ -164,10 +291,30 @@ def get_session(session_id: str) -> dict[str, Any]:
 
 @app.get("/api/sessions/{session_id}/summary", summary="Get session summary")
 def get_session_summary(session_id: str) -> dict[str, Any]:
+    return get_session(session_id).get("summary", {})
+
+
+@app.delete("/api/sessions/{session_id}", summary="Delete a session")
+def delete_session(session_id: str) -> dict[str, Any]:
+    if _db_enabled():
+        try:
+            deleted = _db_delete_session(session_id)
+        except Exception as exc:
+            logger.error("DB delete_session failed: %s", exc)
+            raise HTTPException(500, "Database error")
+        if not deleted:
+            raise HTTPException(404, f"Session '{session_id}' not found")
+        _insight_cache.pop(session_id, None)
+        logger.info("Session deleted from DB: %s", session_id)
+        return {"ok": True, "id": session_id}
+
     path = SESSIONS_DIR / f"{session_id}.json"
     if not path.exists():
         raise HTTPException(404, f"Session '{session_id}' not found")
-    return _load_json(path).get("summary", {})
+    path.unlink()
+    _insight_cache.pop(session_id, None)
+    logger.info("Session deleted from disk: %s", session_id)
+    return {"ok": True, "id": session_id}
 
 
 # ── Live session endpoints ─────────────────────────────────────────────────
@@ -205,14 +352,24 @@ async def live_stream() -> StreamingResponse:
 @app.post("/api/sessions", summary="Browser tracker saves completed session")
 def save_session(data: dict[str, Any] = Body(...)) -> dict[str, Any]:
     """Receive and persist a completed session from the browser tracker."""
-    SESSIONS_DIR.mkdir(parents=True, exist_ok=True)
     session_id = data.get(
         "session_id",
         f"session_{datetime.now().strftime('%Y%m%d_%H%M%S')}",
     )
+
+    if _db_enabled():
+        try:
+            _db_save_session(session_id, data)
+            logger.info("Session saved to DB: %s (%d frames)", session_id, len(data.get("frames", [])))
+            return {"ok": True, "id": session_id}
+        except Exception as exc:
+            logger.error("DB save_session failed: %s", exc)
+            raise HTTPException(500, "Database error")
+
+    SESSIONS_DIR.mkdir(parents=True, exist_ok=True)
     path = SESSIONS_DIR / f"{session_id}.json"
     path.write_text(json.dumps(data), encoding="utf-8")
-    logger.info("Session saved: %s (%d frames)", session_id, len(data.get("frames", [])))
+    logger.info("Session saved to disk: %s (%d frames)", session_id, len(data.get("frames", [])))
     return {"ok": True, "id": session_id}
 
 
@@ -272,15 +429,12 @@ async def get_session_insight(session_id: str) -> dict[str, str]:
     if not OPENROUTER_API_KEY:
         raise HTTPException(503, "OPENROUTER_API_KEY not configured")
 
-    # Return cached insight if available
     if session_id in _insight_cache:
         return {"insight": _insight_cache[session_id], "model": OPENROUTER_MODEL, "cached": "true"}  # type: ignore[return-value]
 
-    path = SESSIONS_DIR / f"{session_id}.json"
-    if not path.exists():
-        raise HTTPException(404, f"Session '{session_id}' not found")
-
-    summary = _load_json(path).get("summary", {})
+    # Fetch summary from whichever storage is active
+    session_data = get_session(session_id)  # raises 404 if missing
+    summary = session_data.get("summary", {})
     prompt  = _build_prompt(summary)
 
     try:
@@ -294,9 +448,9 @@ async def get_session_insight(session_id: str) -> dict[str, str]:
                     "Content-Type": "application/json",
                 },
                 json={
-                    "model":      OPENROUTER_MODEL,
-                    "messages":   [{"role": "user", "content": prompt}],
-                    "max_tokens": 300,
+                    "model":       OPENROUTER_MODEL,
+                    "messages":    [{"role": "user", "content": prompt}],
+                    "max_tokens":  300,
                     "temperature": 0.7,
                 },
             )

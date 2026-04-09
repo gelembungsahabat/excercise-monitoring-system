@@ -9,6 +9,7 @@ interface Props {
   sessions:      SessionMeta[]
   activeId:      string | null
   onSelect:      (id: string) => void
+  onDelete:      (id: string) => void
 }
 
 function fmt(iso: string, opts: Intl.DateTimeFormatOptions): string {
@@ -24,7 +25,7 @@ function fmtDuration(s: number): string {
 
 export function Sidebar({
   view, liveActive, onViewChange,
-  sessions, activeId, onSelect,
+  sessions, activeId, onSelect, onDelete,
 }: Props) {
   return (
     <aside className="sidebar">
@@ -102,6 +103,7 @@ export function Sidebar({
                 onClick={() => { onSelect(s.id); onViewChange('sessions') }}
                 role="button" tabIndex={0}
                 onKeyDown={(e) => e.key === 'Enter' && (onSelect(s.id), onViewChange('sessions'))}
+                style={{ position: 'relative' }}
               >
                 <div className="session-item__date">
                   {fmt(s.start_time, { month: 'short', day: 'numeric', year: 'numeric' })}
@@ -122,6 +124,25 @@ export function Sidebar({
                     )}
                   </div>
                 )}
+                <button
+                  title="Delete session"
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    if (window.confirm('Delete this session? This cannot be undone.')) {
+                      onDelete(s.id)
+                    }
+                  }}
+                  style={{
+                    position: 'absolute', top: 6, right: 6,
+                    background: 'transparent', border: 'none', cursor: 'pointer',
+                    color: 'var(--sb-text)', opacity: 0.45, fontSize: 13, lineHeight: 1,
+                    padding: '2px 4px', borderRadius: 4,
+                  }}
+                  onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.opacity = '1'; (e.currentTarget as HTMLButtonElement).style.color = '#ef4444' }}
+                  onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.opacity = '0.45'; (e.currentTarget as HTMLButtonElement).style.color = 'var(--sb-text)' }}
+                >
+                  ✕
+                </button>
               </div>
             )
           })
