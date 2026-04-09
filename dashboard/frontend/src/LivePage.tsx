@@ -182,20 +182,11 @@ export function LivePage({ live, apiReachable }: Props) {
     finally { setStopping(false) }
   }, [stop])
 
-  if (!apiReachable) return <ApiDownState />
-
-  if (!tracker.isRunning && !live) {
-    return (
-      <>
-        <video ref={videoRef as React.RefObject<HTMLVideoElement>} autoPlay muted playsInline style={{ display: 'none' }} />
-        <IdleState loading={tracker.isLoading} error={tracker.error} onStart={handleStart} />
-      </>
-    )
-  }
+  const isActive = tracker.isRunning || live !== null
 
   // Use browser tracker state when running; fall back to server live state for display
   const displayLive = live ?? null
-  const exercise   = tracker.isRunning ? tracker.exercise  : (displayLive?.exercise  ?? 'Standing')
+  const exercise   = tracker.isRunning ? tracker.exercise   : (displayLive?.exercise   ?? 'Standing')
   const confidence = tracker.isRunning ? tracker.confidence : (displayLive?.confidence ?? 0)
   const bpm        = tracker.isRunning ? tracker.bpm        : (displayLive?.bpm        ?? 0)
   const zone       = tracker.isRunning ? tracker.zone       : (displayLive?.zone       ?? 'Normal')
@@ -213,59 +204,72 @@ export function LivePage({ live, apiReachable }: Props) {
     ? Object.values(displayLive.summary.max_reps_per_exercise).reduce((a, b) => a + b, 0)
     : 0
 
+  // ── Single return — <video> is always the first child of the Fragment so
+  //    React reuses the same DOM element across state transitions.
+  //    Previously, early-returns changed the root element type
+  //    (Fragment → main), causing React to unmount/remount the video element
+  //    and detach the camera stream, which reset video.currentTime to 0 and
+  //    triggered MediaPipe's timestamp-mismatch error.
   return (
-    <main className="content">
+    <>
+      {/* Video always at position 0 — never unmounted */}
+      <video ref={videoRef} autoPlay muted playsInline style={{ display: 'none' }} />
 
-      {/* Hidden video + canvas are always in DOM when tracker might run */}
-      <video ref={videoRef as React.RefObject<HTMLVideoElement>} autoPlay muted playsInline style={{ display: 'none' }} />
+      {/* ── API down ── */}
+      {!apiReachable && <ApiDownState />}
 
-      {/* ── Recording status bar ────────────────────────────────────────── */}
-      {(tracker.isRunning || displayLive) && (
-        <div style={{
-          display: 'flex', alignItems: 'center', gap: 12,
-          padding: '10px 18px',
-          background: 'var(--card-bg)', border: '1px solid var(--card-border)',
-          borderRadius: 'var(--r-lg)', boxShadow: 'var(--sh-sm)', flexShrink: 0,
-        }}>
-          <span className="live-dot" style={{
-            background: '#ef4444', boxShadow: '0 0 0 3px rgba(239,68,68,0.2)',
-            width: 9, height: 9,
-          }} />
-          <span style={{ fontWeight: 700, fontSize: 'var(--t-xs)', color: '#ef4444', letterSpacing: '0.1em' }}>
-            RECORDING
-          </span>
-          <span style={{ width: 1, height: 16, background: 'var(--card-border)', flexShrink: 0 }} />
-          <span style={{
-            fontSize: 'var(--t-xs)', color: 'var(--text-dim)',
-            fontFamily: 'var(--font-mono)', overflow: 'hidden',
-            textOverflow: 'ellipsis', whiteSpace: 'nowrap',
-          }}>
-            {sessionId}
-          </span>
-          <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 16, flexShrink: 0 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-              <span style={{ fontSize: 'var(--t-xs)', color: 'var(--text-dim)' }}>Elapsed</span>
-              <span style={{ fontSize: 'var(--t-sm)', fontWeight: 700, fontFamily: 'var(--font-mono)', color: 'var(--text-h)' }}>
-                {fmtElapsed(elapsed)}
-              </span>
-            </div>
-            <span style={{ width: 1, height: 16, background: 'var(--card-border)' }} />
-            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-              <span style={{ fontSize: 'var(--t-xs)', color: 'var(--text-dim)' }}>Frames</span>
-              <span style={{ fontSize: 'var(--t-sm)', fontWeight: 700, fontFamily: 'var(--font-mono)', color: 'var(--text-h)' }}>
-                {frames.toLocaleString()}
-              </span>
-            </div>
-          </div>
-        </div>
+      {/* ── Idle ── */}
+      {apiReachable && !isActive && (
+        <IdleState loading={tracker.isLoading} error={tracker.error} onStart={handleStart} />
       )}
 
-      {/* ── Video + metrics ─────────────────────────────────────────────── */}
-      {(tracker.isRunning || displayLive) && (
-        <>
+      {/* ── Active session ── */}
+      {apiReachable && isActive && (
+        <main className="content">
+
+          {/* Recording status bar */}
+          <div style={{
+            display: 'flex', alignItems: 'center', gap: 12,
+            padding: '10px 18px',
+            background: 'var(--card-bg)', border: '1px solid var(--card-border)',
+            borderRadius: 'var(--r-lg)', boxShadow: 'var(--sh-sm)', flexShrink: 0,
+          }}>
+            <span className="live-dot" style={{
+              background: '#ef4444', boxShadow: '0 0 0 3px rgba(239,68,68,0.2)',
+              width: 9, height: 9,
+            }} />
+            <span style={{ fontWeight: 700, fontSize: 'var(--t-xs)', color: '#ef4444', letterSpacing: '0.1em' }}>
+              RECORDING
+            </span>
+            <span style={{ width: 1, height: 16, background: 'var(--card-border)', flexShrink: 0 }} />
+            <span style={{
+              fontSize: 'var(--t-xs)', color: 'var(--text-dim)',
+              fontFamily: 'var(--font-mono)', overflow: 'hidden',
+              textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+            }}>
+              {sessionId}
+            </span>
+            <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 16, flexShrink: 0 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                <span style={{ fontSize: 'var(--t-xs)', color: 'var(--text-dim)' }}>Elapsed</span>
+                <span style={{ fontSize: 'var(--t-sm)', fontWeight: 700, fontFamily: 'var(--font-mono)', color: 'var(--text-h)' }}>
+                  {fmtElapsed(elapsed)}
+                </span>
+              </div>
+              <span style={{ width: 1, height: 16, background: 'var(--card-border)' }} />
+              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                <span style={{ fontSize: 'var(--t-xs)', color: 'var(--text-dim)' }}>Frames</span>
+                <span style={{ fontSize: 'var(--t-sm)', fontWeight: 700, fontFamily: 'var(--font-mono)', color: 'var(--text-h)' }}>
+                  {frames.toLocaleString()}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* Video + metrics */}
           <div style={{ display: 'flex', gap: 'var(--s4)', alignItems: 'flex-start' }}>
 
-            {/* Webcam canvas — only when tracker is running in browser */}
+            {/* Webcam canvas */}
             {tracker.isRunning && (
               <div className="card" style={{ overflow: 'hidden', flex: '0 0 auto', width: 400 }}>
                 <div className="card__head" style={{ padding: '10px 14px' }}>
@@ -287,7 +291,7 @@ export function LivePage({ live, apiReachable }: Props) {
                   </div>
                 </div>
                 <canvas
-                  ref={canvasRef as React.RefObject<HTMLCanvasElement>}
+                  ref={canvasRef}
                   style={{
                     width: '100%', display: 'block',
                     borderRadius: '0 0 var(--r-lg) var(--r-lg)',
@@ -407,9 +411,9 @@ export function LivePage({ live, apiReachable }: Props) {
               <div className="empty__text">First sync in ~1 s.</div>
             </div>
           )}
-        </>
-      )}
 
-    </main>
+        </main>
+      )}
+    </>
   )
 }
