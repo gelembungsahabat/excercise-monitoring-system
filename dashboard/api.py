@@ -201,7 +201,7 @@ def _meta(session_id: str, data: dict[str, Any]) -> dict[str, Any]:
 
 def _db_list_sessions() -> list[dict[str, Any]]:
     with _db_conn() as conn:
-        with conn.cursor(_psycopg2.extras.RealDictCursor) as cur:
+        with conn.cursor(cursor_factory=_psycopg2.extras.RealDictCursor) as cur:
             cur.execute("SELECT session_id, data FROM sessions ORDER BY created_at DESC")
             rows = cur.fetchall()
     return [_meta(row["session_id"], row["data"]) for row in rows]
@@ -209,7 +209,7 @@ def _db_list_sessions() -> list[dict[str, Any]]:
 
 def _db_get_session(session_id: str) -> dict[str, Any] | None:
     with _db_conn() as conn:
-        with conn.cursor(_psycopg2.extras.RealDictCursor) as cur:
+        with conn.cursor(cursor_factory=_psycopg2.extras.RealDictCursor) as cur:
             cur.execute("SELECT data FROM sessions WHERE session_id = %s", (session_id,))
             row = cur.fetchone()
     return dict(row["data"]) if row else None
