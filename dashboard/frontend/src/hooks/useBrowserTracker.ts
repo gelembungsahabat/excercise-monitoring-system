@@ -460,6 +460,21 @@ export function useBrowserTracker(
     }))
   }, [])
 
+  // ── Re-attach stream after React replaces the video DOM element ──────────
+  // When isRunning transitions false→true, LivePage switches from an early-
+  // return Fragment to a <main> wrapper. React unmounts the old <video> and
+  // mounts a fresh one, losing the srcObject.  Re-attach here so the canvas
+  // actually receives frames.
+  useEffect(() => {
+    if (!state.isRunning) return
+    const video  = videoRef.current
+    const stream = streamRef.current
+    if (video && stream && video.srcObject !== stream) {
+      video.srcObject = stream
+      video.play().catch(() => {})
+    }
+  }, [state.isRunning, videoRef])
+
   // ── Cleanup on unmount ────────────────────────────────────────────────────
   useEffect(() => {
     return () => {
