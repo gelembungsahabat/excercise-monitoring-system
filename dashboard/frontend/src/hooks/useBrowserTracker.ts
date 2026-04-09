@@ -122,6 +122,7 @@ export function useBrowserTracker(
   const curConfRef       = useRef(0)
   const liveTimerRef     = useRef<ReturnType<typeof setInterval> | null>(null)
   const frameCounterRef  = useRef(0)
+  const lastVideoTsRef   = useRef(0)   // last video.currentTime*1000 fed to MediaPipe
 
   // ── Load MediaPipe ────────────────────────────────────────────────────────
   // FilesetResolver (WASM) is cached in visionRef after first load.
@@ -223,20 +224,27 @@ export function useBrowserTracker(
       return
     }
 
+    // MediaPipe Tasks Vision ignores the timestampMs argument for HTMLVideoElement
+    // and uses Math.floor(video.currentTime * 1000) internally.
+    // We must use the same value and skip frames where currentTime hasn't advanced,
+    // otherwise the graph receives the same timestamp twice → "minimum expected N, got N-1" crash.
+    const videoTs = Math.floor(video.currentTime * 1000)
+    if (videoTs === 0 || videoTs <= lastVideoTsRef.current) {
+      rafRef.current = requestAnimationFrame(() => loopFnRef.current())
+      return
+    }
+    lastVideoTsRef.current = videoTs
+
     const now = Date.now()
     canvas.width  = video.videoWidth
     canvas.height = video.videoHeight
     const ctx = canvas.getContext('2d')!
     ctx.drawImage(video, 0, 0)
 
-    // Run pose detection — pass canvas (not video) so MediaPipe uses our
-    // manual Date.now() timestamp instead of video.currentTime, which resets
-    // to 0 whenever the stream is re-attached and causes a timestamp mismatch.
     let results: ReturnType<typeof lm.detectForVideo>
     try {
-      results = lm.detectForVideo(canvas, now)
+      results = lm.detectForVideo(video, videoTs)
     } catch {
-      // Graph error (e.g. stale landmarker after stop/start) — skip frame
       rafRef.current = requestAnimationFrame(() => loopFnRef.current())
       return
     }
@@ -353,6 +361,7 @@ export function useBrowserTracker(
       bpmRef.current       = initialBpm
       zoneRef.current      = 'Normal'
       stopFlagRef.current  = false
+      lastVideoTsRef.current = 0
       curExerciseRef.current = 'Standing'
       curConfRef.current     = 0
 
