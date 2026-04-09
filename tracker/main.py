@@ -33,10 +33,11 @@ from __future__ import annotations
 
 import logging
 import sys
+import threading
 import time
 from collections import deque
 from pathlib import Path
-from typing import Optional
+from typing import Callable, Optional
 
 import cv2
 import numpy as np
@@ -401,7 +402,132 @@ class FitTrackApp:
         finally:
             self._shutdown(cap)
 
+    def run_headless(
+        self,
+        frame_callback: Optional[Callable[[bytes], None]] = None,
+        stop_event: Optional[threading.Event] = None,
+    ) -> None:
+        """
+        Run the tracker without an OpenCV display window.
+
+        Parameters
+        ----------
+        frame_callback : callable[[bytes], None] | None
+            Called with each annotated frame encoded as JPEG bytes (~30 Hz).
+            Safe to call from a non-main thread.
+        stop_event : threading.Event | None
+            When set, the loop exits and cleans up.
+        """
+        cap = cv2.VideoCapture(self.camera_index)
+        if not cap.isOpened():
+            logger.error("Cannot open camera index %d", self.camera_index)
+            return
+
+        cap.set(cv2.CAP_PROP_FRAME_WIDTH,  1280)
+        cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
+        cap.set(cv2.CAP_PROP_FPS, FRAME_RATE_CAP)
+
+        session_id = self.recorder.start()
+        logger.info("Recording session (headless): %s", session_id)
+        self._running = True
+
+        frame_interval  = 1.0 / FRAME_RATE_CAP
+        last_frame_time = time.perf_counter()
+
+        try:
+            while self._running:
+                if stop_event is not None and stop_event.is_set():
+                    break
+
+                now = time.perf_counter()
+                if now - last_frame_time < frame_interval:
+                    time.sleep(0.001)
+                    continue
+                last_frame_time = now
+
+                ret, frame = cap.read()
+                if not ret:
+                    logger.warning("Frame capture failed – retrying …")
+                    continue
+
+                # BLE
+                ble_state   = "disabled"
+                ble_battery = None
+                if self.ble is not None:
+                    ble_state   = self.ble.status
+                    ble_battery = self.ble.battery_level
+                    if self.ble.is_connected and not self._bpm_input_mode:
+                        live_bpm = self.ble.bpm
+                        if live_bpm > 0:
+                            self._bpm = live_bpm
+
+                annotated, exercise, confidence, reps = self.detector.process_frame(frame)
+                zone = self.classifier.predict(self._bpm)
+
+                self.recorder.record_frame(
+                    exercise_type=exercise,
+                    confidence=confidence,
+                    bpm=self._bpm,
+                    fatigue_zone=zone,
+                    rep_count=reps,
+                    joint_angles=self.detector.get_joint_angles(),
+                )
+
+                self._bpm_history.append(self._bpm)
+                if now - self._last_live_write >= 1.0:
+                    self._last_live_write = now
+                    self.recorder.write_live_state(
+                        exercise=exercise,
+                        confidence=confidence,
+                        bpm=self._bpm,
+                        zone=zone,
+                        reps=reps,
+                        bpm_history=list(self._bpm_history),
+                    )
+
+                _draw_info_panel(
+                    annotated,
+                    exercise=exercise,
+                    confidence=confidence,
+                    zone=zone,
+                    bpm=self._bpm,
+                    reps=reps,
+                    elapsed=self.recorder.elapsed_seconds(),
+                    bpm_input_mode=False,
+                    bpm_buffer="",
+                    ble_state=ble_state,
+                    ble_battery=ble_battery,
+                )
+
+                if frame_callback is not None:
+                    _, jpg = cv2.imencode(
+                        ".jpg", annotated, [cv2.IMWRITE_JPEG_QUALITY, 75]
+                    )
+                    frame_callback(jpg.tobytes())
+
+        except Exception as exc:
+            logger.error("Headless tracker error: %s", exc, exc_info=True)
+        finally:
+            self._shutdown_headless(cap)
+
     # ── Private helpers ────────────────────────────────────────────────────
+
+    def _shutdown_headless(self, cap: cv2.VideoCapture) -> None:
+        """Clean up resources after run_headless() exits."""
+        logger.info("Shutting down headless tracker …")
+        if self.recorder.is_active:
+            summary = self.recorder.stop_and_save()
+            logger.info(
+                "Session saved | duration=%.1fs | frames=%d",
+                summary.get("total_duration_seconds", 0),
+                summary.get("total_frames", 0),
+            )
+        SessionRecorder.clear_live_state()
+        if self.ble is not None:
+            self.ble.stop()
+        self.detector.close()
+        cap.release()
+        logger.info("Headless tracker stopped.")
 
     def _handle_key(self, key: int) -> None:
         """Process a single key press."""

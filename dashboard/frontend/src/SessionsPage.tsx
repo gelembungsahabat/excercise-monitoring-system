@@ -5,6 +5,7 @@ import { ExerciseChart } from './components/ExerciseChart'
 import { ZonePieChart } from './components/ZonePieChart'
 import { BpmChart } from './components/BpmChart'
 import { RepsTable } from './components/RepsTable'
+import { AiInsightCard } from './components/AiInsightCard'
 
 interface Props {
   session:      Session | null
@@ -114,6 +115,9 @@ export function SessionsPage({
               </div>
               <RepsTable data={repRows} />
             </div>
+
+            {/* AI coaching insight */}
+            <AiInsightCard sessionId={session.session_id} />
           </>
         )}
       </main>

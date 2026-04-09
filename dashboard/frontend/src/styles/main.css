@@ -722,6 +722,23 @@ button, input, select { font-family: inherit; font-size: inherit; }
   color: var(--text-h);
 }
 
+.btn--danger {
+  background: var(--danger);
+  color: #fff;
+  border-color: var(--danger);
+}
+
+.btn--danger:hover {
+  background: #dc2626;
+  border-color: #dc2626;
+}
+
+.btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+}
+
 /* ── 15. Empty & error states ────────────────────────────── */
 .empty {
   flex: 1;

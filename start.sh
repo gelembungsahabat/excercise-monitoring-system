@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
-# start.sh — launch the API server and the workout tracker together
+# start.sh — launch the API server + Vite dev server for local development
 # Usage:  bash start.sh
 #
+# The webcam tracker now runs in the browser (no Python tracker process needed).
 # Ctrl+C stops both processes.
 
 set -e
@@ -9,7 +10,6 @@ set -e
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$ROOT"
 
-# Use pyenv Python if available (project requires 3.11 + dependencies)
 PYTHON="${PYENV_ROOT:-$HOME/.pyenv}/shims/python"
 if [ ! -x "$PYTHON" ]; then
   PYTHON="python"
@@ -20,18 +20,17 @@ echo "[start.sh] Starting API server (dashboard/api.py) ..."
 "$PYTHON" dashboard/api.py &
 API_PID=$!
 
-# Give the API a moment to bind to the port
 sleep 1
 
-echo "[start.sh] Starting workout tracker (tracker/main.py) ..."
-"$PYTHON" tracker/main.py &
-MAIN_PID=$!
+echo "[start.sh] Starting Vite dev server ..."
+cd dashboard/frontend && npm run dev &
+VITE_PID=$!
 
-# Gracefully stop both on Ctrl+C / SIGTERM
-trap "echo; echo '[start.sh] Stopping...'; kill $API_PID $MAIN_PID 2>/dev/null; wait" INT TERM
+trap "echo; echo '[start.sh] Stopping...'; kill $API_PID $VITE_PID 2>/dev/null; wait" INT TERM
 
-echo "[start.sh] Both processes running."
+echo "[start.sh] Running."
 echo "  API   → http://localhost:8000"
+echo "  UI    → http://localhost:5173"
 echo "  Press Ctrl+C to stop."
 
 wait

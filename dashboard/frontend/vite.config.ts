@@ -15,12 +15,13 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     sourcemap: false,
-    chunkSizeWarningLimit: 600,
+    chunkSizeWarningLimit: 4000,
     rollupOptions: {
       output: {
         manualChunks: {
-          'vendor-react':   ['react', 'react-dom'],
-          'vendor-recharts': ['recharts'],
+          'vendor-react':      ['react', 'react-dom'],
+          'vendor-recharts':   ['recharts'],
+          'vendor-mediapipe':  ['@mediapipe/tasks-vision'],
         },
       },
     },

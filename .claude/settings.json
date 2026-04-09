@@ -4,7 +4,11 @@
       "Bash(python3 -c ':*)",
       "Bash(git mv:*)",
       "Bash(git rm:*)",
-      "Bash(python training/train_model.py)"
+      "Bash(python training/train_model.py)",
+      "Bash(python -c ':*)",
+      "Bash(npx tsc:*)",
+      "Bash(wc -l /Users/wildan/excercise-monitoring-system/dashboard/frontend/src/components/*.tsx)",
+      "Bash(cat /Users/wildan/excercise-monitoring-system/dashboard/frontend/src/components/*.tsx)"
     ]
   }
 }
