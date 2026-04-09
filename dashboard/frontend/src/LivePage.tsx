@@ -153,7 +153,7 @@ function IdleState({
         className="btn btn--primary"
         onClick={onStart}
         disabled={loading}
-        style={{ marginTop: 20, minWidth: 160 }}
+        style={{ marginTop: 'var(--s5)', minWidth: 160 }}
       >
         {loading ? 'Starting…' : '▶  Start Tracker'}
       </button>
@@ -225,8 +225,8 @@ export function LivePage({ live, apiReachable }: Props) {
 
           {/* Recording status bar */}
           <div style={{
-            display: 'flex', alignItems: 'center', gap: 12,
-            padding: '10px 18px',
+            display: 'flex', alignItems: 'center', gap: 'var(--s3)',
+            padding: 'var(--s3) var(--s5)',
             background: 'var(--card-bg)', border: '1px solid var(--card-border)',
             borderRadius: 'var(--r-lg)', boxShadow: 'var(--sh-sm)', flexShrink: 0,
           }}>
@@ -245,15 +245,15 @@ export function LivePage({ live, apiReachable }: Props) {
             }}>
               {sessionId}
             </span>
-            <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 16, flexShrink: 0 }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+            <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 'var(--s4)', flexShrink: 0 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s2)' }}>
                 <span style={{ fontSize: 'var(--t-xs)', color: 'var(--text-dim)' }}>Elapsed</span>
                 <span style={{ fontSize: 'var(--t-sm)', fontWeight: 700, fontFamily: 'var(--font-mono)', color: 'var(--text-h)' }}>
                   {fmtElapsed(elapsed)}
                 </span>
               </div>
               <span style={{ width: 1, height: 16, background: 'var(--card-border)' }} />
-              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s2)' }}>
                 <span style={{ fontSize: 'var(--t-xs)', color: 'var(--text-dim)' }}>Frames</span>
                 <span style={{ fontSize: 'var(--t-sm)', fontWeight: 700, fontFamily: 'var(--font-mono)', color: 'var(--text-h)' }}>
                   {frames.toLocaleString()}
@@ -263,12 +263,12 @@ export function LivePage({ live, apiReachable }: Props) {
           </div>
 
           {/* Video + metrics */}
-          <div style={{ display: 'flex', gap: 'var(--s4)', alignItems: 'flex-start' }}>
+          <div style={{ display: 'flex', gap: 'var(--s6)', alignItems: 'flex-start' }}>
 
             {/* Webcam canvas */}
             {tracker.isRunning && (
               <div className="card" style={{ overflow: 'hidden', flex: '0 0 auto', width: 400 }}>
-                <div className="card__head" style={{ padding: '10px 14px' }}>
+                <div className="card__head" style={{ padding: 'var(--s3) var(--s4)' }}>
                   <div className="card__head-left">
                     <div className="card__title-icon" style={{ fontSize: 13 }}>📷</div>
                     <span className="card__title" style={{ fontSize: 'var(--t-sm)' }}>Live Camera</span>

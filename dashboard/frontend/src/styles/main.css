@@ -207,7 +207,7 @@ button, input, select { font-family: inherit; font-size: inherit; }
 
 /* ── 5. Sidebar – navigation ─────────────────────────────── */
 .sidebar-nav {
-  padding: var(--s3) var(--s3) var(--s2);
+  padding: var(--s3);
   flex-shrink: 0;
   border-bottom: 1px solid var(--sb-border);
 }
@@ -225,7 +225,7 @@ button, input, select { font-family: inherit; font-size: inherit; }
   display: flex;
   align-items: center;
   gap: var(--s2);
-  padding: 8px var(--s2);
+  padding: var(--s2) var(--s3);
   border-radius: var(--r-md);
   cursor: pointer;
   transition: background var(--ease), color var(--ease);
@@ -295,12 +295,12 @@ button, input, select { font-family: inherit; font-size: inherit; }
 .session-item {
   display: flex;
   flex-direction: column;
-  gap: 2px;
-  padding: var(--s2) var(--s3);
+  gap: var(--s1);
+  padding: var(--s3);
   border-radius: var(--r-md);
   cursor: pointer;
   transition: background var(--ease);
-  margin-bottom: 1px;
+  margin-bottom: 2px;
   border: 1px solid transparent;
   outline: none;
 }
@@ -434,10 +434,10 @@ button, input, select { font-family: inherit; font-size: inherit; }
   flex: 1;
   min-height: 0;
   overflow-y: auto;
-  padding: var(--s5);
+  padding: var(--s6);
   display: flex;
   flex-direction: column;
-  gap: var(--s5);
+  gap: var(--s6);
 }
 
 .content > * { flex-shrink: 0; }
@@ -445,13 +445,13 @@ button, input, select { font-family: inherit; font-size: inherit; }
 .grid-2 {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: var(--s5);
+  gap: var(--s6);
 }
 
 .grid-3 {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  gap: var(--s5);
+  gap: var(--s6);
 }
 
 /* ── 9. Cards ────────────────────────────────────────────── */
@@ -467,10 +467,10 @@ button, input, select { font-family: inherit; font-size: inherit; }
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--s3) var(--s5);
+  padding: var(--s4) var(--s5);
   border-bottom: 1px solid var(--card-border);
   gap: var(--s3);
-  min-height: 48px;
+  min-height: 56px;
 }
 
 .card__title {
@@ -498,7 +498,7 @@ button, input, select { font-family: inherit; font-size: inherit; }
   gap: var(--s2);
 }
 
-.card__body { padding: var(--s5); }
+.card__body { padding: var(--s5) var(--s5) var(--s6); }
 
 /* ── 10. Metric cards ────────────────────────────────────── */
 .metrics-row {
@@ -512,7 +512,7 @@ button, input, select { font-family: inherit; font-size: inherit; }
   border: 1px solid var(--card-border);
   border-radius: var(--r-lg);
   box-shadow: var(--sh-sm);
-  padding: var(--s4);
+  padding: var(--s4) var(--s5);
   display: flex;
   align-items: flex-start;
   gap: var(--s3);
@@ -551,7 +551,7 @@ button, input, select { font-family: inherit; font-size: inherit; }
   text-transform: uppercase;
   letter-spacing: 0.06em;
   line-height: 1;
-  margin-bottom: 6px;
+  margin-bottom: var(--s2);
 }
 
 .mcard__value {
@@ -569,7 +569,7 @@ button, input, select { font-family: inherit; font-size: inherit; }
 .mcard__sub {
   font-size: var(--t-xs);
   color: var(--text-dim);
-  margin-top: 4px;
+  margin-top: var(--s1);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -628,7 +628,7 @@ button, input, select { font-family: inherit; font-size: inherit; }
 
 .data-table th {
   text-align: left;
-  padding: var(--s3) var(--s5);
+  padding: var(--s3) var(--s6);
   font-size: var(--t-xs);
   font-weight: 600;
   letter-spacing: 0.05em;
@@ -639,7 +639,7 @@ button, input, select { font-family: inherit; font-size: inherit; }
 }
 
 .data-table td {
-  padding: var(--s3) var(--s5);
+  padding: var(--s3) var(--s6);
   border-bottom: 1px solid var(--card-border);
   color: var(--text-p);
   vertical-align: middle;
@@ -830,5 +830,5 @@ button, input, select { font-family: inherit; font-size: inherit; }
   .sidebar { display: none; }
   .layout__body { margin-left: 0; }
   .metrics-row { grid-template-columns: 1fr 1fr; }
-  .content { padding: var(--s4); gap: var(--s4); }
+  .content { padding: var(--s4); gap: var(--s5); }
 }
