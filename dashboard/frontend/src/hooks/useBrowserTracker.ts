@@ -106,6 +106,7 @@ export function useBrowserTracker(
 
   // ── Refs (no render needed, always fresh in callbacks) ───────────────────
   const landmarkerRef    = useRef<PoseLandmarker | null>(null)
+  const visionRef        = useRef<Awaited<ReturnType<typeof FilesetResolver.forVisionTasks>> | null>(null)
   const streamRef        = useRef<MediaStream | null>(null)
   const rafRef           = useRef<number | null>(null)
   const stopFlagRef      = useRef(false)
@@ -122,11 +123,16 @@ export function useBrowserTracker(
   const liveTimerRef     = useRef<ReturnType<typeof setInterval> | null>(null)
   const frameCounterRef  = useRef(0)
 
-  // ── Load MediaPipe (once, lazy) ───────────────────────────────────────────
+  // ── Load MediaPipe ────────────────────────────────────────────────────────
+  // FilesetResolver (WASM) is cached in visionRef after first load.
+  // PoseLandmarker is recreated on every start() so its internal graph state
+  // (including the free_memory stream) is always fresh — reusing the same
+  // instance across sessions causes a timestamp-mismatch graph error.
   const initLandmarker = useCallback(async () => {
-    if (landmarkerRef.current) return
-    const vision = await FilesetResolver.forVisionTasks(MEDIAPIPE_WASM_URL)
-    landmarkerRef.current = await PoseLandmarker.createFromOptions(vision, {
+    if (!visionRef.current) {
+      visionRef.current = await FilesetResolver.forVisionTasks(MEDIAPIPE_WASM_URL)
+    }
+    landmarkerRef.current = await PoseLandmarker.createFromOptions(visionRef.current, {
       baseOptions: {
         modelAssetPath: POSE_MODEL_URL,
         delegate: 'GPU',
@@ -398,6 +404,14 @@ export function useBrowserTracker(
     streamRef.current?.getTracks().forEach(t => t.stop())
     streamRef.current = null
 
+    // Close and release the landmarker so its internal graph state (including
+    // the free_memory stream) is fully reset before the next session.
+    // The WASM fileset stays cached in visionRef, so recreation is fast.
+    if (landmarkerRef.current) {
+      landmarkerRef.current.close()
+      landmarkerRef.current = null
+    }
+
     // Build and save session
     const frames = framesRef.current
     if (frames.length > 0) {
@@ -473,9 +487,10 @@ export function useBrowserTracker(
   useEffect(() => {
     return () => {
       stopFlagRef.current = true
-      if (rafRef.current)    cancelAnimationFrame(rafRef.current)
+      if (rafRef.current)       cancelAnimationFrame(rafRef.current)
       if (liveTimerRef.current) clearInterval(liveTimerRef.current)
       streamRef.current?.getTracks().forEach(t => t.stop())
+      landmarkerRef.current?.close()
     }
   }, [])
 
