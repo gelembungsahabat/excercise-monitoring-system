@@ -135,7 +135,10 @@ export function useBrowserTracker(
     landmarkerRef.current = await PoseLandmarker.createFromOptions(visionRef.current, {
       baseOptions: {
         modelAssetPath: POSE_MODEL_URL,
-        delegate: 'GPU',
+        // CPU delegate avoids the GPU free_memory stream which causes a
+        // timestamp-mismatch error (minimum expected 1, received 0) every frame
+        // when GPU async initialization races with the first detectForVideo call.
+        delegate: 'CPU',
       },
       runningMode: 'VIDEO',
       numPoses: 1,
@@ -215,7 +218,7 @@ export function useBrowserTracker(
     const canvas = canvasRef.current
     const lm     = landmarkerRef.current
 
-    if (!video || !canvas || !lm || video.readyState < 2) {
+    if (!video || !canvas || !lm || video.readyState < 2 || video.videoWidth === 0) {
       rafRef.current = requestAnimationFrame(() => loopFnRef.current())
       return
     }
