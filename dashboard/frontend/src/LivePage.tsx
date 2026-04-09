@@ -66,56 +66,6 @@ function MCard({ icon, iconClass, label, value, sub, valueColor }: {
   )
 }
 
-// ── Webcam canvas card ────────────────────────────────────────────────────────
-
-function WebcamCard({
-  videoRef, canvasRef, onStop, stopping,
-}: {
-  videoRef:  React.RefObject<HTMLVideoElement | null>
-  canvasRef: React.RefObject<HTMLCanvasElement | null>
-  onStop:    () => void
-  stopping:  boolean
-}) {
-  return (
-    <div className="card" style={{ overflow: 'hidden', flex: '0 0 auto', width: 400 }}>
-      <div className="card__head" style={{ padding: '10px 14px' }}>
-        <div className="card__head-left">
-          <div className="card__title-icon" style={{ fontSize: 13 }}>📷</div>
-          <span className="card__title" style={{ fontSize: 'var(--t-sm)' }}>Live Camera</span>
-        </div>
-        <button
-          className="btn btn--danger"
-          onClick={onStop}
-          disabled={stopping}
-          style={{ minWidth: 110, fontSize: 'var(--t-xs)', padding: '5px 10px' }}
-        >
-          {stopping ? 'Saving…' : '■  Stop'}
-        </button>
-      </div>
-      {/* Hidden video element — feeds canvas */}
-      <video
-        ref={videoRef}
-        autoPlay
-        muted
-        playsInline
-        style={{ display: 'none' }}
-      />
-      {/* Visible canvas with pose overlay */}
-      <canvas
-        ref={canvasRef}
-        style={{
-          width: '100%',
-          display: 'block',
-          borderRadius: '0 0 var(--r-lg) var(--r-lg)',
-          background: '#1a1a1a',
-          aspectRatio: '4/3',
-          objectFit: 'contain',
-        }}
-      />
-    </div>
-  )
-}
-
 // ── BPM input ─────────────────────────────────────────────────────────────────
 
 function BpmInput({ value, onChange }: { value: number; onChange: (v: number) => void }) {
@@ -262,7 +212,7 @@ export function LivePage({ live, apiReachable }: Props) {
     <main className="content">
 
       {/* Hidden video + canvas are always in DOM when tracker might run */}
-      <video ref={videoRef} autoPlay muted playsInline style={{ display: 'none' }} />
+      <video ref={videoRef as React.RefObject<HTMLVideoElement>} autoPlay muted playsInline style={{ display: 'none' }} />
 
       {/* ── Recording status bar ────────────────────────────────────────── */}
       {(tracker.isRunning || displayLive) && (
@@ -332,7 +282,7 @@ export function LivePage({ live, apiReachable }: Props) {
                   </div>
                 </div>
                 <canvas
-                  ref={canvasRef}
+                  ref={canvasRef as React.RefObject<HTMLCanvasElement>}
                   style={{
                     width: '100%', display: 'block',
                     borderRadius: '0 0 var(--r-lg) var(--r-lg)',

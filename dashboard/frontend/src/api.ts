@@ -11,19 +11,6 @@ async function request<T>(path: string): Promise<T> {
   return res.json() as Promise<T>
 }
 
-async function post<T>(path: string, params?: Record<string, string | number>): Promise<T> {
-  const url = new URL(`${BASE}${path}`, window.location.origin)
-  if (params) {
-    Object.entries(params).forEach(([k, v]) => url.searchParams.set(k, String(v)))
-  }
-  const res = await fetch(url.toString(), { method: 'POST' })
-  if (!res.ok) {
-    const text = await res.text().catch(() => res.statusText)
-    throw new Error(`${res.status} ${text}`)
-  }
-  return res.json() as Promise<T>
-}
-
 async function postJson<T>(path: string, body: unknown): Promise<T> {
   const res = await fetch(`${BASE}${path}`, {
     method:  'POST',
