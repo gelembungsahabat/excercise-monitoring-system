@@ -4,9 +4,13 @@
  * Orchestrates the browser-side exercise tracking pipeline:
  *   getUserMedia → MediaPipe Pose → exercise classify → rep count → session save
  *
- * The caller must pass refs to a <video> and a <canvas> element.
- * The video element receives the raw webcam stream (hidden).
- * The canvas element shows the annotated pose overlay.
+ * Storage strategy (memory-efficient):
+ *   - Per RAF frame: update running aggregates only (O(1), no array growth)
+ *   - Per second:    push one lightweight BPM sample + post live snapshot
+ *   - On stop:       build session from aggregates + samples (~1 row/sec)
+ *
+ * A 60-minute session produces ~3,600 samples × ~40 bytes = ~144 KB,
+ * vs the old approach of ~108,000 frames × ~200 bytes = ~21 MB.
  */
 
 import { useRef, useState, useCallback, useEffect } from 'react'
@@ -41,16 +45,11 @@ export interface BrowserTrackerState {
   sessionId:      string | null
 }
 
-interface FrameRecord {
-  timestamp:        string
-  session_id:       string
-  exercise_type:    string
-  confidence:       number
+/** One lightweight sample stored per second — used for the BPM chart. */
+interface BpmSample {
+  duration_seconds: number
   bpm:              number
   fatigue_zone:     string
-  rep_count:        number
-  duration_seconds: number
-  joint_angles:     JointAngles
 }
 
 // ── CDN URLs ─────────────────────────────────────────────────────────────────
@@ -81,8 +80,6 @@ function ruleBpmZone(bpm: number): string {
   return 'Maximum'
 }
 
-function roundAngle(v: number) { return Math.round(v * 10) / 10 }
-
 // ── Hook ─────────────────────────────────────────────────────────────────────
 
 export function useBrowserTracker(
@@ -104,31 +101,50 @@ export function useBrowserTracker(
     sessionId:      null,
   })
 
-  // ── Refs (no render needed, always fresh in callbacks) ───────────────────
-  const landmarkerRef    = useRef<PoseLandmarker | null>(null)
-  const visionRef        = useRef<Awaited<ReturnType<typeof FilesetResolver.forVisionTasks>> | null>(null)
-  const streamRef        = useRef<MediaStream | null>(null)
-  const rafRef           = useRef<number | null>(null)
-  const stopFlagRef      = useRef(false)
-  const startTimeRef     = useRef(0)
-  const framesRef        = useRef<FrameRecord[]>([])
-  const repStatesRef     = useRef<Record<string, RepState>>(
+  // ── MediaPipe refs ────────────────────────────────────────────────────────
+  const landmarkerRef = useRef<PoseLandmarker | null>(null)
+  const visionRef     = useRef<Awaited<ReturnType<typeof FilesetResolver.forVisionTasks>> | null>(null)
+
+  // ── Camera / loop refs ────────────────────────────────────────────────────
+  const streamRef       = useRef<MediaStream | null>(null)
+  const rafRef          = useRef<number | null>(null)
+  const liveTimerRef    = useRef<ReturnType<typeof setInterval> | null>(null)
+  const stopFlagRef     = useRef(false)
+  const lastVideoTsRef  = useRef(0)
+  const frameCountRef   = useRef(0)   // total RAF frames processed (for UI)
+
+  // ── Session identity ──────────────────────────────────────────────────────
+  const sessionIdRef  = useRef('')
+  const startTimeRef  = useRef(0)
+
+  // ── Current-frame state refs (updated every RAF, read in timer/stop) ──────
+  const bpmRef          = useRef(120)
+  const zoneRef         = useRef('Normal')
+  const curExerciseRef  = useRef('Standing')
+  const curConfRef      = useRef(0)
+  const curElapsedRef   = useRef(0)
+
+  // ── Running aggregates (O(1) update per frame, no array growth) ───────────
+  const zoneCountsRef = useRef<Record<string, number>>({})   // zone → frame count
+  const exCountsRef   = useRef<Record<string, number>>({})   // exercise → frame count
+  const bpmSumRef     = useRef(0)
+  const bpmCountRef   = useRef(0)
+  const bpmMaxRef     = useRef(0)
+  const bpmMinRef     = useRef(Infinity)
+
+  // ── Rep state ─────────────────────────────────────────────────────────────
+  const repStatesRef = useRef<Record<string, RepState>>(
     Object.fromEntries(EXERCISES.map(ex => [ex, { count: 0, stage: 'up' as const }]))
   )
-  const sessionIdRef     = useRef('')
-  const bpmRef           = useRef(120)
-  const zoneRef          = useRef('Normal')
-  const curExerciseRef   = useRef('Standing')
-  const curConfRef       = useRef(0)
-  const liveTimerRef     = useRef<ReturnType<typeof setInterval> | null>(null)
-  const frameCounterRef  = useRef(0)
-  const lastVideoTsRef   = useRef(0)   // last video.currentTime*1000 fed to MediaPipe
+
+  // ── Per-second BPM samples (for BPM chart in saved session) ──────────────
+  // One sample per second → 3,600 samples/hour vs ~108,000 frames/hour.
+  const bpmSamplesRef = useRef<BpmSample[]>([])
 
   // ── Load MediaPipe ────────────────────────────────────────────────────────
-  // FilesetResolver (WASM) is cached in visionRef after first load.
-  // PoseLandmarker is recreated on every start() so its internal graph state
-  // (including the free_memory stream) is always fresh — reusing the same
-  // instance across sessions causes a timestamp-mismatch graph error.
+  // FilesetResolver (WASM) is cached after first load.
+  // PoseLandmarker is always recreated fresh so its internal graph state
+  // (free_memory stream) never carries over from a previous session.
   const initLandmarker = useCallback(async () => {
     if (!visionRef.current) {
       visionRef.current = await FilesetResolver.forVisionTasks(MEDIAPIPE_WASM_URL)
@@ -136,9 +152,7 @@ export function useBrowserTracker(
     landmarkerRef.current = await PoseLandmarker.createFromOptions(visionRef.current, {
       baseOptions: {
         modelAssetPath: POSE_MODEL_URL,
-        // CPU delegate avoids the GPU free_memory stream which causes a
-        // timestamp-mismatch error (minimum expected 1, received 0) every frame
-        // when GPU async initialization races with the first detectForVideo call.
+        // CPU delegate avoids the GPU free_memory stream timestamp-mismatch bug.
         delegate: 'CPU',
       },
       runningMode: 'VIDEO',
@@ -162,45 +176,43 @@ export function useBrowserTracker(
     }
   }, [])
 
-  // ── Build and POST live state snapshot ───────────────────────────────────
-  const postLiveSnapshot = useCallback(() => {
-    const frames  = framesRef.current
-    const elapsed = (Date.now() - startTimeRef.current) / 1000
+  // ── Per-second tick: sample BPM + post live snapshot ─────────────────────
+  // Reads from aggregates refs — O(1), no loops over frame arrays.
+  const onSecondTick = useCallback(() => {
+    const elapsed  = curElapsedRef.current
+    const bpm      = bpmRef.current
+    const zone     = zoneRef.current
+    const exercise = curExerciseRef.current
 
-    const zoneDist:  Record<string, number> = {}
-    const exFrames:  Record<string, number> = {}
-    const bpmValues: number[] = []
+    // Push one lightweight sample for the BPM chart
+    bpmSamplesRef.current.push({ duration_seconds: elapsed, bpm, fatigue_zone: zone })
 
-    for (const f of frames) {
-      zoneDist[f.fatigue_zone]  = (zoneDist[f.fatigue_zone]  ?? 0) + 1
-      exFrames[f.exercise_type] = (exFrames[f.exercise_type] ?? 0) + 1
-      bpmValues.push(f.bpm)
-    }
-
+    // Build live payload from running aggregates (no loops)
+    const bpmCount = bpmCountRef.current || 1
     const repCounts = Object.fromEntries(
       Object.entries(repStatesRef.current).map(([ex, s]) => [ex, s.count])
     )
+    // last 60 BPM samples for the sparkline
+    const bpmHistory = bpmSamplesRef.current.slice(-60).map(s => s.bpm)
 
     const payload = {
       status:          'active',
       session_id:      sessionIdRef.current,
       start_time:      new Date(startTimeRef.current).toISOString(),
       elapsed_seconds: Math.round(elapsed),
-      exercise:        curExerciseRef.current,
+      exercise,
       confidence:      curConfRef.current,
-      bpm:             bpmRef.current,
-      zone:            zoneRef.current,
-      reps:            repStatesRef.current[curExerciseRef.current]?.count ?? 0,
-      bpm_history:     bpmValues.slice(-60),
-      total_frames:    frames.length,
+      bpm,
+      zone,
+      reps:            repStatesRef.current[exercise]?.count ?? 0,
+      bpm_history:     bpmHistory,
+      total_frames:    frameCountRef.current,
       summary: {
-        avg_bpm: bpmValues.length
-          ? Math.round(bpmValues.reduce((a, b) => a + b, 0) / bpmValues.length)
-          : 0,
-        max_bpm: bpmValues.length ? Math.max(...bpmValues) : 0,
-        exercises_detected: Object.keys(exFrames).filter(ex => ex !== 'Standing'),
-        exercise_frame_counts:    exFrames,
-        fatigue_zone_distribution: zoneDist,
+        avg_bpm: Math.round(bpmSumRef.current / bpmCount),
+        max_bpm: bpmMaxRef.current,
+        exercises_detected: Object.keys(exCountsRef.current).filter(ex => ex !== 'Standing'),
+        exercise_frame_counts:     { ...exCountsRef.current },
+        fatigue_zone_distribution: { ...zoneCountsRef.current },
         max_reps_per_exercise:     repCounts,
       },
     }
@@ -209,7 +221,6 @@ export function useBrowserTracker(
   }, [])
 
   // ── Detection loop (runs every animation frame) ───────────────────────────
-  // Stored in a ref so it's always fresh without being re-created
   const loopFnRef = useRef<() => void>(() => {})
 
   loopFnRef.current = () => {
@@ -224,10 +235,8 @@ export function useBrowserTracker(
       return
     }
 
-    // MediaPipe Tasks Vision ignores the timestampMs argument for HTMLVideoElement
-    // and uses Math.floor(video.currentTime * 1000) internally.
-    // We must use the same value and skip frames where currentTime hasn't advanced,
-    // otherwise the graph receives the same timestamp twice → "minimum expected N, got N-1" crash.
+    // Skip frames where video.currentTime hasn't advanced — MediaPipe uses
+    // video.currentTime internally and crashes on duplicate/decreasing timestamps.
     const videoTs = Math.floor(video.currentTime * 1000)
     if (videoTs === 0 || videoTs <= lastVideoTsRef.current) {
       rafRef.current = requestAnimationFrame(() => loopFnRef.current())
@@ -236,6 +245,8 @@ export function useBrowserTracker(
     lastVideoTsRef.current = videoTs
 
     const now = Date.now()
+
+    // Draw video frame onto canvas for the overlay
     canvas.width  = video.videoWidth
     canvas.height = video.videoHeight
     const ctx = canvas.getContext('2d')!
@@ -251,80 +262,60 @@ export function useBrowserTracker(
 
     let exercise   = 'Standing'
     let confidence = 0
-    let jointAngles: JointAngles = {
-      left_knee: 0, right_knee: 0, left_hip: 0, right_hip: 0,
-      left_elbow: 0, right_elbow: 0, left_shoulder: 0, right_shoulder: 0,
-    }
 
     if (results.landmarks.length > 0) {
-      const landmarks = results.landmarks[0]
-      jointAngles = computeAngles(landmarks)
-      ;[exercise, confidence] = classifyExercise(jointAngles)
+      const landmarks  = results.landmarks[0]
+      const angles: JointAngles = computeAngles(landmarks)
+      ;[exercise, confidence] = classifyExercise(angles)
 
-      // Update rep counter for the detected exercise
-      const angle = primaryAngle(exercise, jointAngles)
+      // Update rep counter
+      const angle = primaryAngle(exercise, angles)
       repStatesRef.current[exercise] = updateRep(
         repStatesRef.current[exercise] ?? { count: 0, stage: 'up' },
         exercise,
         angle,
       )
 
-      // Draw pose skeleton on canvas (skip face landmarks 0–10)
+      // Draw skeleton (skip face landmarks 0–10)
       const drawUtils = new DrawingUtils(ctx)
       const bodyConns = PoseLandmarker.POSE_CONNECTIONS.filter(
         c => c.start > 10 && c.end > 10,
       )
-      drawUtils.drawConnectors(landmarks, bodyConns, {
-        color: 'rgba(255,255,255,0.7)',
-        lineWidth: 2,
-      })
+      drawUtils.drawConnectors(landmarks, bodyConns, { color: 'rgba(255,255,255,0.7)', lineWidth: 2 })
       drawUtils.drawLandmarks(
         landmarks.filter((_, i) => i > 10),
         { radius: 4, color: '#00ff41', fillColor: '#00ff41' },
       )
     }
 
-    // Update live refs
+    // ── Update running aggregates (O(1)) ──────────────────────────────────
+    const elapsed = (now - startTimeRef.current) / 1000
+    const bpm     = bpmRef.current
+    const zone    = zoneRef.current
+
+    zoneCountsRef.current[zone]      = (zoneCountsRef.current[zone]      ?? 0) + 1
+    exCountsRef.current[exercise]    = (exCountsRef.current[exercise]    ?? 0) + 1
+    bpmSumRef.current  += bpm
+    bpmCountRef.current++
+    if (bpm > bpmMaxRef.current)              bpmMaxRef.current = bpm
+    if (bpm < bpmMinRef.current)              bpmMinRef.current = bpm
+
     curExerciseRef.current = exercise
     curConfRef.current     = confidence
+    curElapsedRef.current  = elapsed
+    frameCountRef.current++
 
-    // Record frame
-    const elapsed = (now - startTimeRef.current) / 1000
-    const currentRep = repStatesRef.current[exercise]?.count ?? 0
-
-    framesRef.current.push({
-      timestamp:        new Date(now).toISOString(),
-      session_id:       sessionIdRef.current,
-      exercise_type:    exercise,
-      confidence:       Math.round(confidence * 100) / 100,
-      bpm:              bpmRef.current,
-      fatigue_zone:     zoneRef.current,
-      rep_count:        currentRep,
-      duration_seconds: Math.round(elapsed * 10) / 10,
-      joint_angles: {
-        left_knee:      roundAngle(jointAngles.left_knee),
-        right_knee:     roundAngle(jointAngles.right_knee),
-        left_hip:       roundAngle(jointAngles.left_hip),
-        right_hip:      roundAngle(jointAngles.right_hip),
-        left_elbow:     roundAngle(jointAngles.left_elbow),
-        right_elbow:    roundAngle(jointAngles.right_elbow),
-        left_shoulder:  roundAngle(jointAngles.left_shoulder),
-        right_shoulder: roundAngle(jointAngles.right_shoulder),
-      },
-    })
-
-    // Update React state every 5 frames to avoid excessive renders
-    frameCounterRef.current++
-    if (frameCounterRef.current % 5 === 0) {
+    // Update React state every 5 frames
+    if (frameCountRef.current % 5 === 0) {
       setState(prev => ({
         ...prev,
         exercise,
         confidence,
-        reps:           currentRep,
+        reps:           repStatesRef.current[exercise]?.count ?? 0,
         elapsedSeconds: Math.round(elapsed),
-        totalFrames:    framesRef.current.length,
-        bpm:            bpmRef.current,
-        zone:           zoneRef.current,
+        totalFrames:    frameCountRef.current,
+        bpm,
+        zone,
       }))
     }
 
@@ -344,37 +335,42 @@ export function useBrowserTracker(
 
       const video = videoRef.current!
       video.srcObject = stream
-      await new Promise<void>(resolve => {
-        video.onloadedmetadata = () => resolve()
-      })
+      await new Promise<void>(resolve => { video.onloadedmetadata = () => resolve() })
       await video.play()
 
-      // Reset session state
+      // Reset all session state
       const sessionId = makeSessionId()
-      sessionIdRef.current   = sessionId
-      startTimeRef.current   = Date.now()
-      framesRef.current      = []
-      frameCounterRef.current = 0
-      repStatesRef.current   = Object.fromEntries(
+      sessionIdRef.current  = sessionId
+      startTimeRef.current  = Date.now()
+      frameCountRef.current = 0
+      lastVideoTsRef.current = 0
+      bpmRef.current        = initialBpm
+      zoneRef.current       = 'Normal'
+      stopFlagRef.current   = false
+      curExerciseRef.current = 'Standing'
+      curConfRef.current    = 0
+      curElapsedRef.current = 0
+
+      // Reset aggregates
+      zoneCountsRef.current = {}
+      exCountsRef.current   = {}
+      bpmSumRef.current     = 0
+      bpmCountRef.current   = 0
+      bpmMaxRef.current     = 0
+      bpmMinRef.current     = Infinity
+      bpmSamplesRef.current = []
+      repStatesRef.current  = Object.fromEntries(
         EXERCISES.map(ex => [ex, { count: 0, stage: 'up' as const }])
       )
-      bpmRef.current       = initialBpm
-      zoneRef.current      = 'Normal'
-      stopFlagRef.current  = false
-      lastVideoTsRef.current = 0
-      curExerciseRef.current = 'Standing'
-      curConfRef.current     = 0
 
-      // Initial zone fetch
       await fetchZone(initialBpm)
 
-      // Start detection loop
       rafRef.current = requestAnimationFrame(() => loopFnRef.current())
 
-      // Post live state + refresh zone every second
+      // Per-second: fetch zone + push BPM sample + post live snapshot
       liveTimerRef.current = setInterval(() => {
         fetchZone(bpmRef.current)
-        postLiveSnapshot()
+        onSecondTick()
       }, 1000)
 
       setState(prev => ({
@@ -395,69 +391,49 @@ export function useBrowserTracker(
       setState(prev => ({
         ...prev,
         isLoading: false,
-        error:     err instanceof Error ? err.message : 'Failed to start camera',
+        error: err instanceof Error ? err.message : 'Failed to start camera',
       }))
     }
-  }, [initLandmarker, videoRef, fetchZone, postLiveSnapshot])
+  }, [initLandmarker, videoRef, fetchZone, onSecondTick])
 
   // ── Stop ──────────────────────────────────────────────────────────────────
-  const stop = useCallback(async () => {
+  const stop = useCallback(() => {
     stopFlagRef.current = true
 
-    if (rafRef.current) {
-      cancelAnimationFrame(rafRef.current)
-      rafRef.current = null
-    }
-    if (liveTimerRef.current) {
-      clearInterval(liveTimerRef.current)
-      liveTimerRef.current = null
-    }
+    if (rafRef.current)       { cancelAnimationFrame(rafRef.current); rafRef.current = null }
+    if (liveTimerRef.current) { clearInterval(liveTimerRef.current); liveTimerRef.current = null }
 
     streamRef.current?.getTracks().forEach(t => t.stop())
     streamRef.current = null
 
-    // Close and release the landmarker so its internal graph state is fully
-    // reset before the next session. WASM fileset stays cached in visionRef.
-    try {
-      landmarkerRef.current?.close()
-    } catch { /* ignore */ }
+    try { landmarkerRef.current?.close() } catch { /* ignore */ }
     landmarkerRef.current = null
 
-    // ── Flip UI to stopped immediately — don't wait for the network save ──
-    // Awaiting api.saveSession() before setting isRunning:false caused the
-    // "stuck on recording" bug: large payloads or slow connections meant the
-    // stop button appeared frozen until the POST completed (or hung forever).
+    // Flip UI to stopped immediately — don't block on the network save
     setState(prev => ({ ...prev, isRunning: false, sessionId: null }))
-
-    // Clear live state on server (fire-and-forget)
     api.postLive({ status: 'idle' }).catch(() => {})
 
-    // Build and save session in the background
-    const frames = framesRef.current
-    if (frames.length === 0) return
+    // ── Build compact session payload from aggregates + BPM samples ────────
+    const samples = bpmSamplesRef.current
+    if (samples.length === 0) return
 
     const startIso = new Date(startTimeRef.current).toISOString()
     const endIso   = new Date().toISOString()
     const duration = (Date.now() - startTimeRef.current) / 1000
 
-    const bpmValues: number[] = frames.map(f => f.bpm)
-    const exFrames:  Record<string, number> = {}
-    const zoneDist:  Record<string, number> = {}
-
-    for (const f of frames) {
-      exFrames[f.exercise_type] = (exFrames[f.exercise_type] ?? 0) + 1
-      zoneDist[f.fatigue_zone]  = (zoneDist[f.fatigue_zone]  ?? 0) + 1
-    }
+    const bpmCount  = bpmCountRef.current || 1
+    const exFrames  = { ...exCountsRef.current }
+    const zoneDist  = { ...zoneCountsRef.current }
+    const totalSamples = samples.length || 1
 
     const maxReps: Record<string, number> = {}
     for (const [ex, st] of Object.entries(repStatesRef.current)) {
       if (st.count > 0) maxReps[ex] = st.count
     }
 
-    const total = frames.length || 1
     const zonePct: Record<string, number> = {}
     for (const [z, c] of Object.entries(zoneDist)) {
-      zonePct[z] = Math.round((c / total) * 1000) / 10
+      zonePct[z] = Math.round((c / (frameCountRef.current || 1)) * 1000) / 10
     }
 
     const session = {
@@ -465,7 +441,9 @@ export function useBrowserTracker(
       start_time:       startIso,
       end_time:         endIso,
       duration_seconds: Math.round(duration),
-      frames,
+      // "frames" field uses the per-second samples — the SessionsPage BPM chart
+      // downsamples to 300 points anyway, so per-second resolution is plenty.
+      frames: samples,
       summary: {
         session_id:                sessionIdRef.current,
         start_time:                startIso,
@@ -478,12 +456,10 @@ export function useBrowserTracker(
         max_reps_per_exercise:     maxReps,
         fatigue_zone_distribution: zoneDist,
         fatigue_zone_pct:          zonePct,
-        avg_bpm: bpmValues.length
-          ? Math.round(bpmValues.reduce((a, b) => a + b, 0) / bpmValues.length)
-          : 0,
-        max_bpm:      bpmValues.length ? Math.max(...bpmValues) : 0,
-        min_bpm:      bpmValues.length ? Math.min(...bpmValues) : 0,
-        total_frames: frames.length,
+        avg_bpm:     Math.round(bpmSumRef.current / bpmCount),
+        max_bpm:     bpmMaxRef.current,
+        min_bpm:     bpmMinRef.current === Infinity ? 0 : bpmMinRef.current,
+        total_frames: totalSamples,
       },
     }
 
@@ -497,7 +473,7 @@ export function useBrowserTracker(
       if (rafRef.current)       cancelAnimationFrame(rafRef.current)
       if (liveTimerRef.current) clearInterval(liveTimerRef.current)
       streamRef.current?.getTracks().forEach(t => t.stop())
-      landmarkerRef.current?.close()
+      try { landmarkerRef.current?.close() } catch { /* ignore */ }
     }
   }, [])
 
