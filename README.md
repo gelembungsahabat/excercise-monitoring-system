@@ -272,17 +272,48 @@ python tracker/main.py --ble --ble-address "A0:9E:1A:XX:XX:XX"
 
 ### Development mode (hot-reload UI)
 
-```bash
-# Terminal 1 – API server
-python dashboard/api.py
+**Prerequisites (one-time setup)**
 
-# Terminal 2 – Vite dev server (proxies /api → FastAPI)
+```bash
+# 1. Python dependencies
+pip install -r requirements.txt
+
+# 2. Train the HR model
+python training/train_model.py
+
+# 3. Frontend dependencies
+cd dashboard/frontend && npm install && cd ../..
+```
+
+**Run dev servers**
+
+```bash
+# Terminal 1 – FastAPI backend
+python dashboard/api.py
+# Runs on http://localhost:8000
+
+# Terminal 2 – Vite dev server (proxies /api → FastAPI automatically)
 cd dashboard/frontend && npm run dev
 # Open http://localhost:5173
 
 # Terminal 3 – optional Python desktop tracker
 python tracker/main.py
+# Add --ble for Polar H10 Bluetooth
 ```
+
+The browser tracker (MediaPipe WASM) runs directly from the Live Monitoring page — Terminal 3 is only needed if you want the Python desktop tracker.
+
+**Environment variables (optional)**
+
+Copy `.env.example` to `.env` for AI coaching or PostgreSQL:
+
+```bash
+cp .env.example .env
+# Set OPENROUTER_API_KEY to enable the AI Coach insight card
+# Set DATABASE_URL for PostgreSQL (defaults to local JSON files)
+```
+
+Everything works without these — only the AI Coach card is disabled when `OPENROUTER_API_KEY` is unset.
 
 ---
 
