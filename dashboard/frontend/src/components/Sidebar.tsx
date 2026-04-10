@@ -11,6 +11,7 @@ interface Props {
   activeId: string | null;
   onSelect: (id: string) => void;
   onDelete: (id: string) => void;
+  mobileOpen?: boolean;
 }
 
 function fmt(iso: string, opts: Intl.DateTimeFormatOptions): string {
@@ -32,9 +33,10 @@ export function Sidebar({
   activeId,
   onSelect,
   onDelete,
+  mobileOpen,
 }: Props) {
   return (
-    <aside className="sidebar">
+    <aside className={`sidebar${mobileOpen ? " sidebar--mobile-open" : ""}`}>
       {/* ── Logo ─────────────────────────────────────────────────── */}
       <div className="sidebar-logo">
         <div className="sidebar-logo__mark">
