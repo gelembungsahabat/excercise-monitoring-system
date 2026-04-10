@@ -1,3 +1,4 @@
+import { RotateCcw } from 'lucide-react'
 import type { RepRow } from '../types'
 
 interface Props { data: RepRow[] }
@@ -10,7 +11,7 @@ export function RepsTable({ data }: Props) {
 
   if (!rows.length) return (
     <div className="empty" style={{ padding: 'var(--s6)' }}>
-      <div className="empty__icon">🔁</div>
+      <div className="empty__icon"><RotateCcw size={24} /></div>
       <div className="empty__text">No reps counted this session</div>
     </div>
   )

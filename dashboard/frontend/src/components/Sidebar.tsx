@@ -1,3 +1,4 @@
+import { Activity, TrendingUp, Dumbbell, X } from "lucide-react";
 import type { SessionMeta } from "../types";
 
 type View = "live" | "sessions";
@@ -36,7 +37,9 @@ export function Sidebar({
     <aside className="sidebar">
       {/* ── Logo ─────────────────────────────────────────────────── */}
       <div className="sidebar-logo">
-        <div className="sidebar-logo__mark">💪</div>
+        <div className="sidebar-logo__mark">
+          <Dumbbell size={20} />
+        </div>
         <div className="sidebar-logo__wordmark">
           <div className="sidebar-logo__name">
             Fit<span>Track</span> AI
@@ -56,8 +59,8 @@ export function Sidebar({
           tabIndex={0}
           onKeyDown={(e) => e.key === "Enter" && onViewChange("live")}
         >
-          <div className="nav-item__icon">📡</div>
-          <span className="nav-item__label">Live Monitoring</span>
+          <div className="nav-item__icon"><Activity size={16} /></div>
+          <span className="nav-item__label">Live Tracking</span>
           {liveActive && (
             <div className="nav-item__live-badge">
               <span
@@ -79,7 +82,7 @@ export function Sidebar({
           tabIndex={0}
           onKeyDown={(e) => e.key === "Enter" && onViewChange("sessions")}
         >
-          <div className="nav-item__icon">📂</div>
+          <div className="nav-item__icon"><TrendingUp size={16} /></div>
           <span className="nav-item__label">Sessions</span>
           {sessions.length > 0 && (
             <span
@@ -186,6 +189,8 @@ export function Sidebar({
                     lineHeight: 1,
                     padding: "2px 4px",
                     borderRadius: 4,
+                    display: "flex",
+                    alignItems: "center",
                   }}
                   onMouseEnter={(e) => {
                     (e.currentTarget as HTMLButtonElement).style.opacity = "1";
@@ -199,7 +204,7 @@ export function Sidebar({
                       "var(--sb-text)";
                   }}
                 >
-                  ✕
+                  <X size={12} />
                 </button>
               </div>
             );

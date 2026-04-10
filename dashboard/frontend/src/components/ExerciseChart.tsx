@@ -2,6 +2,7 @@ import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid,
   Tooltip, ResponsiveContainer, Cell,
 } from 'recharts'
+import { BarChart2 } from 'lucide-react'
 import type { ExerciseBar } from '../types'
 
 interface Props { data: ExerciseBar[] }
@@ -24,7 +25,7 @@ function Tooltip_({ active, payload, label }: TTProps) {
 export function ExerciseChart({ data }: Props) {
   if (!data.length) return (
     <div className="empty" style={{ padding: 'var(--s8)' }}>
-      <div className="empty__icon">📊</div>
+      <div className="empty__icon"><BarChart2 size={24} /></div>
       <div className="empty__text">No exercise data recorded</div>
     </div>
   )

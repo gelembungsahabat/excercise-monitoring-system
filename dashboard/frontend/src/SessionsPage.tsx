@@ -1,3 +1,4 @@
+import { ClipboardList, AlertTriangle, BarChart2, Zap, Heart, RotateCcw } from 'lucide-react'
 import type { Session, ExerciseBar, ZoneSlice, BpmPoint, RepRow } from './types'
 import { Header } from './components/Header'
 import { MetricCards } from './components/MetricCards'
@@ -34,7 +35,7 @@ export function SessionsPage({
         {/* ── No session selected ── */}
         {!activeId && !loading && (
           <div className="empty">
-            <div className="empty__icon">📂</div>
+            <div className="empty__icon"><ClipboardList size={32} /></div>
             <div className="empty__title">No session selected</div>
             <div className="empty__text">
               Pick a session from the sidebar to view its data.
@@ -53,7 +54,7 @@ export function SessionsPage({
         {/* ── Error ── */}
         {error && !loading && (
           <div className="empty">
-            <div className="empty__icon">⚠️</div>
+            <div className="empty__icon"><AlertTriangle size={32} /></div>
             <div className="empty__title">Failed to load session</div>
             <div className="empty__text">{error}</div>
             <button className="btn btn--primary" onClick={onRetry}>Retry</button>
@@ -70,7 +71,7 @@ export function SessionsPage({
               <div className="card">
                 <div className="card__head">
                   <div className="card__head-left">
-                    <div className="card__title-icon">🏃</div>
+                    <div className="card__title-icon"><BarChart2 size={14} /></div>
                     <span className="card__title">Exercise Distribution</span>
                   </div>
                 </div>
@@ -82,7 +83,7 @@ export function SessionsPage({
               <div className="card">
                 <div className="card__head">
                   <div className="card__head-left">
-                    <div className="card__title-icon">⚡</div>
+                    <div className="card__title-icon"><Zap size={14} /></div>
                     <span className="card__title">Fatigue Zone Breakdown</span>
                   </div>
                 </div>
@@ -96,7 +97,7 @@ export function SessionsPage({
             <div className="card">
               <div className="card__head">
                 <div className="card__head-left">
-                  <div className="card__title-icon">❤️</div>
+                  <div className="card__title-icon"><Heart size={14} /></div>
                   <span className="card__title">Heart Rate Over Time</span>
                 </div>
               </div>
@@ -109,7 +110,7 @@ export function SessionsPage({
             <div className="card">
               <div className="card__head">
                 <div className="card__head-left">
-                  <div className="card__title-icon">🔁</div>
+                  <div className="card__title-icon"><RotateCcw size={14} /></div>
                   <span className="card__title">Reps Per Exercise</span>
                 </div>
               </div>

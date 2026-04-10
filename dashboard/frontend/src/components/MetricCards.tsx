@@ -1,3 +1,5 @@
+import type { ReactNode } from 'react'
+import { Timer, Heart, TrendingUp, RotateCcw, Film } from 'lucide-react'
 import type { SessionSummary } from '../types'
 
 interface Props { summary: SessionSummary }
@@ -9,7 +11,7 @@ function fmtDuration(s: number): string {
 }
 
 interface CardProps {
-  icon: string
+  icon: ReactNode
   iconClass: string
   label: string
   value: string
@@ -35,33 +37,33 @@ export function MetricCards({ summary }: Props) {
   return (
     <div className="metrics-row">
       <MCard
-        icon="⏱"
+        icon={<Timer size={18} />}
         iconClass="mcard__icon--blue"
         label="Duration"
         value={fmtDuration(summary.total_duration_seconds)}
       />
       <MCard
-        icon="❤️"
+        icon={<Heart size={18} />}
         iconClass="mcard__icon--cyan"
         label="Avg BPM"
         value={summary.avg_bpm.toFixed(0)}
         sub={`Min ${summary.min_bpm} · Max ${summary.max_bpm}`}
       />
       <MCard
-        icon="📈"
+        icon={<TrendingUp size={18} />}
         iconClass="mcard__icon--red"
         label="Peak BPM"
         value={String(summary.max_bpm)}
       />
       <MCard
-        icon="🔁"
+        icon={<RotateCcw size={18} />}
         iconClass="mcard__icon--green"
         label="Total Reps"
         value={String(totalReps)}
         sub={`${summary.exercises_detected.length} exercise type${summary.exercises_detected.length !== 1 ? 's' : ''}`}
       />
       <MCard
-        icon="🎞"
+        icon={<Film size={18} />}
         iconClass="mcard__icon--purple"
         label="Frames"
         value={summary.total_frames.toLocaleString()}
