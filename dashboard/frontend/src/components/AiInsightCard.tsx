@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
+import { Sparkles, Loader } from 'lucide-react'
 
 interface Props {
   sessionId: string
@@ -46,7 +47,7 @@ export function AiInsightCard({ sessionId }: Props) {
     <div className="card">
       <div className="card__head">
         <div className="card__head-left">
-          <div className="card__title-icon">🤖</div>
+          <div className="card__title-icon"><Sparkles size={14} /></div>
           <span className="card__title">AI Coach Insight</span>
         </div>
         {model && (
@@ -73,7 +74,7 @@ export function AiInsightCard({ sessionId }: Props) {
         {/* Loading */}
         {status === 'loading' && (
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, color: 'var(--text-dim)' }}>
-            <span style={{ fontSize: 20, animation: 'spin 1s linear infinite', display: 'inline-block' }}>⏳</span>
+            <span style={{ animation: 'spin 1s linear infinite', display: 'inline-flex' }}><Loader size={18} /></span>
             <span style={{ fontSize: 'var(--t-sm)' }}>Analyzing your workout…</span>
           </div>
         )}

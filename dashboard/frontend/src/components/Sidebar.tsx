@@ -1,4 +1,4 @@
-import { Activity, TrendingUp, Dumbbell, X } from "lucide-react";
+import { Activity, TrendingUp, X } from "lucide-react";
 import type { SessionMeta } from "../types";
 
 type View = "live" | "sessions";
@@ -38,7 +38,7 @@ export function Sidebar({
       {/* ── Logo ─────────────────────────────────────────────────── */}
       <div className="sidebar-logo">
         <div className="sidebar-logo__mark">
-          <Dumbbell size={20} />
+💪
         </div>
         <div className="sidebar-logo__wordmark">
           <div className="sidebar-logo__name">

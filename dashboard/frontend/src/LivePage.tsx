@@ -4,12 +4,11 @@ import {
   WifiOff,
   Camera,
   Pencil,
-  Dumbbell,
+  Activity,
   Heart,
   Zap,
   RotateCcw,
   Timer,
-  Activity,
   Loader,
   BarChart2,
 } from "lucide-react";
@@ -552,7 +551,7 @@ export function LivePage({ live, apiReachable }: Props) {
               }}
             >
               <MCard
-                icon={<Dumbbell size={18} />}
+                icon={<Activity size={18} />}
                 iconClass="mcard__icon--blue"
                 label="Exercise"
                 value={exercise}
