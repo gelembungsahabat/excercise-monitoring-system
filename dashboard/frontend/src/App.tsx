@@ -78,8 +78,8 @@ function exportCsv(session: Session): void {
 // ── Root component ─────────────────────────────────────────────────────────
 
 export function App() {
-  const { live, apiReachable } = useLiveSession()
   const [view,     setView]     = useState<View>('live')
+  const { live, apiReachable } = useLiveSession(view === 'live')
   const [sessions, setSessions] = useState<SessionMeta[]>([])
   const [activeId, setActiveId] = useState<string | null>(null)
   const [session,  setSession]  = useState<Session | null>(null)

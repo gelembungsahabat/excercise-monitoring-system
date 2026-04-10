@@ -1,6 +1,7 @@
-import { useState, useRef, useCallback } from 'react'
+import { useState, useRef, useCallback, useEffect } from 'react'
 import type { LiveSession } from './hooks/useLiveSession'
 import { useBrowserTracker } from './hooks/useBrowserTracker'
+import { api } from './api'
 import { ZONE_COLORS } from './types'
 import type { ExerciseBar, ZoneSlice, BpmPoint, RepRow } from './types'
 import { ExerciseChart }  from './components/ExerciseChart'
@@ -177,6 +178,16 @@ export function LivePage({ live, apiReachable }: Props) {
   const handleStop = useCallback(() => {
     stop()
   }, [stop])
+
+  // ── Stale-session guard ────────────────────────────────────────────────────
+  // If the page was reloaded mid-session the server's live.json still says
+  // "active" but our tracker is not running. Auto-clear it so the UI doesn't
+  // get stuck in an un-stoppable "recording" state.
+  useEffect(() => {
+    if (apiReachable && live !== null && !tracker.isRunning) {
+      api.postLive({ status: 'idle' }).catch(() => {})
+    }
+  }, [apiReachable, live, tracker.isRunning])
 
   const isActive = tracker.isRunning || live !== null
 

@@ -112,6 +112,7 @@ export function useBrowserTracker(
   const stopFlagRef     = useRef(false)
   const lastVideoTsRef  = useRef(0)
   const frameCountRef   = useRef(0)   // total RAF frames processed (for UI)
+  const drawUtilsRef    = useRef<DrawingUtils | null>(null)  // cached per-session
 
   // ── Session identity ──────────────────────────────────────────────────────
   const sessionIdRef  = useRef('')
@@ -246,9 +247,13 @@ export function useBrowserTracker(
 
     const now = Date.now()
 
-    // Draw video frame onto canvas for the overlay
-    canvas.width  = video.videoWidth
-    canvas.height = video.videoHeight
+    // Only resize canvas when dimensions actually change — resizing clears the
+    // canvas state and invalidates the cached DrawingUtils WebGL resources.
+    if (canvas.width !== video.videoWidth || canvas.height !== video.videoHeight) {
+      canvas.width  = video.videoWidth
+      canvas.height = video.videoHeight
+      drawUtilsRef.current = null  // recreate after resize
+    }
     const ctx = canvas.getContext('2d')!
     ctx.drawImage(video, 0, 0)
 
@@ -277,7 +282,8 @@ export function useBrowserTracker(
       )
 
       // Draw skeleton (skip face landmarks 0–10)
-      const drawUtils = new DrawingUtils(ctx)
+      if (!drawUtilsRef.current) drawUtilsRef.current = new DrawingUtils(ctx)
+      const drawUtils = drawUtilsRef.current
       const bodyConns = PoseLandmarker.POSE_CONNECTIONS.filter(
         c => c.start > 10 && c.end > 10,
       )
@@ -408,6 +414,7 @@ export function useBrowserTracker(
 
     try { landmarkerRef.current?.close() } catch { /* ignore */ }
     landmarkerRef.current = null
+    drawUtilsRef.current  = null
 
     // Flip UI to stopped immediately — don't block on the network save
     setState(prev => ({ ...prev, isRunning: false, sessionId: null }))
@@ -474,6 +481,7 @@ export function useBrowserTracker(
       if (liveTimerRef.current) clearInterval(liveTimerRef.current)
       streamRef.current?.getTracks().forEach(t => t.stop())
       try { landmarkerRef.current?.close() } catch { /* ignore */ }
+      drawUtilsRef.current = null
     }
   }, [])
 

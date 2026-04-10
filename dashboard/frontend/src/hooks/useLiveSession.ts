@@ -37,12 +37,16 @@ export interface LiveState {
  *
  * Polling is used instead of SSE because Vite's dev proxy (http-proxy) buffers
  * streaming responses, so EventSource events would never reach the browser.
+ *
+ * Pass enabled=false to pause polling (e.g. when not on the live view).
  */
-export function useLiveSession(): LiveState {
+export function useLiveSession(enabled = true): LiveState {
   const [live,         setLive]         = useState<LiveSession | null>(null)
   const [apiReachable, setApiReachable] = useState(false)
 
   useEffect(() => {
+    if (!enabled) return
+
     let active = true
 
     const poll = async () => {
@@ -63,7 +67,7 @@ export function useLiveSession(): LiveState {
     poll()
     const id = setInterval(poll, 1000)
     return () => { active = false; clearInterval(id) }
-  }, [])
+  }, [enabled])
 
   return { live, apiReachable }
 }
