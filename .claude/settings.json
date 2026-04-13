@@ -9,7 +9,9 @@
       "Bash(npx tsc:*)",
       "Bash(wc -l /Users/wildan/excercise-monitoring-system/dashboard/frontend/src/components/*.tsx)",
       "Bash(cat /Users/wildan/excercise-monitoring-system/dashboard/frontend/src/components/*.tsx)",
-      "Bash(npm install:*)"
+      "Bash(npm install:*)",
+      "Bash(cat /Users/wildan/excercise-monitoring-system/dashboard/frontend/src/hooks/*.ts)",
+      "Bash(cat /Users/wildan/excercise-monitoring-system/dashboard/frontend/src/hooks/*.tsx)"
     ]
   }
 }

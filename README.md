@@ -29,6 +29,120 @@ FitTrack AI watches you exercise through your webcam and simultaneously:
 
 ---
 
+## Architecture: How It Works (MediaPipe to Server)
+
+**MediaPipe does NOT run on the server.** It runs entirely in the user's browser. Here is the full pipeline:
+
+### 1. Browser — MediaPipe Pose (WASM)
+
+**File:** `dashboard/frontend/src/hooks/useBrowserTracker.ts`
+
+When you click "Start Tracker":
+1. The browser loads `@mediapipe/tasks-vision` from a **CDN** (jsDelivr + Google Storage) — this downloads a `.task` model file and WASM binary into the browser.
+2. `navigator.mediaDevices.getUserMedia()` opens your webcam.
+3. A `requestAnimationFrame` loop runs continuously, feeding each video frame into `PoseLandmarker.detectForVideo()`.
+4. MediaPipe returns **33 pose landmarks** (x, y, z coordinates) for the body.
+
+```
+Webcam → <video> element → MediaPipe WASM (in browser) → 33 landmarks
+```
+
+### 2. Browser — Exercise Detection & Rep Counting
+
+**File:** `dashboard/frontend/src/hooks/useExerciseDetector.ts`
+
+This is a **TypeScript port** of the Python `tracker/exercise_detector.py`. Runs 100% in the browser:
+
+1. `computeAngles(landmarks)` — calculates 8 joint angles (knee, hip, elbow, shoulder — left/right)
+2. `classifyExercise(angles)` — rule-based scoring to determine: Squat / Push-Up / Bicep Curl / etc.
+3. `updateRep(state, exercise, angle)` — up/down state machine to count reps
+
+```
+Landmarks → Joint Angles → Exercise Classification → Rep Count
+```
+
+### 3. Browser → Server: Live Sync (every 1 second)
+
+**File:** `dashboard/frontend/src/hooks/useBrowserTracker.ts` — `onSecondTick()`
+
+Every second, the browser **POSTs a snapshot** to the server:
+
+```
+POST /api/live  ← browser sends { bpm, zone, exercise, reps, summary, ... }
+```
+
+The server writes this to `data/live.json` (or PostgreSQL) and acts as a **shared state bus** between the tracker and its readers:
+
+- The **chart components** in the same browser (`BpmChart`, `ExerciseChart`, `ZonePieChart`, `RepsTable`) poll `/api/live` via `useLiveSession` to get the accumulated summary (`bpm_history`, `exercise_frame_counts`, `fatigue_zone_distribution`). The tracker itself only maintains O(1) running aggregates in refs — it does not build chart-ready data structures directly.
+- **Other tabs or devices** can open the dashboard and observe the session in progress by polling the same endpoint.
+
+This is why the Live Monitoring page shows "Charts loading… First sync in ~1 s." on start — the metric cards update from the tracker's in-memory refs immediately, but the charts wait for the first server response.
+
+Also every second: the browser calls `GET /api/classify-bpm?bpm=X` to get the fatigue zone from the server's ML classifier. If that fails, it falls back to a simple rule-based threshold in the browser.
+
+### 4. Server — FastAPI Backend
+
+**File:** `dashboard/api.py`
+
+The server's responsibilities are minimal:
+
+| Endpoint | What it does |
+|---|---|
+| `POST /api/live` | Receives live snapshot from browser, saves to `live.json` |
+| `GET /api/live` | Returns current `live.json` (polled by other viewers) |
+| `GET /api/classify-bpm` | Uses the Python ML model (`HRClassifier`) to predict fatigue zone |
+| `POST /api/sessions` | Receives completed session from browser, saves to DB/file |
+| `GET /api/sessions` | Lists saved sessions |
+| `GET /api/sessions/{id}/insight` | Calls OpenRouter (Gemini) to generate AI coaching feedback |
+
+### 5. Browser → Server: Session Save (on Stop)
+
+When you click "Stop", the browser:
+1. Cancels the RAF loop and closes the webcam.
+2. Builds a compact session object (aggregates + ~1 BPM sample/second).
+3. POSTs it to `POST /api/sessions` — saved to PostgreSQL or `data/sessions/session_*.json`.
+
+### 6. React Dashboard Polling
+
+**File:** `dashboard/frontend/src/hooks/useLiveSession.ts`
+
+The `LivePage` polls `GET /api/live` every second to display live charts. When the browser tracker is running and you are on another tab or device, you still see live data because the browser pushes it to the server.
+
+### Full Data Flow Diagram
+
+```
+┌─────────────────────────────────────────────────────────┐
+│                    USER'S BROWSER                        │
+│                                                          │
+│  Webcam                                                  │
+│    │                                                     │
+│    ▼                                                     │
+│  MediaPipe WASM (loaded from CDN)                        │
+│    │  33 pose landmarks                                  │
+│    ▼                                                     │
+│  useExerciseDetector.ts                                  │
+│    │  joint angles → exercise → reps                     │
+│    ▼                                                     │
+│  useBrowserTracker.ts  ─── every 1s ──▶  POST /api/live  │
+│                         ─── on stop ──▶  POST /api/sessions
+│                         ─── BPM zone ──▶ GET /api/classify-bpm
+└─────────────────────────────────────────────────────────┘
+                                │
+                                ▼
+┌─────────────────────────────────────────────────────────┐
+│                  FASTAPI SERVER (Python)                  │
+│                                                          │
+│  /api/live         → read/write live.json                │
+│  /api/sessions     → read/write PostgreSQL or JSON files │
+│  /api/classify-bpm → HR classifier (Random Forest ML)   │
+│  /api/.../insight  → OpenRouter (Gemini AI)              │
+└─────────────────────────────────────────────────────────┘
+```
+
+> **Note:** The Python `tracker/` folder (`exercise_detector.py`, `main.py`, etc.) is the **original standalone desktop app**. The web app completely reimplements that detection logic in TypeScript and runs it in the browser. The server only handles storage and the ML classification endpoint.
+
+---
+
 ## Project Structure
 
 ```
