@@ -55,6 +55,16 @@ function buildRepRows(session: Session): RepRow[] {
 
 // ── CSV export ─────────────────────────────────────────────────────────────
 
+function downloadCsv(csv: string, filename: string): void {
+  const blob = new Blob([csv], { type: "text/csv" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
 function exportCsv(session: Session): void {
   const s = session.summary;
   const rows: string[][] = [
@@ -81,13 +91,19 @@ function exportCsv(session: Session): void {
     ]),
   ];
   const csv = rows.map((r) => r.map((c) => `"${c}"`).join(",")).join("\n");
-  const blob = new Blob([csv], { type: "text/csv" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = `${s.session_id}_summary.csv`;
-  a.click();
-  URL.revokeObjectURL(url);
+  downloadCsv(csv, `${s.session_id}_summary.csv`);
+}
+
+function exportTimelineCsv(session: Session): void {
+  if (!session.frames || session.frames.length === 0) return;
+  const header = ["duration_seconds", "bpm", "fatigue_zone"];
+  const rows = session.frames.map((f) => [
+    String(f.duration_seconds),
+    String(f.bpm),
+    f.fatigue_zone,
+  ]);
+  const csv = [header, ...rows].map((r) => r.map((c) => `"${c}"`).join(",")).join("\n");
+  downloadCsv(csv, `${session.session_id}_timeline.csv`);
 }
 
 // ── Root component ─────────────────────────────────────────────────────────
@@ -240,6 +256,7 @@ export function App() {
             repRows={repRows}
             onRetry={() => activeId && fetchSession(activeId)}
             onExport={() => session && exportCsv(session)}
+            onExportTimeline={() => session && exportTimelineCsv(session)}
           />
         )}
       </div>

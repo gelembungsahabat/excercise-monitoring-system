@@ -17,18 +17,19 @@ interface Props {
   zoneSlices:   ZoneSlice[]
   bpmPoints:    BpmPoint[]
   repRows:      RepRow[]
-  onRetry:  () => void
-  onExport: () => void
+  onRetry:           () => void
+  onExport:          () => void
+  onExportTimeline:  () => void
 }
 
 export function SessionsPage({
   session, loading, error, activeId,
   exerciseBars, zoneSlices, bpmPoints, repRows,
-  onRetry, onExport,
+  onRetry, onExport, onExportTimeline,
 }: Props) {
   return (
     <>
-      <Header session={session} onExport={onExport} />
+      <Header session={session} onExport={onExport} onExportTimeline={onExportTimeline} />
 
       <main className="content">
 

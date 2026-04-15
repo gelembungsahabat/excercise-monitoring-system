@@ -1,8 +1,9 @@
 import type { Session } from '../types'
 
 interface Props {
-  session:  Session | null
-  onExport: () => void
+  session:          Session | null
+  onExport:         () => void
+  onExportTimeline: () => void
 }
 
 function fmtDateTime(iso: string): string {
@@ -33,7 +34,7 @@ function IconActivity() {
   )
 }
 
-export function Header({ session, onExport }: Props) {
+export function Header({ session, onExport, onExportTimeline }: Props) {
   return (
     <header className="header">
       <div className="header__icon">
@@ -56,10 +57,16 @@ export function Header({ session, onExport }: Props) {
 
       <div className="header__actions">
         {session && (
-          <button className="btn btn--outline" onClick={onExport} title="Export summary as CSV">
-            <IconDownload />
-            Export CSV
-          </button>
+          <>
+            <button className="btn btn--outline" onClick={onExport} title="Export session summary as CSV">
+              <IconDownload />
+              Summary CSV
+            </button>
+            <button className="btn btn--outline" onClick={onExportTimeline} title="Export per-second BPM timeline as CSV">
+              <IconDownload />
+              Timeline CSV
+            </button>
+          </>
         )}
       </div>
     </header>
