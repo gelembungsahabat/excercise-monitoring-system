@@ -33,17 +33,20 @@ import json
 import logging
 import os
 import sys
+import uuid
 from contextlib import contextmanager
-from datetime import datetime
+from datetime import datetime, timedelta
 from pathlib import Path
-from typing import Any, Generator
+from typing import Any, Generator, Optional
 
 import httpx
+import jwt
 import uvicorn
-from fastapi import Body, FastAPI, HTTPException
+from fastapi import Body, Depends, FastAPI, Header, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
+from passlib.context import CryptContext
 
 # ── Paths ──────────────────────────────────────────────────────────────────
 _HERE         = Path(__file__).resolve().parent
@@ -51,6 +54,7 @@ _ROOT         = _HERE.parent
 SESSIONS_DIR  = _ROOT / "data" / "sessions"
 LIVE_FILE     = _ROOT / "data" / "live.json"
 FRONTEND_DIST = _HERE / "frontend" / "dist"
+USERS_FILE    = _ROOT / "data" / "users.json"
 
 # Add project root to sys.path so tracker.hr_classifier can be imported
 if str(_ROOT) not in sys.path:
@@ -106,6 +110,84 @@ def _init_db() -> None:
                 )
             """)
     logger.info("PostgreSQL sessions table ready.")
+
+
+# ── Auth / User Management ─────────────────────────────────────────────────
+
+JWT_SECRET    = os.environ.get("JWT_SECRET_KEY", "fittrack-ai-dev-secret-change-in-prod")
+JWT_ALGORITHM = "HS256"
+JWT_EXPIRE_H  = int(os.environ.get("JWT_EXPIRE_HOURS", "24"))
+
+_pwd = CryptContext(schemes=["sha256_crypt"], deprecated="auto")
+
+_DEFAULT_ADMIN: dict[str, Any] = {
+    "id":            "00000000-0000-0000-0000-000000000001",
+    "username":      "admin",
+    "password_hash": "",   # filled at startup so hash is stable
+    "email":         "admin@fittrack.ai",
+    "role":          "admin",
+    "is_active":     True,
+    "created_at":    "2024-01-01T00:00:00",
+}
+
+
+def _load_users() -> list[dict[str, Any]]:
+    if not USERS_FILE.exists():
+        admin = dict(_DEFAULT_ADMIN)
+        admin["password_hash"] = _pwd.hash("admin123")
+        users: list[dict[str, Any]] = [admin]
+        _save_users(users)
+        return users
+    try:
+        with open(USERS_FILE, encoding="utf-8") as fh:
+            return json.load(fh)
+    except Exception:
+        admin = dict(_DEFAULT_ADMIN)
+        admin["password_hash"] = _pwd.hash("admin123")
+        return [admin]
+
+
+def _save_users(users: list[dict[str, Any]]) -> None:
+    USERS_FILE.parent.mkdir(parents=True, exist_ok=True)
+    USERS_FILE.write_text(json.dumps(users, indent=2), encoding="utf-8")
+
+
+def _safe_user(user: dict[str, Any]) -> dict[str, Any]:
+    """Return user dict without the password hash."""
+    return {k: v for k, v in user.items() if k != "password_hash"}
+
+
+def _make_token(user: dict[str, Any]) -> str:
+    payload = {
+        "user_id":  user["id"],
+        "username": user["username"],
+        "role":     user["role"],
+        "exp":      datetime.utcnow() + timedelta(hours=JWT_EXPIRE_H),
+    }
+    return jwt.encode(payload, JWT_SECRET, algorithm=JWT_ALGORITHM)
+
+
+def _get_current_user(authorization: Optional[str] = Header(default=None)) -> dict[str, Any]:
+    if not authorization or not authorization.startswith("Bearer "):
+        raise HTTPException(401, "Not authenticated")
+    token = authorization[7:]
+    try:
+        payload = jwt.decode(token, JWT_SECRET, algorithms=[JWT_ALGORITHM])
+    except jwt.ExpiredSignatureError:
+        raise HTTPException(401, "Token expired")
+    except jwt.InvalidTokenError:
+        raise HTTPException(401, "Invalid token")
+    users = _load_users()
+    user = next((u for u in users if u["id"] == payload.get("user_id")), None)
+    if not user or not user.get("is_active", True):
+        raise HTTPException(401, "User not found or inactive")
+    return user
+
+
+def _require_admin(user: dict[str, Any] = Depends(_get_current_user)) -> dict[str, Any]:
+    if user.get("role") != "admin":
+        raise HTTPException(403, "Admin access required")
+    return user
 
 
 # ── App ────────────────────────────────────────────────────────────────────
@@ -466,6 +548,111 @@ async def get_session_insight(session_id: str) -> dict[str, str]:
 
     _insight_cache[session_id] = insight
     return {"insight": insight, "model": OPENROUTER_MODEL}  # type: ignore[return-value]
+
+
+# ── Auth endpoints ─────────────────────────────────────────────────────────
+
+@app.post("/api/auth/login", summary="Login and receive a JWT token")
+def login(body: dict[str, Any] = Body(...)) -> dict[str, Any]:
+    username = body.get("username", "").strip()
+    password = body.get("password", "")
+    if not username or not password:
+        raise HTTPException(400, "username and password are required")
+    users = _load_users()
+    user = next((u for u in users if u["username"] == username), None)
+    if not user or not _pwd.verify(password, user.get("password_hash", "")):
+        raise HTTPException(401, "Invalid username or password")
+    if not user.get("is_active", True):
+        raise HTTPException(403, "Account is disabled")
+    token = _make_token(user)
+    logger.info("User logged in: %s", username)
+    return {"access_token": token, "token_type": "bearer", "user": _safe_user(user)}
+
+
+@app.get("/api/auth/me", summary="Get current authenticated user")
+def get_me(current_user: dict[str, Any] = Depends(_get_current_user)) -> dict[str, Any]:
+    return _safe_user(current_user)
+
+
+# ── User management endpoints ──────────────────────────────────────────────
+
+@app.get("/api/users", summary="List all users (admin only)")
+def list_users(current_user: dict[str, Any] = Depends(_require_admin)) -> list[dict[str, Any]]:
+    return [_safe_user(u) for u in _load_users()]
+
+
+@app.post("/api/users", summary="Create a new user (admin only)")
+def create_user(
+    body: dict[str, Any] = Body(...),
+    current_user: dict[str, Any] = Depends(_require_admin),
+) -> dict[str, Any]:
+    username = body.get("username", "").strip()
+    password = body.get("password", "")
+    if not username or not password:
+        raise HTTPException(400, "username and password are required")
+    users = _load_users()
+    if any(u["username"] == username for u in users):
+        raise HTTPException(400, "Username already exists")
+    new_user: dict[str, Any] = {
+        "id":            str(uuid.uuid4()),
+        "username":      username,
+        "password_hash": _pwd.hash(password),
+        "email":         body.get("email", ""),
+        "role":          body.get("role", "user"),
+        "is_active":     body.get("is_active", True),
+        "created_at":    datetime.utcnow().isoformat(),
+    }
+    users.append(new_user)
+    _save_users(users)
+    logger.info("User created: %s by %s", username, current_user["username"])
+    return _safe_user(new_user)
+
+
+@app.put("/api/users/{user_id}", summary="Update a user (admin only)")
+def update_user(
+    user_id: str,
+    body: dict[str, Any] = Body(...),
+    current_user: dict[str, Any] = Depends(_require_admin),
+) -> dict[str, Any]:
+    users = _load_users()
+    idx = next((i for i, u in enumerate(users) if u["id"] == user_id), None)
+    if idx is None:
+        raise HTTPException(404, "User not found")
+    user = users[idx]
+    if "username" in body:
+        new_name = body["username"].strip()
+        if new_name != user["username"] and any(u["username"] == new_name for u in users):
+            raise HTTPException(400, "Username already exists")
+        user["username"] = new_name
+    if "email" in body:
+        user["email"] = body["email"]
+    if "role" in body:
+        user["role"] = body["role"]
+    if "is_active" in body:
+        user["is_active"] = body["is_active"]
+    if body.get("password"):
+        user["password_hash"] = _pwd.hash(body["password"])
+    users[idx] = user
+    _save_users(users)
+    logger.info("User updated: %s by %s", user["username"], current_user["username"])
+    return _safe_user(user)
+
+
+@app.delete("/api/users/{user_id}", summary="Delete a user (admin only)")
+def delete_user(
+    user_id: str,
+    current_user: dict[str, Any] = Depends(_require_admin),
+) -> dict[str, Any]:
+    if user_id == current_user["id"]:
+        raise HTTPException(400, "Cannot delete your own account")
+    users = _load_users()
+    original = len(users)
+    users = [u for u in users if u["id"] != user_id]
+    if len(users) == original:
+        raise HTTPException(404, "User not found")
+    _save_users(users)
+    logger.info("User deleted: %s by %s", user_id, current_user["username"])
+    return {"ok": True, "id": user_id}
 
 
 # ── HR classification endpoint ─────────────────────────────────────────────

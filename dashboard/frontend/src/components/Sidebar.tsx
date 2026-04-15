@@ -1,7 +1,7 @@
-import { Activity, TrendingUp, X } from "lucide-react";
-import type { SessionMeta } from "../types";
+import { Activity, TrendingUp, Users, LogOut, X } from "lucide-react";
+import type { SessionMeta, User } from "../types";
 
-type View = "live" | "sessions";
+type View = "live" | "sessions" | "users";
 
 interface Props {
   view: View;
@@ -11,6 +11,8 @@ interface Props {
   activeId: string | null;
   onSelect: (id: string) => void;
   onDelete: (id: string) => void;
+  currentUser: User | null;
+  onLogout: () => void;
   mobileOpen?: boolean;
 }
 
@@ -33,15 +35,15 @@ export function Sidebar({
   activeId,
   onSelect,
   onDelete,
+  currentUser,
+  onLogout,
   mobileOpen,
 }: Props) {
   return (
     <aside className={`sidebar${mobileOpen ? " sidebar--mobile-open" : ""}`}>
       {/* ── Logo ─────────────────────────────────────────────────── */}
       <div className="sidebar-logo">
-        <div className="sidebar-logo__mark">
-💪
-        </div>
+        <div className="sidebar-logo__mark">💪</div>
         <div className="sidebar-logo__wordmark">
           <div className="sidebar-logo__name">
             Fit<span>Track</span> AI
@@ -101,10 +103,23 @@ export function Sidebar({
             </span>
           )}
         </div>
+
+        {currentUser?.role === "admin" && (
+          <div
+            className={`nav-item${view === "users" ? " nav-item--active" : ""}`}
+            onClick={() => onViewChange("users")}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => e.key === "Enter" && onViewChange("users")}
+          >
+            <div className="nav-item__icon"><Users size={16} /></div>
+            <span className="nav-item__label">User Management</span>
+          </div>
+        )}
       </div>
 
       {/* ── Session list ─────────────────────────────────────────── */}
-      <div className="sidebar-group">
+      <div className="sidebar-group" style={{ flex: 1, overflowY: "auto" }}>
         <div className="sidebar-group__label">Recent Sessions</div>
 
         {sessions.length === 0 ? (
@@ -170,11 +185,7 @@ export function Sidebar({
                   title="Delete session"
                   onClick={(e) => {
                     e.stopPropagation();
-                    if (
-                      window.confirm(
-                        "Delete this session? This cannot be undone.",
-                      )
-                    ) {
+                    if (window.confirm("Delete this session? This cannot be undone.")) {
                       onDelete(s.id);
                     }
                   }}
@@ -196,14 +207,11 @@ export function Sidebar({
                   }}
                   onMouseEnter={(e) => {
                     (e.currentTarget as HTMLButtonElement).style.opacity = "1";
-                    (e.currentTarget as HTMLButtonElement).style.color =
-                      "#ef4444";
+                    (e.currentTarget as HTMLButtonElement).style.color = "#ef4444";
                   }}
                   onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLButtonElement).style.opacity =
-                      "0.45";
-                    (e.currentTarget as HTMLButtonElement).style.color =
-                      "var(--sb-text)";
+                    (e.currentTarget as HTMLButtonElement).style.opacity = "0.45";
+                    (e.currentTarget as HTMLButtonElement).style.color = "var(--sb-text)";
                   }}
                 >
                   <X size={12} />
@@ -213,6 +221,26 @@ export function Sidebar({
           })
         )}
       </div>
+
+      {/* ── User info + logout ────────────────────────────────────── */}
+      {currentUser && (
+        <div className="sidebar-user">
+          <div className="sidebar-user__avatar">
+            {currentUser.username[0].toUpperCase()}
+          </div>
+          <div className="sidebar-user__info">
+            <div className="sidebar-user__name">{currentUser.username}</div>
+            <div className="sidebar-user__role">{currentUser.role}</div>
+          </div>
+          <button
+            className="sidebar-user__logout"
+            onClick={onLogout}
+            title="Sign out"
+          >
+            <LogOut size={15} />
+          </button>
+        </div>
+      )}
     </aside>
   );
 }

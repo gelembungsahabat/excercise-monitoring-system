@@ -84,6 +84,22 @@ export interface RepRow {
   reps: number
 }
 
+// ── Auth & User types ──────────────────────────────────────────────────────
+
+export interface User {
+  id: string
+  username: string
+  email: string
+  role: 'admin' | 'user'
+  is_active: boolean
+  created_at: string
+}
+
+export interface AuthState {
+  user: User | null
+  token: string | null
+}
+
 // ── Zone colour map ────────────────────────────────────────────────────────
 
 export const ZONE_COLORS: Record<string, string> = {

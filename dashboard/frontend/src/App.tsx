@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from "react";
-import { api } from "./api";
+import { api, getStoredToken, setStoredToken } from "./api";
 import type {
   Session,
   SessionMeta,
@@ -7,13 +7,16 @@ import type {
   ZoneSlice,
   BpmPoint,
   RepRow,
+  User,
 } from "./types";
 import { Sidebar } from "./components/Sidebar";
 import { LivePage } from "./LivePage";
 import { SessionsPage } from "./SessionsPage";
+import { LoginPage } from "./LoginPage";
+import { UserManagementPage } from "./UserManagementPage";
 import { useLiveSession } from "./hooks/useLiveSession";
 
-type View = "live" | "sessions";
+type View = "live" | "sessions" | "users";
 
 // ── Chart data builders ────────────────────────────────────────────────────
 
@@ -102,15 +105,45 @@ function exportTimelineCsv(session: Session): void {
     String(f.bpm),
     f.fatigue_zone,
   ]);
-  const csv = [header, ...rows].map((r) => r.map((c) => `"${c}"`).join(",")).join("\n");
+  const csv = [header, ...rows]
+    .map((r) => r.map((c) => `"${c}"`).join(","))
+    .join("\n");
   downloadCsv(csv, `${session.session_id}_timeline.csv`);
 }
 
 // ── Root component ─────────────────────────────────────────────────────────
 
 export function App() {
-  const [view, setView] = useState<View>("live");
+  // ── Auth state ───────────────────────────────────────────────────────────
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [authChecked, setAuthChecked] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  // On mount: restore session from localStorage
+  useEffect(() => {
+    const token = getStoredToken();
+    if (!token) {
+      setAuthChecked(true);
+      return;
+    }
+    api.getMe()
+      .then((user) => setCurrentUser(user))
+      .catch(() => setStoredToken(null))
+      .finally(() => setAuthChecked(true));
+  }, []);
+
+  function handleLogin(user: User, token: string) {
+    setStoredToken(token);
+    setCurrentUser(user);
+  }
+
+  function handleLogout() {
+    setStoredToken(null);
+    setCurrentUser(null);
+  }
+
+  // ── Dashboard state ──────────────────────────────────────────────────────
+  const [view, setView] = useState<View>("live");
   const { live, apiReachable } = useLiveSession(view === "live");
   const [sessions, setSessions] = useState<SessionMeta[]>([]);
   const [activeId, setActiveId] = useState<string | null>(null);
@@ -150,10 +183,10 @@ export function App() {
     }
   }, []);
 
-  // Initial load
+  // Initial load (only when authenticated)
   useEffect(() => {
-    fetchList();
-  }, [fetchList]);
+    if (currentUser) fetchList();
+  }, [currentUser, fetchList]);
 
   // Load session when activeId changes
   useEffect(() => {
@@ -199,7 +232,29 @@ export function App() {
   const bpmPoints = session ? buildBpmPoints(session) : [];
   const repRows = session ? buildRepRows(session) : [];
 
-  // ── Render ───────────────────────────────────────────────────────────────
+  // ── Render: loading auth check ───────────────────────────────────────────
+  if (!authChecked) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          height: "100vh",
+          background: "var(--body-bg)",
+        }}
+      >
+        <div className="spinner" />
+      </div>
+    );
+  }
+
+  // ── Render: login ────────────────────────────────────────────────────────
+  if (!currentUser) {
+    return <LoginPage onLogin={handleLogin} />;
+  }
+
+  // ── Render: main dashboard ───────────────────────────────────────────────
   return (
     <div className="layout">
       {sidebarOpen && (
@@ -223,6 +278,8 @@ export function App() {
           setSidebarOpen(false);
         }}
         onDelete={handleDelete}
+        currentUser={currentUser}
+        onLogout={handleLogout}
         mobileOpen={sidebarOpen}
       />
 
@@ -244,6 +301,8 @@ export function App() {
 
         {view === "live" ? (
           <LivePage live={live} apiReachable={apiReachable} />
+        ) : view === "users" ? (
+          <UserManagementPage currentUserId={currentUser.id} />
         ) : (
           <SessionsPage
             session={session}

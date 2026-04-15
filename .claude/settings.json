@@ -11,7 +11,11 @@
       "Bash(cat /Users/wildan/excercise-monitoring-system/dashboard/frontend/src/components/*.tsx)",
       "Bash(npm install:*)",
       "Bash(cat /Users/wildan/excercise-monitoring-system/dashboard/frontend/src/hooks/*.ts)",
-      "Bash(cat /Users/wildan/excercise-monitoring-system/dashboard/frontend/src/hooks/*.tsx)"
+      "Bash(cat /Users/wildan/excercise-monitoring-system/dashboard/frontend/src/hooks/*.tsx)",
+      "Bash(pip show:*)",
+      "Bash(pip3 show:*)",
+      "Bash(pip3 install:*)",
+      "Bash(python3 -c \"from dashboard.api import app; print\\('Backend OK, routes:', [r.path for r in app.routes if hasattr\\(r, 'path'\\) and r.path.startswith\\('/api/auth'\\) or \\(hasattr\\(r, 'path'\\) and r.path.startswith\\('/api/users'\\)\\)]\\)\")"
     ]
   }
 }

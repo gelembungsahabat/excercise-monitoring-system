@@ -1,0 +1,11 @@
+[
+  {
+    "id": "00000000-0000-0000-0000-000000000001",
+    "username": "admin",
+    "password_hash": "$5$rounds=535000$hPDGRmQ73Rqm28uW$DVgLVTkF.gNrhrSJagG.f0RBNrohqECzevpHZCwqkG.",
+    "email": "admin@fittrack.ai",
+    "role": "admin",
+    "is_active": true,
+    "created_at": "2024-01-01T00:00:00"
+  }
+]

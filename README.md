@@ -431,6 +431,28 @@ Everything works without these — only the AI Coach card is disabled when `OPEN
 
 ---
 
+## Default Login
+
+The dashboard requires authentication. A default admin account is created automatically on first startup:
+
+| Field | Value |
+|---|---|
+| **Username** | `admin` |
+| **Password** | `admin123` |
+
+> Change the password after first login via **User Management** in the sidebar. Credentials are stored in `data/users.json`.
+
+## User Management
+
+Admins can manage accounts from the **User Management** page (sidebar → Users icon):
+
+- **Create** new users with a username, password, email, and role
+- **Edit** any user's details or reset their password
+- **Deactivate / Reactivate** accounts without deleting them
+- **Delete** users (you cannot delete your own account)
+
+Roles: `admin` (full access including User Management) · `user` (dashboard access only)
+
 ## Environment Variables
 
 Copy `.env.example` to `.env` and fill in the values you need.
@@ -440,6 +462,8 @@ Copy `.env.example` to `.env` and fill in the values you need.
 | `OPENROUTER_API_KEY` | *(unset)* | Enables the AI Coach feature. Get a key at openrouter.ai. If unset the insight card is disabled — nothing else breaks. |
 | `OPENROUTER_MODEL` | `google/gemini-2.0-flash-001` | Any model available on OpenRouter (e.g. `openai/gpt-4o-mini`, `meta-llama/llama-3.1-8b-instruct:free`) |
 | `DATABASE_URL` | *(unset)* | PostgreSQL connection string. When set, sessions are stored in the DB instead of local JSON files. Required for production deployments where the filesystem is ephemeral. |
+| `JWT_SECRET_KEY` | *(dev default)* | Secret used to sign JWT tokens. **Set this to a strong random value in production.** |
+| `JWT_EXPIRE_HOURS` | `24` | How long a login session stays valid (in hours). |
 | `PORT` | `8000` | FastAPI listen port. Set automatically by Railway. |
 
 ---
