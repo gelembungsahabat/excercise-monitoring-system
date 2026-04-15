@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { api } from "./api";
 import type { User } from "./types";
-import { UserPlus, Pencil, Trash2, X, Check, ShieldCheck, User as UserIcon } from "lucide-react";
+import { UserPlus, Pencil, Trash2, X, Check, ShieldCheck, User as UserIcon, Users, UserCheck } from "lucide-react";
 
 interface UserFormData {
   username: string;
@@ -231,7 +231,7 @@ export function UserManagementPage({ currentUserId }: Props) {
   }
 
   return (
-    <div className="content-area">
+    <main className="content">
       {/* Header */}
       <div className="page-header">
         <div>
@@ -245,23 +245,43 @@ export function UserManagementPage({ currentUserId }: Props) {
       </div>
 
       {/* Stats row */}
-      <div className="user-stats">
-        <div className="user-stat-card">
-          <span className="user-stat-card__value">{users.length}</span>
-          <span className="user-stat-card__label">Total Users</span>
+      <div className="metrics-row" style={{ gridTemplateColumns: "repeat(3, 1fr)" }}>
+        <div className="mcard">
+          <div className="mcard__icon mcard__icon--blue"><Users size={18} /></div>
+          <div className="mcard__body">
+            <div className="mcard__label">Total Users</div>
+            <div className="mcard__value">{users.length}</div>
+          </div>
         </div>
-        <div className="user-stat-card">
-          <span className="user-stat-card__value">{users.filter((u) => u.is_active).length}</span>
-          <span className="user-stat-card__label">Active</span>
+        <div className="mcard">
+          <div className="mcard__icon mcard__icon--green"><UserCheck size={18} /></div>
+          <div className="mcard__body">
+            <div className="mcard__label">Active</div>
+            <div className="mcard__value">{users.filter((u) => u.is_active).length}</div>
+          </div>
         </div>
-        <div className="user-stat-card">
-          <span className="user-stat-card__value">{users.filter((u) => u.role === "admin").length}</span>
-          <span className="user-stat-card__label">Admins</span>
+        <div className="mcard">
+          <div className="mcard__icon mcard__icon--purple"><ShieldCheck size={18} /></div>
+          <div className="mcard__body">
+            <div className="mcard__label">Admins</div>
+            <div className="mcard__value">{users.filter((u) => u.role === "admin").length}</div>
+          </div>
         </div>
       </div>
 
       {/* Table card */}
       <div className="card">
+        <div className="card__head">
+          <div className="card__head-left">
+            <div className="card__title-icon"><Users size={14} /></div>
+            <span className="card__title">All Users</span>
+          </div>
+          {!loading && !error && users.length > 0 && (
+            <span style={{ fontSize: "var(--t-xs)", color: "var(--text-dim)" }}>
+              {users.length} account{users.length !== 1 ? "s" : ""}
+            </span>
+          )}
+        </div>
         {loading ? (
           <div className="loading-state">
             <div className="spinner" />
@@ -404,6 +424,6 @@ export function UserManagementPage({ currentUserId }: Props) {
           </div>
         </div>
       )}
-    </div>
+    </main>
   );
 }

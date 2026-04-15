@@ -1243,7 +1243,6 @@ button, input, select { font-family: inherit; font-size: inherit; }
   align-items: flex-start;
   justify-content: space-between;
   gap: var(--s4);
-  margin-bottom: var(--s6);
 }
 
 .page-title {
@@ -1263,7 +1262,6 @@ button, input, select { font-family: inherit; font-size: inherit; }
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: var(--s4);
-  margin-bottom: var(--s6);
 }
 
 .user-stat-card {
