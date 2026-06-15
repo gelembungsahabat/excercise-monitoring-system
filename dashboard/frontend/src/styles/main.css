@@ -279,6 +279,7 @@ button, input, select { font-family: inherit; font-size: inherit; }
 /* ── 6. Sidebar – session items ──────────────────────────── */
 .sidebar-group {
   flex: 1;
+  min-height: 0;            /* allow flex child to actually scroll */
   overflow-y: auto;
   padding: var(--s3);
 }

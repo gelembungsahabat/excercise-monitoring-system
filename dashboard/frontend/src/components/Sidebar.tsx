@@ -119,7 +119,7 @@ export function Sidebar({
       </div>
 
       {/* ── Session list ─────────────────────────────────────────── */}
-      <div className="sidebar-group" style={{ flex: 1, overflowY: "auto" }}>
+      <div className="sidebar-group">
         <div className="sidebar-group__label">Recent Sessions</div>
 
         {sessions.length === 0 ? (
